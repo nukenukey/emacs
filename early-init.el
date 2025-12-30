@@ -10,17 +10,12 @@
 (setq native-comp-async-jobs-number 0) ;; use half of the cpu cores for native compilation - this value is supposed to be 0, not a mistake
 
 ;; initial frame options
-;; (set-fringe-mode 0)
-;; (scroll-bar-mode -1)
-;; (tool-bar-mode 0)
-;; (tooltip-mode 0)
-;; (menu-bar-mode 0)
-;; (blink-cursor-mode 0)
-(tool-bar-mode 0)
-(menu-bar-mode 0)
-(scroll-bar-mode 0)
 (set-fringe-mode 0)
-(setq initial-frame-alist '((vertical-scroll-bars . 0) (tool-bars . 0)))
+(scroll-bar-mode -1)
+(tool-bar-mode 0)
+(tooltip-mode 0)
+(menu-bar-mode 0)
+(blink-cursor-mode 0)
 
 ;; just y and n pls
 (setq use-short-answers t

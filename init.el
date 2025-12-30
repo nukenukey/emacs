@@ -43,8 +43,6 @@
 
 (use-package package
   :defer t
-  ;; :init
-  ;; (setq package-quickstart t)
   :config
   (setq package-archives '(("elpa" . "https://elpa.gnu.org/packages/")
                            ("melpa" . "https://melpa.org/packages/")
@@ -71,8 +69,7 @@
         org-html-validation-link nil
 		org-agenda-start-with-log-mode t
 		org-log-into-drawer t
-		org-todo-keywords
-		'((sequence "TODO(t)" "TOTURNIN(m)" "CURRENT(c)" "URGENT(u)" "DEFERRED(f)" "ASSIGNMENT(a)" "|" "DONE(d)" "NOTDOING(n)"))))
+		org-todo-keywords '((sequence "TODO(t)" "TOTURNIN(m)" "CURRENT(c)" "URGENT(u)" "DEFERRED(f)" "ASSIGNMENT(a)" "|" "DONE(d)" "NOTDOING(n)"))))
 
 (use-package tramp
   :defer t
@@ -145,8 +142,8 @@
 							  (setq-local compile-command (concat "javac " (f-filename (f-this-file))))))
   (add-hook 'rust-mode-hook (lambda ()
 							  (setq-local compile-command (concat "rustc " (f-filename (f-this-file))))))
-(add-hook 'c-mode-hook (lambda ()
-						 (setq-local compile-command (concat "gcc -fsanitize=address -Wall -Wextra -Werror -g " (f-filename (f-this-file)) " -o " (substring (f-filename (f-this-file)) 0 (s-index-of "." (f-filename (f-this-file)))))))))
+  (add-hook 'c-mode-hook (lambda ()
+						   (setq-local compile-command (concat "gcc -fsanitize=address -Wall -Wextra -Werror -g " (f-filename (f-this-file)) " -o " (substring (f-filename (f-this-file)) 0 (s-index-of "." (f-filename (f-this-file)))))))))
 
 (use-package epa
   :defer t
@@ -156,8 +153,7 @@
 (use-package recentf
   :defer t
   :init
-  (setq
-   recentf-exclude '("~/org/agenda/.*" "~/.*/inits"))
+  (setq recentf-exclude '("~/org/agenda/.*"))
   (add-to-list 'auto-save-hook #'recentf-save-list))
 
 (use-package emacs

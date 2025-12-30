@@ -66,12 +66,12 @@
   (keymap-global-set "C->" 'mc/mark-all-like-this))
 
 (use-package all-the-icons
-  :defer t ;; dont defer to make emacsclient load faster
+  :defer nil
   :ensure t
   :if (display-graphic-p))
 
 (use-package dashboard
-  :defer t ;; dont defer because loading this at boot makes emacsclient faster
+  :defer t
   :ensure t
   :config
   (setq image-scaling-factor 1.0)

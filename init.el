@@ -181,6 +181,7 @@
   (electric-pair-mode)
   (electric-indent-mode)
   (recentf-mode)
+  (flyspell-mode)
 
   (keymap-global-set "C-x j r" 'counsel-recentf)
   (keymap-global-set "C-x j C-r" 'recentf-save-list)

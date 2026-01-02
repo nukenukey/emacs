@@ -48,7 +48,7 @@
   :init
   (setq ivy-initial-inputs-alist nil) ;; no leading ^ pls
   :config
-  ;; (ivy-mode)
+  (ivy-mode)
   (ivy-rich-mode)
   (counsel-mode)
   (keymap-global-set "C-x b" 'counsel-ibuffer))
@@ -63,7 +63,8 @@
 											(setq cursor-type 'bar))))
   (keymap-global-set "C-." 'mc/mark-next-like-this)
   (keymap-global-set "C-," 'mc/mark-previous-like-this)
-  (keymap-global-set "C->" 'mc/mark-all-like-this))
+  (keymap-global-set "C->" 'mc/mark-all-like-this)
+  (keymap-global-set "C-<" 'mc/mark-next-lines))
 
 (use-package all-the-icons
   :defer nil

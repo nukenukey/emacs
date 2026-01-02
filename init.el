@@ -3,38 +3,12 @@
 ;; Copyright (C) 2025 aug <baleofhay@proton.me>
 
 (custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(auth-source-save-behavior nil)
- '(blink-cursor-mode nil)
- '(hippie-expand-try-functions-list
-   '(try-complete-file-name-partially try-complete-file-name
-									  try-expand-all-abbrevs
-									  try-expand-dabbrev
-									  try-expand-dabbrev-from-kill
-									  try-expand-dabbrev-all-buffers
-									  try-complete-lisp-symbol-partially
-									  try-complete-lisp-symbol
-									  try-expand-list try-expand-line))
- '(inhibit-default-init t)
- '(inhibit-startup-screen t)
  '(package-selected-packages
-   '(all-the-icons company cond-let counsel dash dashboard
-				   doom-modeline fireplace ivy ivy-rich lsp-mode magit
-				   multiple-cursors nerd-icons org-bullets swiper tldr
-				   typescript-mode vterm))
- '(ring-bell-function 'ignore)
- '(tab-width 4))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :extend nil :stipple nil :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight regular :height 145 :width normal :foundry "JB" :family "JetBrains Mono"))))
- '(cursor ((t (:background "sienna")))))
-(put 'narrow-to-region 'disabled nil)
+   '(all-the-icons company cond-let counsel dash dashboard doom-modeline
+				   fireplace ivy ivy-rich lsp-mode magit
+				   multiple-cursors nerd-icons org-bullets
+				   pink-bliss-uwu-theme swiper tldr typescript-mode
+				   vterm)))
 
 (use-package use-package
   :init
@@ -137,13 +111,13 @@
   :defer nil
   :init
   (add-hook 'c++-mode-hook (lambda ()
-							 (setq-local compile-command (concat "g++ -fdiagnostics-all-candidates -fsanitize=address -Wall -Wextra -Werror -g " (f-filename (f-this-file)) " -o " (substring (f-filename (f-this-file)) 0 (s-index-of "." (f-filename (f-this-file))))))))
+							 (setq-local compile-command (concat "g++ -fdiagnostics-all-candidates -fsanitize=address -Wall -Wextra -Werror -Wpedantic -g " (f-filename (f-this-file)) " -o " (substring (f-filename (f-this-file)) 0 (s-index-of "." (f-filename (f-this-file))))))))
   (add-hook 'java-mode-hook (lambda ()
 							  (setq-local compile-command (concat "javac " (f-filename (f-this-file))))))
   (add-hook 'rust-mode-hook (lambda ()
 							  (setq-local compile-command (concat "rustc " (f-filename (f-this-file))))))
   (add-hook 'c-mode-hook (lambda ()
-						   (setq-local compile-command (concat "gcc -fsanitize=address -Wall -Wextra -Werror -g " (f-filename (f-this-file)) " -o " (substring (f-filename (f-this-file)) 0 (s-index-of "." (f-filename (f-this-file)))))))))
+						   (setq-local compile-command (concat "gcc -fsanitize=address -Wall -Wextra -Werror -Wpedantic -g " (f-filename (f-this-file)) " -o " (substring (f-filename (f-this-file)) 0 (s-index-of "." (f-filename (f-this-file)))))))))
 
 (use-package epa
   :defer t
@@ -151,7 +125,7 @@
   (setq epa-keys-select-method 'minibuffer))
 
 (use-package recentf
-  :defer t
+  :defer nil ;; I will always want this available
   :init
   (setq recentf-exclude '("~/org/agenda/.*"))
   (add-to-list 'auto-save-hook #'recentf-save-list))
@@ -159,6 +133,24 @@
 (use-package emacs
   :defer nil
   :config
+  (setq inhibit-default-init t
+		inhibit-startup-screen t
+		ring-bell-function 'ignore
+		tab-width 3)
+  (custom-set-faces
+   '(default ((t (:inherit nil :extend nil :stipple nil :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight regular :height 145 :width normal :foundry "JB" :family "JetBrains Mono"))))
+   '(cursor ((t (:background "sienna")))))
+  (put 'narrow-to-region 'disabled nil)
+  (setq hippie-expand-try-functions-list
+		'(try-complete-file-name-partially try-complete-file-name
+										   try-expand-all-abbrevs
+										   try-expand-dabbrev
+										   try-expand-dabbrev-from-kill
+										   try-expand-dabbrev-all-buffers
+										   try-complete-lisp-symbol-partially
+										   try-complete-lisp-symbol
+										   try-expand-list try-expand-line))
+
   (load-file "~/.emacs.d/third-party.el")
   (load-file "~/.emacs.d/cornell.el")
   (load-file "~/.emacs.d/conv-org.el")
@@ -175,12 +167,8 @@
   (scroll-bar-mode -1)
   (setq image-scaling-factor 1.0)
 
-  (doom-modeline-mode)
-  (ivy-mode)
-  (multiple-cursors-mode)
   (electric-pair-mode)
   (electric-indent-mode)
-  (recentf-mode)
   (flyspell-mode)
 
   (keymap-global-set "C-x j r" 'counsel-recentf)
@@ -218,7 +206,6 @@
   (keymap-global-set "C-x C-l l" 'count-lines-page)
   (keymap-global-set "C-x C-l p" 'check-parens)
   (keymap-set help-map "g" 'shortdoc-display-group)
-  ;; (keymap-set ehelp-map "g" 'shortdoc-display-group)
 
   (keymap-global-set "C-k" 'kill-whole-line)
   (keymap-global-set "C-x C-a" 'mark-whole-buffer)

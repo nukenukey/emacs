@@ -141,9 +141,7 @@
 		inhibit-startup-screen t
 		ring-bell-function 'ignore
 		tab-width 4)
-  (custom-set-faces
-   '(default ((t (:inherit nil :extend nil :stipple nil :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight regular :height 145 :width normal :foundry "JB" :family "JetBrains Mono"))))
-   '(cursor ((t (:background "sienna")))))
+
   (put 'narrow-to-region 'disabled nil)
   (setq hippie-expand-try-functions-list
 		'(try-complete-file-name-partially try-complete-file-name

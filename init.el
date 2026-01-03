@@ -153,9 +153,6 @@
 										   try-complete-lisp-symbol
 										   try-expand-list try-expand-line))
 
-  ;; (dolist (file (file-expand-wildcards (concat user-emacs-directory "*.el")))
-  ;; 	(load-file file))
-  ;; (load-file (file-expand-wildcards (concat user-emacs-directory "*.el")))
   (load-file "~/.emacs.d/third-party.el")
   (load-file "~/.emacs.d/cornell.el")
   (load-file "~/.emacs.d/conv-org.el")

@@ -3,12 +3,15 @@
 ;; Copyright (C) 2025 aug <baleofhay@proton.me>
 
 (custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(all-the-icons company cond-let counsel dash dashboard doom-modeline
-				   fireplace ivy ivy-rich lsp-mode magit
-				   multiple-cursors nerd-icons org-bullets
-				   pink-bliss-uwu-theme swiper tldr typescript-mode
-				   vterm)))
+   '(all-the-icons company counsel dashboard doom-modeline fireplace
+				   fish-mode ivy-rich lsp-mode magit multiple-cursors
+				   org-bullets php-mode pink-bliss-uwu-theme rust-mode
+				   tldr typescript-mode vterm)))
 
 (use-package use-package
   :init
@@ -127,7 +130,8 @@
 (use-package recentf
   :defer nil ;; I will always want this available
   :init
-  (setq recentf-exclude '("~/org/agenda/.*"))
+  (setq recentf-exclude '("~/org/agenda/.*")
+		recentf-max-saved-items 32)
   (add-to-list 'auto-save-hook #'recentf-save-list))
 
 (use-package emacs
@@ -136,7 +140,7 @@
   (setq inhibit-default-init t
 		inhibit-startup-screen t
 		ring-bell-function 'ignore
-		tab-width 3)
+		tab-width 4)
   (custom-set-faces
    '(default ((t (:inherit nil :extend nil :stipple nil :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight regular :height 145 :width normal :foundry "JB" :family "JetBrains Mono"))))
    '(cursor ((t (:background "sienna")))))
@@ -151,6 +155,9 @@
 										   try-complete-lisp-symbol
 										   try-expand-list try-expand-line))
 
+  ;; (dolist (file (file-expand-wildcards (concat user-emacs-directory "*.el")))
+  ;; 	(load-file file))
+  ;; (load-file (file-expand-wildcards (concat user-emacs-directory "*.el")))
   (load-file "~/.emacs.d/third-party.el")
   (load-file "~/.emacs.d/cornell.el")
   (load-file "~/.emacs.d/conv-org.el")
@@ -183,8 +190,8 @@
   (setq-default tab-width 4)
   (setq-default c-basic-offset 4)
   (setq indent-line-function 'insert-tab)
-  (defvaralias 'c-basic-offset 'tab-width)
   (setq split-width-threshold 1)
+  (defvaralias 'c-basic-offset 'tab-width)
 
   (keymap-global-set "C-S-w" 'clipboard-kill-region)
   (keymap-global-set "M-W" 'clipboard-kill-ring-save)
@@ -262,3 +269,10 @@
                                   (interactive)
                                   (save-some-buffers)
                                   (restart-emacs))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(default ((t (:inherit nil :extend nil :stipple nil :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight regular :height 145 :width normal :foundry "JB" :family "JetBrains Mono"))))
+ '(cursor ((t (:background "sienna")))))

@@ -1,5 +1,11 @@
 ;; -*- lexical-binding: t; -*-
 
+(use-package company
+  :defer nil
+  :ensure t
+  :config
+  (keymap-global-set "C-x j q" 'company-mode))
+
 (use-package org-bullets
   :defer t
   :ensure t)
@@ -19,6 +25,7 @@
   :defer t
   :ensure t
   :config
+  (keymap-global-set "C-x j v" 'vterm)
   (setq vterm-shell "/usr/bin/fish")
   (dolist (keys '("M-:"
                   "M-!"
@@ -61,10 +68,15 @@
 										  (if multiple-cursors-mode
 											  (setq cursor-type t)
 											(setq cursor-type 'bar))))
-  (keymap-global-set "C-." 'mc/mark-next-like-this)
-  (keymap-global-set "C-," 'mc/mark-previous-like-this)
-  (keymap-global-set "C->" 'mc/mark-all-like-this)
-  (keymap-global-set "C-<" 'mc/mark-next-lines))
+  (unbind-key "C-x m" global-map)
+  (keymap-global-set "C-x m p" 'mc/mark-previous-lines)
+  (keymap-global-set "C-x m C-p" 'mc/mark-previous-like-this)
+  (keymap-global-set "C-x m n" 'mc/mark-next-lines)
+  (keymap-global-set "C-x m C-n" 'mc/mark-next-like-this)
+  (keymap-global-set "C-x m a" 'mc/mark-all-like-this)
+  (keymap-global-set "C-x m r" 'mc/mark-all-in-region)
+  (keymap-global-set "C-x m a" 'mc/edit-beginnings-of-lines)
+  (keymap-global-set "C-x m e" 'mc/edit-ends-of-lines))
 
 (use-package all-the-icons
   :defer nil

@@ -1,4 +1,5 @@
 ;; -*- lexical-binding: t; -*-
+
 (defun conv/text-input ()
   "pop up emacs window to edit text in then save to clipboard and close frame a la josh blais"
   (interactive)
@@ -34,3 +35,18 @@
       (when (y-or-n-p (format "upgrade %s?" pack))
         (package-upgrade pack)
         (user-error "upgrade aborted :<")))))
+
+(defun conv/save-buffers-kill-terminal ()
+  "runs conv/save-buffers-kill-terminal hook and then runs save-buffers-kill-terminal"
+  (interactive)
+  (run-hooks 'conv/save-buffers-kill-terminal-hook)
+  (save-buffers-kill-terminal))
+
+(add-hook 'conv/save-buffers-kill-terminal-hook '(lambda ()
+												   (setq conv/last-buffer (buffer-name))))
+
+(defun conv/switch-to-last-buffer ()
+  "switches to conv/last-buffer"
+  (switch-to-buffer conv/last-buffer))
+
+(keymap-global-set "C-x C-c" 'conv/save-buffers-kill-terminal)

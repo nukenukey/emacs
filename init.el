@@ -133,7 +133,12 @@
   (setq recentf-exclude '("~/org/agenda/.*")
 		recentf-max-saved-items 32
 		recentf-auto-cleanup 'never)
-  (add-to-list 'auto-save-hook #'recentf-save-list))
+  (add-to-list 'auto-save-hook #'recentf-save-list)
+  (keymap-global-set "C-x j r" 'counsel-recentf)
+  (keymap-global-set "C-x j C-r" 'recentf-save-list)
+  (keymap-global-set "C-x j M-r" 'recentf-cleanup)
+  :config
+  (recentf-mode))
 
 (use-package emacs
   :defer nil
@@ -173,9 +178,6 @@
   (electric-pair-mode)
   (electric-indent-mode)
   (flyspell-mode)
-
-  (keymap-global-set "C-x j r" 'counsel-recentf)
-  (keymap-global-set "C-x j C-r" 'recentf-save-list)
 
   (keymap-global-set "C-x M-f" 'find-file-other-window)
 

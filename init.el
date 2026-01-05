@@ -131,7 +131,8 @@
   :defer nil ;; I will always want this available
   :init
   (setq recentf-exclude '("~/org/agenda/.*")
-		recentf-max-saved-items 32)
+		recentf-max-saved-items 32
+		recentf-auto-cleanup 'never)
   (add-to-list 'auto-save-hook #'recentf-save-list))
 
 (use-package emacs

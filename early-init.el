@@ -19,9 +19,10 @@
 
 ;; just y and n pls
 (setq use-short-answers t
-      confirm-kill-emacs 'yes-or-no-p)
+      confirm-kill-emacs 'yes-or-no-p
+	  mouse-autoselect-window t)
 
 ;; alright now relax a little
 (add-hook 'after-init-hook (lambda ()
-                                (setq gc-cons-threshold (* 80 100 100)
-                                      gc-cons-percentage 0.1))) ;; when emacs is settled down, make the thresholds more reasonable
+                             (setq gc-cons-threshold (* 80 100 100)
+                                   gc-cons-percentage 0.1))) ;; when emacs is settled down, make the thresholds more reasonable

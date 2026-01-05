@@ -1,5 +1,9 @@
 ;; -*- lexical-binding: t; -*-
 
+(use-package fish-mode
+  :defer nil
+  :ensure t)
+
 (use-package company
   :defer nil
   :ensure t

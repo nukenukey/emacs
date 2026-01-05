@@ -95,7 +95,7 @@
 (use-package tab-bar
   :defer t
   :config
-  ;; (setq tab-bar-format nil)
+  (setq tab-bar-format nil)
   (keymap-set tab-prefix-map "l" #'(lambda ()
                                      (interactive)
                                      (message (format "num of tabs: %s" (length (tab-bar-tabs))))))

@@ -55,15 +55,16 @@
         (lambda (name)
           (and (normal-backup-enable-predicate name)
                (not tramp-mode))))
-  (keymap-global-set "C-x M-r" 'tramp-cleanup-all-buffers))
+  :bind
+  ("C-x M-r" . 'tramp-cleanup-all-buffers))
 
 (use-package windmove
   :defer nil
-  :config
-  (keymap-global-set "M-H" 'windmove-left)
-  (keymap-global-set "M-J" 'windmove-down)
-  (keymap-global-set "M-K" 'windmove-up)
-  (keymap-global-set "M-L" 'windmove-right))
+  :bind
+  ("M-H" . 'windmove-left)
+  ("M-J" . 'windmove-down)
+  ("M-K" . 'windmove-up)
+  ("M-L" . 'windmove-right))
 
 (use-package display-line-numbers
   :defer nil
@@ -76,6 +77,7 @@
                   vterm-mode-hook
 				  eshell-mode-hook
                   tldr-mode-hook
+				  doc-view-mode-hook
 	  			  fireplace-mode-hook))
 	(add-hook mode (lambda ()
                      (display-line-numbers-mode 0)))))

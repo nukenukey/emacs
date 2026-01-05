@@ -7,8 +7,8 @@
 (use-package company
   :defer nil
   :ensure t
-  :config
-  (keymap-global-set "C-x j q" 'company-mode))
+  :bind
+  ("C-x j q" . 'company-mode))
 
 (use-package org-bullets
   :defer t
@@ -26,10 +26,11 @@
 							   (keymap-local-set "C-v" 'vterm))))
 
 (use-package vterm
+  :bind
+  ("C-x j v" . 'vterm)
   :defer t
   :ensure t
   :config
-  (keymap-global-set "C-x j v" 'vterm)
   (setq vterm-shell "/usr/bin/fish")
   (dolist (keys '("M-:"
                   "M-!"
@@ -56,13 +57,14 @@
 (use-package ivy
   :defer nil ;; I will want ivy always
   :ensure t
+  :bind
+  ("C-x b" . 'counsel-ibuffer)
   :init
   (setq ivy-initial-inputs-alist nil) ;; no leading ^ pls
   :config
   (ivy-mode)
   (ivy-rich-mode)
-  (counsel-mode)
-  (keymap-global-set "C-x b" 'counsel-ibuffer))
+  (counsel-mode))
 
 (use-package multiple-cursors
   :defer nil ;; I want this always available
@@ -73,14 +75,15 @@
 											  (setq cursor-type t)
 											(setq cursor-type 'bar))))
   (unbind-key "C-x m" global-map)
-  (keymap-global-set "C-x m p" 'mc/mark-previous-lines)
-  (keymap-global-set "C-x m C-p" 'mc/mark-previous-like-this)
-  (keymap-global-set "C-x m n" 'mc/mark-next-lines)
-  (keymap-global-set "C-x m C-n" 'mc/mark-next-like-this)
-  (keymap-global-set "C-x m a" 'mc/mark-all-like-this)
-  (keymap-global-set "C-x m r" 'mc/mark-all-in-region)
-  (keymap-global-set "C-x m a" 'mc/edit-beginnings-of-lines)
-  (keymap-global-set "C-x m e" 'mc/edit-ends-of-lines))
+  :bind
+  ("C-x m p" . 'mc/mark-previous-lines)
+  ("C-x m C-p" . 'mc/mark-previous-like-this)
+  ("C-x m n" . 'mc/mark-next-lines)
+  ("C-x m C-n" . 'mc/mark-next-like-this)
+  ("C-x m a" . 'mc/mark-all-like-this)
+  ("C-x m r" . 'mc/mark-all-in-region)
+  ("C-x m a" . 'mc/edit-beginnings-of-lines)
+  ("C-x m e" . 'mc/edit-ends-of-lines))
 
 (use-package all-the-icons
   :defer nil
@@ -91,23 +94,23 @@
   :defer t
   :ensure t
   :config
-  (setq image-scaling-factor 1.0)
-  (setq dashboard-banner-logo-title "home sweet emacs")
-  (setq dashboard-center-content t)
-  (setq dashboard-vertically-center-content t)
-  (setq dashboard-set-heading-icons t)
-  (setq dashboard-set-file-icons t)
-  (setq dashboard-icon-type 'all-the-icons)
-  (setq dashboard-items '((projects . 5)
-                          (recents . 7)))
-  (setq dashboard-item-shortcuts '((recents . "f")
-                                   (projects . "j")))
-  (setq dashboard-footer-messages
-        '("success"
-          "yey emacs :D"
-          "wooo emacs :P"
-          "happy hacking 🩷"
-          "Emacs is where the heart is"))
+  (setq image-scaling-factor 1.0
+		dashboard-banner-logo-title "home sweet emacs"
+		dashboard-center-content t
+		dashboard-vertically-center-content t
+		dashboard-set-heading-icons t
+		dashboard-set-file-icons t
+		dashboard-icon-type 'all-the-icons
+		dashboard-items '((projects . 5)
+				  (recents . 7))
+		dashboard-item-shortcuts '((recents . "f")
+					   (projects . "j"))
+		dashboard-footer-messages
+		'("success"
+		  "yey emacs :D"
+		  "wooo emacs :P"
+		  "happy hacking 🩷"
+		  "Emacs is where the heart is"))
   (bind-key "n" 'dashboard-next-line dashboard-mode-map)
   (bind-key "p" 'dashboard-previous-line dashboard-mode-map)
   (bind-key "e" 'eshell dashboard-mode-map)
@@ -123,13 +126,13 @@
   :defer nil
   :ensure t
   :config
-  (setq doom-modeline-icon nil)
-  (setq doom-modeline-time t)
-  (setq doom-modeline-time-analogue-clock t)
-  (setq doom-modeline-time-clock-size 11)
-  (setq display-time-format "%H:%M %a %b %d")
-  (setq display-time-default-load-average nil)
-  (setq doom-modeline-battery t)
+  (setq doom-modeline-icon nil
+		doom-modeline-time t
+		doom-modeline-time-analogue-clock t
+		doom-modeline-time-clock-size 11
+		display-time-format "%H:%M %a %b %d"
+		display-time-default-load-average nil
+		doom-modeline-battery t)
   (display-battery-mode)
   (display-time)
   (doom-modeline-mode))

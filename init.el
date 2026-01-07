@@ -259,4 +259,4 @@
 
   (keymap-global-set "C-x M-C" '(lambda ()
                                   (interactive)
-                                  (save-some-buffers)
+                                  (save-some-buffers))))

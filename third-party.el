@@ -20,10 +20,7 @@
 
 (use-package magit
   :defer t
-  :ensure t
-  :config
-  (add-hook 'magit-mode-hook (lambda ()
-							   (keymap-local-set "C-v" 'vterm))))
+  :ensure t)
 
 (use-package vterm
   :bind

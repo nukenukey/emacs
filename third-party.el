@@ -122,7 +122,7 @@
 (use-package doom-modeline
   :defer nil
   :ensure t
-  :config
+  :init
   (setq doom-modeline-icon nil
 		doom-modeline-time t
 		doom-modeline-time-analogue-clock t
@@ -132,4 +132,5 @@
 		doom-modeline-battery t)
   (display-battery-mode)
   (display-time)
+  :config
   (doom-modeline-mode))

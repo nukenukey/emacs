@@ -50,3 +50,9 @@
   (switch-to-buffer conv/last-buffer))
 
 (keymap-global-set "C-x C-c" 'conv/save-buffers-kill-terminal)
+
+(defun conv/fortune-cowsay ()
+  "gets scratch buffer and interts the output from `fortune -c | cowsay -r'"
+  (interactive)
+  (switch-to-buffer (get-scratch-buffer-create))
+  (insert (shell-command-to-string "fortune -c | cowsay -r")))

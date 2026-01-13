@@ -22,6 +22,9 @@
       confirm-kill-emacs 'yes-or-no-p
 	  mouse-autoselect-window t)
 
+(add-to-list 'default-frame-alist '(height . 25))
+(add-to-list 'default-frame-alist '(width . 75))
+
 ;; alright now relax a little
 (add-hook 'after-init-hook (lambda ()
                              (setq gc-cons-threshold (* 80 100 100)

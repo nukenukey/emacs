@@ -145,12 +145,15 @@
   ("C-s" . 'swiper)
   ("C-S-s" . 'swiper-thing-at-point)
   ("C-x f" . 'query-replace)
+  ("C-x h" . 'previous-buffer)
+  ("C-x l" . 'next-buffer)
+
+  ("C-x j u" . 'compile)
   ("C-x j c" . 'conv/cornell-init)
   ("C-x j a" . 'conv/org-agenda-list)
   ("C-x j d" . 'conv/code-init)
-  ("C-x h" . 'previous-buffer)
-  ("C-x l" . 'next-buffer)
-  ("C-x j u" . 'compile)
+  ("C-x j l" . 'lsp)
+  ("C-x j M-l" . 'lsp-workspace-shutdown)
 
   ("C-x C-l l" . 'count-lines-page)
   ("C-x C-l p" . 'check-parens)

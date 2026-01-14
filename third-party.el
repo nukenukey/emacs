@@ -83,7 +83,7 @@
   (unbind-key "C-x m" global-map))
 
 (use-package all-the-icons
-  :defer nil
+  :defer t
   :ensure t
   :if (display-graphic-p))
 

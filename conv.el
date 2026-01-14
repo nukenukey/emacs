@@ -56,3 +56,48 @@
   (interactive)
   (switch-to-buffer (get-scratch-buffer-create))
   (insert (shell-command-to-string "fortune -c | cowsay -r")))
+
+(defun conv/org-agenda-list ()
+  "convieniently sets up my org agenda list :>"
+  (interactive)
+  (org-agenda-list)
+  (delete-other-windows)
+  (org-agenda-day-view))
+
+(defun conv/gpg-detach-sign-file (file)
+  "function to detach-sign files using gpg bc epa doesn't gel w/ me"
+  (interactive "b")
+  (if (file-exists-p file)
+      (progn (async-shell-command (concat "gpg --detach-sign " file))
+             (with-current-buffer "*Async Shell Command*"
+               (local-set-key "q" 'kill-buffer-and-window))
+             (other-window 1))
+    (error "file %s does not exist" file)))
+
+(defun conv/gpg-verify-file (file)
+  "function to verify files using gpg bc epa still doesn't gel w/ me"
+  (interactive "f")
+  (if (file-exists-p file)
+      (progn
+        (async-shell-command (concat "gpg --verify " file))
+        (local-set-key "q" 'kill-buffer-and-window)
+        (other-window 1)
+        (message "gpg process completed"))
+    (error "file %s does not exist" file)))
+
+(defun conv/cornell-split-file (file-name)
+  "returns a list consisting of the name of a file before the extension and the extension. If file-name does not contain a `.', returns nil"
+  (s-index-of "." file-name)
+  `(,(substring file-name 0 (s-index-of "." file-name))
+	,(substring file-name (s-index-of "." file-name))))
+
+(defun conv/cornell-init ()
+  "makes windows for cornell style notes"
+  (interactive)
+  (if (not (f-this-file))
+	  (message "this buffer is not a file?")
+	(delete-other-windows)
+	(split-window-horizontally 120)
+	(other-window 1)
+	(let '(conv/cornell-buffer-name-list (conv/cornell-split-file (buffer-name)))
+	  (find-file (concat (car conv/cornell-buffer-name-list) "-cues" (car (cdr conv/cornell-buffer-name-list)))))))

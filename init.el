@@ -192,12 +192,9 @@
 										   try-complete-lisp-symbol
 										   try-expand-list try-expand-line))
 
-  (load-file "~/.emacs.d/third-party.el")
-  (load-file "~/.emacs.d/cornell.el")
-  (load-file "~/.emacs.d/conv-org.el")
-  (load-file "~/.emacs.d/conv-gpg.el")
-  (load-file "~/.emacs.d/conv-gen.el")
-  (load-file "~/.emacs.d/local.el")
+  (load-file (concat user-emacs-directory "third-party.el"))
+  (load-file (concat user-emacs-directory "local.el"))
+  (load-file (concat user-emacs-directory "conv.el"))
 
   (setq initial-scratch-message nil)
   

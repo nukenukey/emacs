@@ -71,7 +71,7 @@
                   tldr-mode-hook
 				  doc-view-mode-hook
 	  			  fireplace-mode-hook))
-	(add-hook mode (lambda ()
+    (add-hook mode (lambda ()
                      (display-line-numbers-mode 0)))))
 
 (use-package hl-line
@@ -125,7 +125,7 @@
   :defer nil ;; I will always want this available
   :init
   (setq recentf-exclude '("~/org/agenda/.*")
-		recentf-max-saved-items 32
+		recentf-max-saved-items 48
 		recentf-auto-cleanup 'never)
   (add-to-list 'auto-save-hook #'recentf-save-list)
   (keymap-global-set "C-x j r" 'counsel-recentf)
@@ -136,7 +136,43 @@
 
 (use-package emacs
   :defer nil
+  :bind
+  ("C-S-w" . 'clipboard-kill-region)
+  ("M-W" . 'clipboard-kill-ring-save)
+
+  ("C-=" . 'text-scale-increase)
+  ("C--" . 'text-scale-decrease)
+  ("C-s" . 'swiper)
+  ("C-S-s" . 'swiper-thing-at-point)
+  ("C-x f" . 'query-replace)
+  ("C-x j c" . 'conv/cornell-init)
+  ("C-x j a" . 'conv/org-agenda-list)
+  ("C-x j d" . 'conv/code-init)
+  ("C-x h" . 'previous-buffer)
+  ("C-x l" . 'next-buffer)
+  ("C-x j u" . 'compile)
+
+  ("C-x C-l l" . 'count-lines-page)
+  ("C-x C-l p" . 'check-parens)
+
+  ("C-k" . 'kill-whole-line)
+  ("C-x C-a" . 'mark-whole-buffer)
+  ("M-D" . 'backward-kill-word)
+
+  
+  ("s-x" . 'counsel-linux-app)
+
+  ("M-/" . 'hippie-expand)
+  ("C-x C-b" . 'electric-buffer-list)
+  ("C-x b" . 'counsel-switch-buffer)
+
+  ("C-x C-r" . 'tramp-revert-buffer-with-sudo)
+  ("C-x M-f" . 'find-file-other-window)
+  ("M-k" . 'kill-line)
+
   :config
+  (keymap-set help-map "g" 'shortdoc-display-group)
+  (unbind-key "C-x C-l")
   (setq inhibit-default-init t
 		inhibit-startup-screen t
 		ring-bell-function 'ignore
@@ -173,8 +209,6 @@
   (electric-indent-mode)
   (flyspell-mode)
 
-  (keymap-global-set "C-x M-f" 'find-file-other-window)
-
   (setq-default tab-stop-list 4)
   (setq-default indent-tab-modes nil)
   (setq-default tab-always-indent nil)
@@ -185,78 +219,46 @@
   (setq split-width-threshold 1)
   (defvaralias 'c-basic-offset 'tab-width)
 
-  (keymap-global-set "C-S-w" 'clipboard-kill-region)
-  (keymap-global-set "M-W" 'clipboard-kill-ring-save)
-
-  (keymap-global-set "C-=" 'text-scale-increase)
-  (keymap-global-set "C--" 'text-scale-decrease)
-  (keymap-global-set "C-s" 'swiper)
-  (keymap-global-set "C-S-s" 'swiper-thing-at-point)
-  (keymap-global-set "C-x f" 'query-replace)
-  (keymap-global-set "C-x j c" 'conv/cornell-init)
-  (keymap-global-set "C-x j a" 'conv/org-agenda-list)
-  (keymap-global-set "C-x j d" 'conv/code-init)
-  (keymap-global-set "C-x h" 'previous-buffer)
-  (keymap-global-set "C-x l" 'next-buffer)
-  (keymap-global-set "C-x j u" 'compile)
-
-  (keymap-global-set "C-x C-r" 'tramp-revert-buffer-with-sudo)
-  (unbind-key "C-x C-l")
-  (keymap-global-set "C-x C-l l" 'count-lines-page)
-  (keymap-global-set "C-x C-l p" 'check-parens)
-  (keymap-set help-map "g" 'shortdoc-display-group)
-
-  (keymap-global-set "C-k" 'kill-whole-line)
-  (keymap-global-set "C-x C-a" 'mark-whole-buffer)
-  (keymap-global-set "M-D" 'backward-kill-word)
   (keymap-global-set "M-<up>" '(lambda ()
-                                 (interactive)
-                                 (kill-whole-line)
-                                 (previous-line)
-                                 (yank)
-                                 (previous-line)))
+								 (interactive)
+								 (kill-whole-line)
+								 (previous-line)
+								 (yank)
+								 (previous-line)))
   (keymap-global-set "M-<down>" '(lambda ()
-                                   (interactive)
-                                   (kill-whole-line)
-                                   (next-line)
-                                   (yank)
-                                   (previous-line)))
+								   (interactive)
+								   (kill-whole-line)
+								   (next-line)
+								   (yank)
+								   (previous-line)))
   (keymap-global-set "M-o" '(lambda ()
-                              "insert a newline at the beginning of the line and move back one line"
-                              (interactive)
-                              (move-beginning-of-line 1)
-                              (newline)
-                              (backward-char)))
+							  "insert a newline at the beginning of the line and move back one line"
+							  (interactive)
+							  (move-beginning-of-line 1)
+							  (newline)
+							  (backward-char)))
   (keymap-global-set "C-M-o" '(lambda ()
-                                "insert a newline before the current line and stay where you were"
-                                (interactive)
-                                (let ((poi (point)))
-                                  (beginning-of-line)
-                                  (newline)
-                                  (goto-char (+ 1 poi)))))
+								"insert a newline before the current line and stay where you were"
+								(interactive)
+								(let ((poi (point)))
+								  (beginning-of-line)
+								  (newline)
+								  (goto-char (+ 1 poi)))))
   (keymap-global-set "C-o" '(lambda ()
-                              "move to the end of the current line and insert a newline"
-                              (interactive)
-                              (end-of-line)
-                              (electric-newline-and-maybe-indent)))
+							  "move to the end of the current line and insert a newline"
+							  (interactive)
+							  (end-of-line)
+							  (electric-newline-and-maybe-indent)))
   (keymap-global-set "M-[" '(lambda ()
-                              (interactive)
-                              (start-of-paragraph-text)))
+							  (interactive)
+							  (start-of-paragraph-text)))
   (keymap-global-set "M-]" '(lambda ()
-                              (interactive)
-                              (end-of-paragraph-text)))
-  
-  (keymap-global-set "s-x" 'counsel-linux-app)
-
-  (keymap-global-set "M-/" 'hippie-expand)
-  (keymap-global-set "C-x C-b" 'electric-buffer-list)
-  (keymap-global-set "C-x b" 'counsel-switch-buffer)
-
+							  (interactive)
+							  (end-of-paragraph-text)))
   (keymap-global-set "C-x M-c" '(lambda ()
-                                  (interactive)
-                                  (save-some-buffers)
-                                  (kill-emacs)))
-
+								  (interactive)
+								  (save-some-buffers)
+								  (kill-emacs)))
   (keymap-global-set "C-x M-C" '(lambda ()
-                                  (interactive)
-                                  (save-some-buffers))))
+								  (interactive)
+								  (save-some-buffers))))

@@ -43,12 +43,22 @@
 (use-package tramp
   :defer t
   :init
-  (setq backup-enable-predicate
-        (lambda (name)
-          (and (normal-backup-enable-predicate name)
-               (not tramp-mode))))
+  (setq tramp-use-scp-direct-remote-copying t) ;; for speed
+
+  ;; do not auto-save if its sudo
+  (connection-local-set-profile-variables
+   'my-auto-save-profile
+   '((buffer-auto-save-file-name . nil)))
+  (connection-local-set-profiles
+   '(:application tramp :protocol "sudo")
+   'my-auto-save-profile)
+
   :bind
   ("C-x M-r" . 'tramp-cleanup-all-buffers))
+
+(use-package vc
+  :init
+  (setq vc-handled-backends '(Git)))
 
 (use-package windmove
   :defer nil
@@ -134,6 +144,8 @@
   :config
   (recentf-mode))
 
+;; (use-package flyspell)
+
 (use-package emacs
   :defer nil
   :bind
@@ -176,10 +188,8 @@
   :config
   (keymap-set help-map "g" 'shortdoc-display-group)
   (unbind-key "C-x C-l")
-  (setq inhibit-default-init t
-		inhibit-startup-screen t
-		ring-bell-function 'ignore
-		tab-width 4)
+
+  (setq	tab-width 4)
 
   (put 'narrow-to-region 'disabled nil)
   (setq hippie-expand-try-functions-list
@@ -207,16 +217,16 @@
 
   (electric-pair-mode)
   (electric-indent-mode)
-  (flyspell-mode)
 
-  (setq-default tab-stop-list 4)
-  (setq-default indent-tab-modes nil)
-  (setq-default tab-always-indent nil)
-  (setq-default indent-tabs-mode t)
-  (setq-default tab-width 4)
-  (setq-default c-basic-offset 4)
-  (setq indent-line-function 'insert-tab)
-  (setq split-width-threshold 1)
+  (setq-default tab-stop-list 4
+				indent-tab-modes nil
+				tab-always-indent nil
+				indent-tabs-mode t
+				tab-width 4
+				c-basic-offset 4)
+
+  (setq indent-line-function 'insert-tab
+		split-width-threshold 1)
   (defvaralias 'c-basic-offset 'tab-width)
 
   (keymap-global-set "M-<up>" '(lambda ()
@@ -261,4 +271,5 @@
 								  (kill-emacs)))
   (keymap-global-set "C-x M-C" '(lambda ()
 								  (interactive)
-								  (save-some-buffers))))
+								  (save-some-buffers)
+								  (restart-emacs))))

@@ -17,9 +17,11 @@
 (menu-bar-mode 0)
 (blink-cursor-mode 0)
 
-;; just y and n pls
-(setq use-short-answers t
+(setq use-short-answers t ;; just y and n pls
       confirm-kill-emacs 'yes-or-no-p
+	  inhibit-default-init t ;; default init stuff
+	  inhibit-startup-screen t
+	  ring-bell-function 'ignore
 	  mouse-autoselect-window t)
 
 (add-to-list 'default-frame-alist '(height . 25))

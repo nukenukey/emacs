@@ -33,6 +33,8 @@
   :defer t
   :config
   (add-hook 'org-mode-hook 'org-bullets-mode)
+  (add-hook 'org-mode-hook '(lambda ()
+							  (flyspell-mode)))
   (setq org-agenda-files '("~/org/agenda")
         diary-file "~/.emacs.d/diary.gpg"
         org-html-validation-link nil
@@ -134,9 +136,9 @@
 (use-package recentf
   :defer nil ;; I will always want this available
   :init
-  (setq recentf-exclude '("~/org/agenda/.*")
-		recentf-max-saved-items 48
-		recentf-auto-cleanup 'never)
+  (setq recentf-exclude '("~/org/agenda/.*" ".*~$")
+		recentf-max-saved-items 64
+		recentf-auto-cleanup 'mode)
   (add-to-list 'auto-save-hook #'recentf-save-list)
   (keymap-global-set "C-x j r" 'counsel-recentf)
   (keymap-global-set "C-x j C-r" 'recentf-save-list)
@@ -145,6 +147,12 @@
   (recentf-mode))
 
 ;; (use-package flyspell)
+
+;; (use-package desktop
+;;   ;; :init
+;;   ;; (setq desktop-path '(~/.emacs.d/ ~))
+;;   :config
+;;   (desktop-save-mode 1))
 
 (use-package emacs
   :defer nil
@@ -166,6 +174,8 @@
   ("C-x j d" . 'conv/code-init)
   ("C-x j l" . 'lsp)
   ("C-x j M-l" . 'lsp-workspace-shutdown)
+  ("C-x j f" . 'flyspell-buffer)
+  ("C-x j C-f" . 'flyspell-mode)
 
   ("C-x C-l l" . 'count-lines-page)
   ("C-x C-l p" . 'check-parens)
@@ -174,7 +184,6 @@
   ("C-x C-a" . 'mark-whole-buffer)
   ("M-D" . 'backward-kill-word)
 
-  
   ("s-x" . 'counsel-linux-app)
 
   ("M-/" . 'hippie-expand)
@@ -217,6 +226,7 @@
 
   (electric-pair-mode)
   (electric-indent-mode)
+  ;; (desktop-save-mode 1)
 
   (setq-default tab-stop-list 4
 				indent-tab-modes nil

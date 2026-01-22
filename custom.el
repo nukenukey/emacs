@@ -18,4 +18,5 @@
    '(all-the-icons company counsel dashboard doom-modeline fireplace
 				   fish-mode ivy-rich lsp-mode magit multiple-cursors
 				   org-bullets php-mode pink-bliss-uwu-theme rust-mode
-				   tldr typescript-mode vterm)))
+				   tldr typescript-mode vterm))
+ '(warning-suppress-types '((frameset))))

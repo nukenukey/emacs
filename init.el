@@ -33,8 +33,8 @@
   :defer t
   :config
   (add-hook 'org-mode-hook 'org-bullets-mode)
-  (add-hook 'org-mode-hook '(lambda ()
-							  (flyspell-mode)))
+  ;; (add-hook 'org-mode-hook '(lambda ()
+							  ;; (flyspell-mode)))
   (setq org-agenda-files '("~/org/agenda")
         diary-file "~/.emacs.d/diary.gpg"
         org-html-validation-link nil
@@ -171,7 +171,7 @@
   ("C-x j u" . 'compile)
   ("C-x j c" . 'conv/cornell-init)
   ("C-x j a" . 'conv/org-agenda-list)
-  ("C-x j d" . 'conv/code-init)
+  ;; ("C-x j d" . 'conv/code-init)
   ("C-x j l" . 'lsp)
   ("C-x j M-l" . 'lsp-workspace-shutdown)
   ("C-x j f" . 'flyspell-buffer)
@@ -193,6 +193,10 @@
   ("C-x C-r" . 'tramp-revert-buffer-with-sudo)
   ("C-x M-f" . 'find-file-other-window)
   ("M-k" . 'kill-line)
+
+  ("C-x j d s" . desktop-save)
+  ("C-x j d r" . desktop-read)
+  ("C-x j d c" . desktop-clear)
 
   :config
   (keymap-set help-map "g" 'shortdoc-display-group)

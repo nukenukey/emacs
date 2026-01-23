@@ -43,7 +43,7 @@
   :config
   (add-hook 'org-mode-hook 'org-bullets-mode)
   ;; (add-hook 'org-mode-hook '(lambda ()
-							  ;; (flyspell-mode)))
+  ;; (flyspell-mode)))
   (setq org-agenda-files '("~/org/agenda")
         diary-file "~/.emacs.d/diary.gpg"
         org-html-validation-link nil

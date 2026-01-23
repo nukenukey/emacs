@@ -233,8 +233,10 @@
 
   (setq initial-scratch-message nil)
   
-  (setq scroll-conservatively 100)
-  (setq shell-command-prompt-show-cwd t)
+  (add-hook 'text-mode-hook 'flyspell-mode)
+
+  (setq scroll-conservatively 100
+		shell-command-prompt-show-cwd t)
   (setq-default cursor-type 'bar)
 
   (scroll-bar-mode -1)

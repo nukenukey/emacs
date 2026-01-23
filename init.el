@@ -18,6 +18,15 @@
 						   ("org" . "https://orgmode.org/elpa/")
 						   ("nongnu" . "https://elpa.nongnu.org/nongnu/"))))
 
+(use-package tetris
+  :defer t
+  :config
+  (bind-key "w" 'tetris-rotate-prev tetris-mode-map)
+  (bind-key "a" 'tetris-move-left tetris-mode-map)
+  (bind-key "s" 'tetris-move-down tetris-mode-map)
+  (bind-key "d" 'tetris-move-right tetris-mode-map)
+  (bind-key "m" 'tetris-move-bottom tetris-mode-map))
+
 (use-package dired
   :defer t
   :config
@@ -136,7 +145,7 @@
 (use-package recentf
   :defer nil ;; I will always want this available
   :init
-  (setq recentf-exclude '("~/org/agenda/.*" ".*~$")
+  (setq recentf-exclude '("^~/org/agenda/.*$" "^.*~$" "^~/.emacs.d/games/tetris-scores$" "^.*#$")
 		recentf-max-saved-items 64
 		recentf-auto-cleanup 'mode)
   (add-to-list 'auto-save-hook #'recentf-save-list)
@@ -168,15 +177,6 @@
   ("C-x h" . 'previous-buffer)
   ("C-x l" . 'next-buffer)
 
-  ("C-x j u" . 'compile)
-  ("C-x j c" . 'conv/cornell-init)
-  ("C-x j a" . 'conv/org-agenda-list)
-  ;; ("C-x j d" . 'conv/code-init)
-  ("C-x j l" . 'lsp)
-  ("C-x j M-l" . 'lsp-workspace-shutdown)
-  ("C-x j f" . 'flyspell-buffer)
-  ("C-x j C-f" . 'flyspell-mode)
-
   ("C-x C-l l" . 'count-lines-page)
   ("C-x C-l p" . 'check-parens)
 
@@ -197,6 +197,18 @@
   ("C-x j d s" . desktop-save)
   ("C-x j d r" . desktop-read)
   ("C-x j d c" . desktop-clear)
+
+  ("C-x j u" . 'compile)
+
+  ("C-x j c" . 'conv/cornell-init)
+  ("C-x j a" . 'conv/org-agenda-list)
+
+  ("C-x j l" . 'lsp)
+  ("C-x j M-l" . 'lsp-workspace-shutdown)
+  ("C-x j f" . 'flyspell-buffer)
+  ("C-x j C-f" . 'flyspell-mode)
+
+  ("C-x j m" . 'make-directory)
 
   :config
   (keymap-set help-map "g" 'shortdoc-display-group)

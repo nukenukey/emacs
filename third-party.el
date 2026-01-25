@@ -71,7 +71,7 @@
   ("C-x m C-p" . 'mc/mark-previous-like-this)
   ("C-x m n" . 'mc/mark-next-lines)
   ("C-x m C-n" . 'mc/mark-next-like-this)
-  ("C-x m a" . 'mc/mark-all-like-this)
+  ("C-x m !" . 'mc/mark-all-like-this)
   ("C-x m r" . 'mc/mark-all-in-region)
   ("C-x m a" . 'mc/edit-beginnings-of-lines)
   ("C-x m e" . 'mc/edit-ends-of-lines)

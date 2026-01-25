@@ -22,6 +22,7 @@
 	  inhibit-default-init t ;; default init stuff
 	  inhibit-startup-screen t
 	  ring-bell-function 'ignore
+	  word-wrap	nil
 	  mouse-autoselect-window t)
 
 (add-to-list 'default-frame-alist '(height . 25))

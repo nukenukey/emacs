@@ -253,8 +253,8 @@
 				tab-width 4
 				c-basic-offset 4)
 
-  (setq indent-line-function 'insert-tab
-		split-width-threshold 1)
+  ;; (setq indent-line-function 'insert-tab
+  (setq split-width-threshold 1)
   (defvaralias 'c-basic-offset 'tab-width)
 
   (keymap-global-set "M-<up>" '(lambda ()

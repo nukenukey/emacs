@@ -30,11 +30,12 @@
 (defun conv/package-upgrade ()
   "upgrades all the packages and asks you whether to upgrade for all"
   (interactive)
-  (when (y-or-n-p (format "%s packages to upgrade. proceed?" (length (package--upgradeable-packages))))
-    (dolist (pack (package--upgradeable-packages))
-      (when (y-or-n-p (format "upgrade %s?" pack))
-        (package-upgrade pack)
-        (user-error "upgrade aborted :<")))))
+  (let (non-dep-packs (package--find-non-dependencies))
+	(dolist (pack (package--upgradeable-packages))
+	  (when (or
+			 (member pack non-dep-packs)
+			 (y-or-n-p (format "upgrade %s?" pack)))
+		(with-demoted-errors "error encountered: %s" (package-upgrade pack))))))
 
 (defun conv/save-buffers-kill-terminal ()
   "runs conv/save-buffers-kill-terminal hook and then runs save-buffers-kill-terminal"
@@ -61,8 +62,9 @@
   "convieniently sets up my org agenda list :>"
   (interactive)
   (org-agenda-list)
-  (delete-other-windows)
-  (org-agenda-day-view))
+  (delete-other-windows))
+
+(keymap-global-set "C-x j a" 'conv/org-agenda-list)
 
 (defun conv/gpg-detach-sign-file (file)
   "function to detach-sign files using gpg bc epa doesn't gel w/ me"

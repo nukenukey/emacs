@@ -19,6 +19,8 @@
 						   ("nongnu" . "https://elpa.nongnu.org/nongnu/"))))
 
 (use-package tetris
+  :commands
+  (tetris)
   :defer t
   :config
   (bind-key "w" 'tetris-rotate-prev tetris-mode-map)
@@ -28,6 +30,8 @@
   (bind-key "m" 'tetris-move-bottom tetris-mode-map))
 
 (use-package dired
+  :commands
+  (dired dired-jump)
   :defer t
   :config
   (setq dired-listing-switches "-Alh")
@@ -39,16 +43,19 @@
   (bind-key "-" 'dired-up-directory dired-mode-map))
 
 (use-package org
+  :commands
+  (org-mode org-agenda-list org-agenda)
   :defer t
   :config
-  (add-hook 'org-mode-hook 'org-bullets-mode)
-  ;; (add-hook 'org-mode-hook '(lambda ()
-  ;; (flyspell-mode)))
   (setq org-agenda-files '("~/org/agenda")
         diary-file "~/.emacs.d/diary.gpg"
         org-html-validation-link nil
 		org-agenda-start-with-log-mode t
 		org-log-into-drawer t
+		org-hide-leading-stars t
+		;; org-odd-levels-only t ;; goes up by two * indents
+		org-return-follows-link t
+		org-agenda-span 'day
 		org-todo-keywords '((sequence "TODO(t)" "TOTURNIN(m)" "CURRENT(c)" "URGENT(u)" "DEFERRED(f)" "ASSIGNMENT(a)" "|" "DONE(d)" "NOTDOING(n)"))))
 
 (use-package tramp
@@ -56,7 +63,7 @@
   :init
   (setq tramp-use-scp-direct-remote-copying t) ;; for speed
 
-  ;; do not auto-save if its sudo
+  ;; do not auto-save if using sudo
   (connection-local-set-profile-variables
    'my-auto-save-profile
    '((buffer-auto-save-file-name . nil)))
@@ -108,6 +115,8 @@
                      (hl-line-mode 'toggle)))))
 
 (use-package tab-bar
+  :commands
+  (tab-bar-new-tab)
   :defer t
   :config
   (setq tab-bar-format nil)
@@ -155,14 +164,6 @@
   :config
   (recentf-mode))
 
-;; (use-package flyspell)
-
-;; (use-package desktop
-;;   ;; :init
-;;   ;; (setq desktop-path '(~/.emacs.d/ ~))
-;;   :config
-;;   (desktop-save-mode 1))
-
 (use-package emacs
   :defer nil
   :bind
@@ -201,7 +202,7 @@
   ("C-x j u" . 'compile)
 
   ("C-x j c" . 'conv/cornell-init)
-  ("C-x j a" . 'conv/org-agenda-list)
+  ;; ("C-x j a" . 'org-agenda-list)
 
   ("C-x j l" . 'lsp)
   ("C-x j M-l" . 'lsp-workspace-shutdown)

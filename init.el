@@ -43,8 +43,8 @@
   (bind-key "-" 'dired-up-directory dired-mode-map))
 
 (use-package org
-  :commands
-  (org-mode org-agenda-list org-agenda)
+  ;; :commands
+  ;; (org-mode org-agenda-list org-agenda)
   :defer t
   :config
   (setq org-agenda-files '("~/org/agenda")
@@ -53,9 +53,12 @@
 		org-agenda-start-with-log-mode t
 		org-log-into-drawer t
 		org-hide-leading-stars t
-		;; org-odd-levels-only t ;; goes up by two * indents
 		org-return-follows-link t
 		org-agenda-span 'day
+		org-html-style (concat "<link rel=\"stylesheet\" type=\"text/css\" href=\"" (getenv "HOME") "/org/org-style.css\">")
+		org-export-with-section-numbers nil
+		org-export-with-toc nil
+		org-export-dispatch-use-expert-ui t
 		org-todo-keywords '((sequence "TODO(t)" "TOTURNIN(m)" "CURRENT(c)" "URGENT(u)" "DEFERRED(f)" "ASSIGNMENT(a)" "|" "DONE(d)" "NOTDOING(n)"))))
 
 (use-package tramp

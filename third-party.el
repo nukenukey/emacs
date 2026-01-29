@@ -33,7 +33,7 @@
   :ensure t
   :config
   (setq vterm-shell "/usr/bin/zsh")
-  (dolist (keys '("M-:"
+  (dolist (key '("M-:"
                   "M-!"
                   "M-&"
                   "M-<"
@@ -45,7 +45,7 @@
 				  "M-W"
 				  "C-SPC"
                   "M-w"))
-    (unbind-key keys vterm-mode-map)))
+    (unbind-key key vterm-mode-map)))
 
 (use-package counsel
   :defer t

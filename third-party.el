@@ -86,39 +86,6 @@
 											(setq cursor-type 'bar))))
   (unbind-key "C-x m" global-map))
 
-;; (use-package all-the-icons
-;;   :defer t
-;;   :ensure t
-;;   :if (display-graphic-p))
-
-;; (use-package dashboard
-;;   :defer t
-;;   :ensure t
-;;   :config
-;;   (setq image-scaling-factor 1.0
-;; 		dashboard-banner-logo-title "home sweet emacs"
-;; 		dashboard-center-content t
-;; 		dashboard-vertically-center-content t
-;; 		dashboard-set-heading-icons t
-;; 		dashboard-set-file-icons t
-;; 		dashboard-icon-type 'all-the-icons
-;; 		dashboard-items '((projects . 5)
-;; 						  (recents . 7))
-;; 		dashboard-item-shortcuts '((recents . "f")
-;; 								   (projects . "j"))
-;; 		dashboard-footer-messages
-;; 		'("success"
-;; 		  "yey emacs :D"
-;; 		  "wooo emacs :P"
-;; 		  "happy hacking 🩷"
-;; 		  "Emacs is where the heart is"))
-;;   (bind-key "n" 'dashboard-next-line dashboard-mode-map)
-;;   (bind-key "p" 'dashboard-previous-line dashboard-mode-map)
-;;   (bind-key "e" 'eshell dashboard-mode-map)
-;;   (bind-key "v" 'vterm dashboard-mode-map)
-;;   (unbind-key "j" dashboard-mode-map)
-;;   (unbind-key "k" dashboard-mode-map))
-
 (use-package fireplace
   :defer nil ;; make sure this is installed
   :ensure t)

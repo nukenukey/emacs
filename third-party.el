@@ -34,18 +34,25 @@
   :config
   (setq vterm-shell "/usr/bin/zsh")
   (dolist (key '("M-:"
-                  "M-!"
-                  "M-&"
-                  "M-<"
-                  "M->"
-				  "M-L"
-				  "M-J"
-				  "M-K"
-				  "M-H"
-				  "M-W"
-				  "C-SPC"
-                  "M-w"))
+                 "M-!"
+                 "M-&"
+                 "M-<"
+                 "M->"
+				 "M-L"
+				 "M-J"
+				 "M-K"
+				 "M-H"
+				 "M-W"
+				 "C-SPC"
+                 "M-w"))
     (unbind-key key vterm-mode-map)))
+
+(use-package swiper
+  :defer t
+  :ensure t
+  :bind
+  ("C-s" . 'swiper)
+  ("C-S-s" . 'swiper-thing-at-point))
 
 (use-package counsel
   :defer t

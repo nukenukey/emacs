@@ -175,8 +175,6 @@
 
   ("C-=" . 'text-scale-increase)
   ("C--" . 'text-scale-decrease)
-  ("C-s" . 'swiper)
-  ("C-S-s" . 'swiper-thing-at-point)
   ("C-x f" . 'query-replace)
   ("C-x h" . 'previous-buffer)
   ("C-x l" . 'next-buffer)

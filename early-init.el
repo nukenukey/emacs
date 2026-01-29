@@ -1,7 +1,5 @@
 ;; -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2025 aug <baleofhay@proton.me>
-
 ;; just go fucking crazy
 (setq gc-cons-threshold (* 512 1024 1024) ;; you can go up to 512mb before garbage collecting, most-positive-fixnum didn't seem to improve the init time
       gc-cons-percentage 0.8) ;; you can go up to 80 percent of the heap before garbage collection

@@ -35,7 +35,8 @@
 	  (when (or
 			 (member pack non-dep-packs)
 			 (y-or-n-p (format "upgrade %s?" pack)))
-		(with-demoted-errors "error encountered: %s" (package-upgrade pack))))))
+		(with-demoted-errors "error encountered: %s" (package-upgrade pack)))))
+  (message "done!"))
 
 (defun conv/save-buffers-kill-terminal ()
   "runs conv/save-buffers-kill-terminal hook and then runs save-buffers-kill-terminal"

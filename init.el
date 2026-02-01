@@ -46,6 +46,9 @@
   ;; :commands
   ;; (org-mode org-agenda-list org-agenda)
   :defer t
+  ;; :init
+  ;; (add-hook 'org-mode-hook (lambda ()
+  ;; 							 (setq right-margin-width 20 left-margin-width 20)))
   :config
   (setq org-agenda-files '("~/org/agenda")
         diary-file "~/.emacs.d/diary.gpg"
@@ -100,6 +103,7 @@
                   vterm-mode-hook
 				  eshell-mode-hook
                   tldr-mode-hook
+				  ;; org-mode-hook
 				  doc-view-mode-hook
 	  			  fireplace-mode-hook))
     (add-hook mode (lambda ()

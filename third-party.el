@@ -32,7 +32,7 @@
   :defer t
   :ensure t
   :config
-  (setq vterm-shell "/usr/bin/zsh")
+  (setq vterm-shell "/usr/bin/fish")
   (dolist (key '("M-:"
                  "M-!"
                  "M-&"

@@ -104,3 +104,11 @@
 	(other-window 1)
 	(let '(conv/cornell-buffer-name-list (conv/cornell-split-file (buffer-name)))
 	  (find-file (concat (car conv/cornell-buffer-name-list) "-cues" (car (cdr conv/cornell-buffer-name-list)))))))
+
+;; (defun conv/project-async-shell-command ()
+;;   "same as "
+;;     (declare (interactive-only async-shell-command))
+;;   (interactive)
+;;   (let ((default-directory (project-root (project-current t))))
+;;     (call-interactively #'async-shell-command)))
+;; )

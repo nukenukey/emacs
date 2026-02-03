@@ -81,6 +81,7 @@
   ("C-x M-r" . 'tramp-cleanup-all-buffers))
 
 (use-package vc
+  :defer t
   :init
   (setq vc-handled-backends '(Git)))
 

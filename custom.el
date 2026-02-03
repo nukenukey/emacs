@@ -15,7 +15,6 @@
  ;; If there is more than one, they won't work right.
  '(auth-source-save-behavior nil)
  '(package-selected-packages
-   '(all-the-icons bison-mode company counsel doom-modeline fireplace
-				   fish-mode ivy-rich lsp-mode magit multiple-cursors
-				   php-mode rust-mode tldr typescript-mode vterm))
+   '(company counsel doom-modeline fireplace fish-mode ivy-rich lsp-mode
+			 magit multiple-cursors tldr typescript-mode))
  '(warning-suppress-types '((frameset))))

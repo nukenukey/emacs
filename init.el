@@ -234,6 +234,9 @@
 										   try-complete-lisp-symbol
 										   try-expand-list try-expand-line))
 
+  (if (string= (getenv "XDG_CURRENT_DESKTOP") "sway")
+	  (setq conv/sway t)
+	(setq conv/sway nil))
   (load-file (concat user-emacs-directory "third-party.el"))
   (load-file (concat user-emacs-directory "local.el"))
   (load-file (concat user-emacs-directory "conv.el"))

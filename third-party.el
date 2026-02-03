@@ -101,14 +101,16 @@
   :defer nil
   :ensure t
   :init
-  (setq doom-modeline-icon nil
-		doom-modeline-time t
-		doom-modeline-time-analogue-clock t
-		doom-modeline-time-clock-size 11
-		display-time-format "%H:%M %a %b %d"
-		display-time-default-load-average nil
-		doom-modeline-battery t)
-  (display-battery-mode)
-  (display-time)
+  
+  (setq doom-modeline-icon nil)
+  (unless conv/sway
+	(setq	 doom-modeline-time t
+			 doom-modeline-time-analogue-clock t
+			 doom-modeline-time-clock-size 11
+			 display-time-format "%H:%M %a %b %d"
+			 display-time-default-load-average nil
+			 doom-modeline-battery t)
+	(display-battery-mode)
+	(display-time))
   :config
   (doom-modeline-mode))

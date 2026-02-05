@@ -246,7 +246,7 @@
 																			try-complete-lisp-symbol-partially
 																			try-complete-lisp-symbol
 																			try-expand-list try-expand-line))
-  (setq-default tab-stop-list 4
+  (setq-default tab-stop-list '(2)
 				indent-tab-modes nil
 				tab-always-indent nil
 				indent-tabs-mode t
@@ -264,12 +264,9 @@
 
   ;; (add-hook 'text-mode-hook 'flyspell-mode)
 
-  (scroll-bar-mode -1)
-
   (electric-pair-mode)
   (electric-indent-mode)
   ;; (desktop-save-mode 1)
-
 
   (keymap-global-set "M-<up>" '(lambda ()
 								 (interactive)

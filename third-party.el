@@ -1,28 +1,16 @@
 ;; -*- lexical-binding: t; -*-
 
-(use-package fish-mode
-  :commands
-  (fish-mode)
-  :defer nil
-  :ensure t)
+(dolist (package
+		 '(fish-mode typescript-mode tldr magit fireplace counsel ivy-rich)) ;; these dont need any more configuration that :ensure t
+  (use-package package
+	:defer nil
+	:ensure t))
 
 (use-package company
-  :commands
-  (company-mode)
   :defer nil
   :ensure t
   :bind
   ("C-x j q" . 'company-mode))
-
-(use-package tldr
-  :commands
-  (tldr)
-  :defer t
-  :ensure t)
-
-(use-package magit
-  :defer nil
-  :ensure t)
 
 (use-package vterm
   :commands
@@ -30,7 +18,7 @@
   :bind
   ("C-x j v" . 'vterm)
   :defer t
-  :ensure t
+  ;; :ensure t ;; I have this as a system package
   :config
   (setq vterm-shell "/usr/bin/fish")
   (dolist (key '("M-:"
@@ -53,14 +41,6 @@
   :bind
   ("C-s" . 'swiper)
   ("C-S-s" . 'swiper-thing-at-point))
-
-(use-package counsel
-  :defer t
-  :ensure t)
-
-(use-package ivy-rich
-  :defer t
-  :ensure t)
 
 (use-package ivy
   :defer nil ;; I will want ivy always
@@ -93,17 +73,12 @@
 											(setq cursor-type 'bar))))
   (unbind-key "C-x m" global-map))
 
-(use-package fireplace
-  :defer nil ;; make sure this is installed
-  :ensure t)
-
 (use-package doom-modeline
   :defer nil
   :ensure t
   :init
-  
   (setq doom-modeline-icon nil)
-  (unless conv/sway
+  (unless (string= (getenv "XDG_CURRENT_DESKTOP") "sway") ;; unless we are in sway, load a bunch of modeline stuff
 	(setq	 doom-modeline-time t
 			 doom-modeline-time-analogue-clock t
 			 doom-modeline-time-clock-size 11

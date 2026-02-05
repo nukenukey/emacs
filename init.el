@@ -60,7 +60,7 @@
 		org-agenda-span 'day
 		org-html-style (concat "<link rel=\"stylesheet\" type=\"text/css\" href=\"" (getenv "HOME") "/org/org-style.css\">")
 		org-export-with-section-numbers nil
-		org-export-with-toc nil
+		org-export-with-toc t
 		org-export-dispatch-use-expert-ui t
 		org-todo-keywords '((sequence "TODO(t)" "TOTURNIN(m)" "CURRENT(c)" "URGENT(u)" "DEFERRED(f)" "ASSIGNMENT(a)" "|" "DONE(d)" "NOTDOING(n)"))))
 
@@ -127,7 +127,7 @@
   (tab-bar-new-tab)
   :defer t
   :config
-  (setq tab-bar-format nil)
+  ;; (setq tab-bar-format nil)
   (keymap-set tab-prefix-map "l" #'(lambda ()
                                      (interactive)
                                      (message (format "num of tabs: %s" (length (tab-bar-tabs))))))
@@ -197,6 +197,7 @@
   ("C-x C-l p" . 'check-parens)
 
   ("C-k" . 'kill-whole-line)
+  ("M-k" . 'kill-line)
   ("C-x C-a" . 'mark-whole-buffer)
   ("M-D" . 'backward-kill-word)
 
@@ -208,7 +209,6 @@
 
   ("C-x C-r" . 'tramp-revert-buffer-with-sudo)
   ("C-x M-f" . 'find-file-other-window)
-  ("M-k" . 'kill-line)
 
   ("C-x j d s" . desktop-save)
   ("C-x j d r" . desktop-read)
@@ -230,51 +230,46 @@
   (keymap-set help-map "g" 'shortdoc-display-group)
   (unbind-key "C-x C-l")
 
-  (setq	tab-width 4)
-
-  (put 'narrow-to-region 'disabled nil)
-  (setq hippie-expand-try-functions-list
-		'(try-complete-file-name-partially try-complete-file-name
-										   try-expand-all-abbrevs
-										   try-expand-dabbrev
-										   try-expand-dabbrev-from-kill
-										   try-expand-dabbrev-all-buffers
-										   try-complete-lisp-symbol-partially
-										   try-complete-lisp-symbol
-										   try-expand-list try-expand-line))
-
-  (if (string= (getenv "XDG_CURRENT_DESKTOP") "sway")
-	  (setq conv/sway t)
-	(setq conv/sway nil))
-  (load-file (concat user-emacs-directory "third-party.el"))
-  (load-file (concat user-emacs-directory "local.el"))
-  (load-file (concat user-emacs-directory "conv.el"))
-
-  (setq initial-scratch-message nil)
-  
-  (add-hook 'text-mode-hook 'flyspell-mode)
-
-  (setq scroll-conservatively 100
-		shell-command-prompt-show-cwd t)
-  (setq-default cursor-type 'bar)
-
-  (scroll-bar-mode -1)
-  (setq image-scaling-factor 1.0)
-
-  (electric-pair-mode)
-  (electric-indent-mode)
-  ;; (desktop-save-mode 1)
-
+  ;; just a wall of setq and setq-default
+  (setq	tab-width 4
+		initial-scratch-message nil
+		scroll-conservatively 100
+		split-width-threshold 1
+		shell-command-prompt-show-cwd t
+		;; indent-line-function 'insert-tab
+		image-scaling-factor 1.0
+		hippie-expand-try-functions-list '(try-complete-file-name-partially try-complete-file-name
+																			try-expand-all-abbrevs
+																			try-expand-dabbrev
+																			try-expand-dabbrev-from-kill
+																			try-expand-dabbrev-all-buffers
+																			try-complete-lisp-symbol-partially
+																			try-complete-lisp-symbol
+																			try-expand-list try-expand-line))
   (setq-default tab-stop-list 4
 				indent-tab-modes nil
 				tab-always-indent nil
 				indent-tabs-mode t
 				tab-width 4
-				c-basic-offset 4)
-
-  ;; (setq indent-line-function 'insert-tab
-  (setq split-width-threshold 1)
+				cursor-type 'bar)
   (defvaralias 'c-basic-offset 'tab-width)
+
+  ;; (put 'narrow-to-region 'disabled nil)
+
+  (dolist (file (mapcar (lambda (f)
+						  (concat user-emacs-directory f))
+				 '("third-party.el" "local.el" "conv.el")))
+	(when (file-exists-p file)
+	  (load-file (concat user-emacs-directory file))))
+
+  ;; (add-hook 'text-mode-hook 'flyspell-mode)
+
+  (scroll-bar-mode -1)
+
+  (electric-pair-mode)
+  (electric-indent-mode)
+  ;; (desktop-save-mode 1)
+
 
   (keymap-global-set "M-<up>" '(lambda ()
 								 (interactive)

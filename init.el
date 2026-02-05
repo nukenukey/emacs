@@ -146,13 +146,21 @@
   :defer nil
   :init
   (add-hook 'c++-mode-hook (lambda ()
-							 (setq-local compile-command (concat "g++ -fdiagnostics-all-candidates -fsanitize=address -Wall -Wextra -Werror -Wpedantic -g " (f-filename (f-this-file)) " -o " (substring (f-filename (f-this-file)) 0 (s-index-of "." (f-filename (f-this-file))))))))
+							 (setq-local compile-command (concat
+														  "g++ -fdiagnostics-all-candidates -fsanitize=address -Wall -Wextra -Werror -Wpedantic -g "
+														  (f-filename (f-this-file))
+														  " -o "
+														  (substring (f-filename (f-this-file)) 0 (s-index-of "." (f-filename (f-this-file))))))))
   (add-hook 'java-mode-hook (lambda ()
 							  (setq-local compile-command (concat "javac " (f-filename (f-this-file))))))
   (add-hook 'rust-mode-hook (lambda ()
 							  (setq-local compile-command (concat "rustc " (f-filename (f-this-file))))))
   (add-hook 'c-mode-hook (lambda ()
-						   (setq-local compile-command (concat "gcc -fsanitize=address -Wall -Wextra -Werror -Wpedantic -g " (f-filename (f-this-file)) " -o " (substring (f-filename (f-this-file)) 0 (s-index-of "." (f-filename (f-this-file)))))))))
+						   (setq-local compile-command (concat
+														"gcc -fsanitize=address -Wall -Wextra -Werror -Wpedantic -g "
+														(f-filename (f-this-file))
+														" -o "
+														(substring (f-filename (f-this-file)) 0 (s-index-of "." (f-filename (f-this-file)))))))))
 
 (use-package epa
   :defer t

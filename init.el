@@ -161,14 +161,15 @@
 
 (use-package recentf
   :defer nil ;; I will always want this available
+  :bind
+  ("C-x j r" . 'counsel-recentf)
+  ("C-x j C-r" . 'recentf-save-list)
+  ("C-x j M-r" . 'recentf-cleanup)
   :init
   (setq recentf-exclude '("^~/org/agenda/.*$" "^.*~$" "^~/.emacs.d/games/tetris-scores$" "^.*#$")
 		recentf-max-saved-items 64
 		recentf-auto-cleanup 'mode)
   (add-to-list 'auto-save-hook #'recentf-save-list)
-  (keymap-global-set "C-x j r" 'counsel-recentf)
-  (keymap-global-set "C-x j C-r" 'recentf-save-list)
-  (keymap-global-set "C-x j M-r" 'recentf-cleanup)
   :config
   (recentf-mode))
 

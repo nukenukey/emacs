@@ -35,20 +35,24 @@
   :defer t
   :config
   (setq dired-listing-switches "-Alh")
-  (bind-key "b" 'dired-view-file dired-mode-map)
   (unbind-key "v" dired-mode-map)
-  (bind-key "v" 'vterm dired-mode-map)
   (unbind-key "e" dired-mode-map)
+  (bind-key "b" 'dired-view-file dired-mode-map)
+  (bind-key "v" 'vterm dired-mode-map)
   (bind-key "e" 'eshell dired-mode-map)
   (bind-key "-" 'dired-up-directory dired-mode-map))
 
 (use-package org
-  ;; :commands
-  ;; (org-mode org-agenda-list org-agenda)
   :defer t
-  ;; :init
-  ;; (add-hook 'org-mode-hook (lambda ()
-  ;; 							 (setq right-margin-width 20 left-margin-width 20)))
+  :bind
+  ("C-x j t" . (lambda ()
+				 (interactive)
+				 (org-todo-list)
+				 (delete-other-windows)))
+  ("C-x j a" . (lambda ()
+				 (interactive)
+				 (org-agenda-list)
+				 (delete-other-windows)))
   :config
   (setq org-agenda-files '("~/org/agenda")
         diary-file "~/.emacs.d/diary.gpg"
@@ -62,7 +66,7 @@
 		org-export-with-section-numbers nil
 		org-export-with-toc t
 		org-export-dispatch-use-expert-ui t
-		org-todo-keywords '((sequence "TODO(t)" "TOTURNIN(m)" "CURRENT(c)" "URGENT(u)" "DEFERRED(f)" "ASSIGNMENT(a)" "|" "DONE(d)" "NOTDOING(n)"))))
+		org-todo-keywords '((sequence "TODO(t)" "TOTURNIN(m)" "CURRENT(c)" "URGENT(u)" "DEFERRED(f)" "ASSIGNMENT(a)" "EVENT(e)" "TEST(T)" "|" "DONE(d)" "NOTDOING(n)"))))
 
 (use-package tramp
   :defer t
@@ -256,7 +260,7 @@
 
   ;; (put 'narrow-to-region 'disabled nil)
 
-  (dolist (file (mapcar (lambda (f)
+  (dolist (file (mapcar (lambda (f) ;; load user files
 						  (concat user-emacs-directory f))
 				 '("third-party.el" "local.el" "conv.el")))
 	(when (file-exists-p file)

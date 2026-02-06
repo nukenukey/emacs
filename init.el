@@ -62,6 +62,7 @@
 		org-hide-leading-stars t
 		org-return-follows-link t
 		org-agenda-span 'day
+		org-archive-location "archive/%s_archive::datetree/"
 		org-html-style (concat "<link rel=\"stylesheet\" type=\"text/css\" href=\"" (getenv "HOME") "/org/org-style.css\">")
 		org-export-with-section-numbers nil
 		org-export-with-toc t

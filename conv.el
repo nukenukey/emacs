@@ -53,20 +53,6 @@
 
 (keymap-global-set "C-x C-c" 'conv/save-buffers-kill-terminal)
 
-;; (defun conv/fortune-cowsay ()
-;;   "gets scratch buffer and interts the output from `fortune -c | cowsay -r'"
-;;   (interactive)
-;;   (switch-to-buffer (get-scratch-buffer-create))
-;;   (insert (shell-command-to-string "fortune -c | cowsay -r")))
-
-(defun conv/org-agenda-list ()
-  "convieniently sets up my org agenda list :>"
-  (interactive)
-  (org-agenda-list)
-  (delete-other-windows))
-
-(keymap-global-set "C-x j a" 'conv/org-agenda-list)
-
 (defun conv/gpg-detach-sign-file (file)
   "function to detach-sign files using gpg bc epa doesn't gel w/ me"
   (interactive "b")
@@ -104,11 +90,3 @@
 	(other-window 1)
 	(let '(conv/cornell-buffer-name-list (conv/cornell-split-file (buffer-name)))
 	  (find-file (concat (car conv/cornell-buffer-name-list) "-cues" (car (cdr conv/cornell-buffer-name-list)))))))
-
-;; (defun conv/project-async-shell-command ()
-;;   "same as "
-;;     (declare (interactive-only async-shell-command))
-;;   (interactive)
-;;   (let ((default-directory (project-root (project-current t))))
-;;     (call-interactively #'async-shell-command)))
-;; )

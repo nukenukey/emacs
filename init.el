@@ -42,6 +42,14 @@
   (bind-key "e" 'eshell dired-mode-map)
   (bind-key "-" 'dired-up-directory dired-mode-map))
 
+(use-package project
+  :defer t
+  :init
+  (keymap-set project-prefix-map "v" #'(lambda ()
+										 (interactive)
+										 (cd (project-root (project-current t)))
+										 (vterm))))
+
 (use-package org
   :defer t
   :bind

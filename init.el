@@ -75,7 +75,9 @@
 		org-export-with-section-numbers nil
 		org-export-with-toc t
 		org-export-dispatch-use-expert-ui t
-		org-todo-keywords '((sequence "TODO(t)" "TOTURNIN(m)" "CURRENT(c)" "URGENT(u)" "DEFERRED(f)" "ASSIGNMENT(a)" "EVENT(e)" "TEST(T)" "|" "DONE(d)" "NOTDOING(n)"))))
+		org-global-properties '(("ENERGY_ALL" . "high medium low")
+								("TIME_ALL" . "high medium low"))
+		org-todo-keywords '((sequence "TODO(t)" "TOTURNIN(m)" "CURRENT(c)" "URGENT(u)" "DEFERRED(f)" "ASSIGNMENT(a)" "EVENT(e)" "EXAM(E)" "|" "DONE(d)" "NOTDOING(n)"))))
 
 (use-package tramp
   :defer t
@@ -271,11 +273,11 @@
 
   (dolist (file (mapcar (lambda (f) ;; load user files
 						  (concat user-emacs-directory f))
-				 '("third-party.el" "local.el" "conv.el")))
+						'("third-party.el" "local.el" "conv.el")))
 	(when (file-exists-p file)
 	  (load-file (concat user-emacs-directory file))))
 
-  ;; (add-hook 'text-mode-hook 'flyspell-mode)
+  (add-hook 'text-mode-hook 'flyspell-mode)
 
   (electric-pair-mode)
   (electric-indent-mode)

@@ -12,4 +12,4 @@ else
 	FORTUNE_COWSAY_BUFFER_OR_DIRED="(dired-jump))"
 fi
 
-emacsclient -c -a '' -e "(progn ${SELECT_FRAME} (or (and (boundp 'conv/last-buffer) (conv/switch-to-last-buffer))) ${FORTUNE_COWSAY_BUFFER_OR_DIRED}"
+emacsclient -c -a '' -e "(progn ${SELECT_FRAME} (or (and (boundp 'conv/last-buffer) (conv/switch-to-last-buffer)) ${FORTUNE_COWSAY_BUFFER_OR_DIRED}"

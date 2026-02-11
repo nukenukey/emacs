@@ -1,5 +1,7 @@
 ;; -*- lexical-binding: t; -*-
 
+(setq-local time/custom (current-time))
+
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -18,3 +20,5 @@
    '(company counsel doom-modeline fireplace fish-mode ivy-rich lsp-mode
 			 magit multiple-cursors tldr typescript-mode))
  '(warning-suppress-types '((frameset))))
+
+(add-to-list 'emacs-init-times `("custom" . ,(float-time (time-subtract (current-time) time/custom))))

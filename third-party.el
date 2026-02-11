@@ -1,16 +1,18 @@
 ;; -*- lexical-binding: t; -*-
 
+(setq-local time/third-party (current-time))
+
 (dolist (package
-		 '(fish-mode typescript-mode tldr magit fireplace counsel ivy-rich)) ;; these dont need any more configuration that :ensure t
+		 '(fish-mode typescript-mode tldr magit fireplace counsel ivy-rich)) ;; these dont need any more configuration than :ensure t
   (use-package package
 	:defer nil
 	:ensure t))
 
-(use-package company
-  :defer nil
-  :ensure t
-  :bind
-  ("C-x j q" . 'company-mode))
+;; (use-package company
+;;   :defer nil
+;;   :ensure t
+;;   :bind
+;;   ("C-x j q" . 'company-mode))
 
 (use-package vterm
   :commands
@@ -18,7 +20,7 @@
   :bind
   ("C-x j v" . 'vterm)
   :defer t
-  ;; :ensure t ;; I have this as a system package
+  :ensure nil ;; I have this as a system package
   :config
   (setq vterm-shell "/usr/bin/fish")
   (dolist (key '("M-:"
@@ -66,7 +68,7 @@
   ("C-x m r" . 'mc/mark-all-in-region)
   ("C-x m a" . 'mc/edit-beginnings-of-lines)
   ("C-x m e" . 'mc/edit-ends-of-lines)
-  :config
+  :init
   (add-hook 'multiple-cursors-mode-hook (lambda ()
 										  (if multiple-cursors-mode
 											  (setq cursor-type t)
@@ -89,3 +91,5 @@
 	(display-time))
   :config
   (doom-modeline-mode))
+
+(add-to-list 'emacs-init-times `("third-party" . ,(float-time (time-subtract (current-time) time/third-party))))

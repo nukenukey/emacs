@@ -1,5 +1,7 @@
 ;; -*- lexical-binding: t; -*-
 
+(setq-local time/conv (current-time))
+
 (defun conv/text-input ()
   "pop up emacs window to edit text in then save to clipboard and close frame a la josh blais"
   (interactive)
@@ -90,3 +92,7 @@
 	(other-window 1)
 	(let '(conv/cornell-buffer-name-list (conv/cornell-split-file (buffer-name)))
 	  (find-file (concat (car conv/cornell-buffer-name-list) "-cues" (car (cdr conv/cornell-buffer-name-list)))))))
+
+(keymap-global-set "C-x j c" 'conv/cornell-init)
+
+(add-to-list 'emacs-init-times `("conv" . ,(float-time (time-subtract (current-time) time/conv))))

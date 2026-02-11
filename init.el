@@ -2,6 +2,8 @@
 
 ;; Copyright (C) 2025 aug <baleofhay@proton.me>
 
+(setq-local time/init (current-time))
+
 (setq custom-file (concat user-emacs-directory "custom.el"))
 (load-file custom-file)
 
@@ -19,8 +21,6 @@
 						   ("nongnu" . "https://elpa.nongnu.org/nongnu/"))))
 
 (use-package tetris
-  :commands
-  (tetris)
   :defer t
   :config
   (bind-key "w" 'tetris-rotate-prev tetris-mode-map)
@@ -30,8 +30,8 @@
   (bind-key "m" 'tetris-move-bottom tetris-mode-map))
 
 (use-package dired
-  :commands
-  (dired dired-jump)
+  ;; :commands
+  ;; (dired dired-jump)
   :defer t
   :config
   (setq dired-listing-switches "-Alh")
@@ -51,7 +51,7 @@
 										 (vterm))))
 
 (use-package org
-  :defer t
+  :defer 3
   :bind
   ("C-x j t" . (lambda ()
 				 (interactive)
@@ -70,14 +70,17 @@
 		org-hide-leading-stars t
 		org-return-follows-link t
 		org-agenda-span 'day
+		org-highest-priority 1
+		org-lowest-priority 64
+		org-ellipsis "🡇"
 		org-archive-location "archive/%s_archive::datetree/"
-		org-html-style (concat "<link rel=\"stylesheet\" type=\"text/css\" href=\"" (getenv "HOME") "/org/org-style.css\">")
+		org-html-style (concat "<link rel=\"stylesheet\" type=\"text/css\" href=\"" (expand-file-name "~/org/org-style.css") "\">")
 		org-export-with-section-numbers nil
 		org-export-with-toc t
 		org-export-dispatch-use-expert-ui t
 		org-global-properties '(("ENERGY_ALL" . "high medium low")
 								("TIME_ALL" . "high medium low"))
-		org-todo-keywords '((sequence "TODO(t)" "TOTURNIN(m)" "CURRENT(c)" "URGENT(u)" "DEFERRED(f)" "ASSIGNMENT(a)" "EVENT(e)" "EXAM(E)" "|" "DONE(d)" "NOTDOING(n)"))))
+		org-todo-keywords '((sequence "TODO(t)" "CURRENT(c)" "URGENT(u)" "ASSIGNMENT(a)" "EVENT(e)" "EXAM(E)" "|" "DONE(d)" "NOTDOING(n)"))))
 
 (use-package tramp
   :defer t
@@ -85,14 +88,21 @@
   (setq tramp-use-scp-direct-remote-copying t) ;; for speed
 
   ;; do not auto-save if using sudo
-  (connection-local-set-profile-variables
-   'my-auto-save-profile
-   '((buffer-auto-save-file-name . nil)))
-  (connection-local-set-profiles
-   '(:application tramp :protocol "sudo")
-   'my-auto-save-profile)
-
+  ;; (connection-local-set-profile-variables
+  ;;  'my-auto-save-profile
+  ;;  '((buffer-auto-save-file-name . nil)))
+  ;; (connection-local-set-profiles
+  ;;  '(:application tramp :protocol "sudo")
+  ;;  'my-auto-save-profile)
+  (setq backup-enable-predicate
+		(lambda (name)
+          (and (normal-backup-enable-predicate name)
+               (not
+				(let ((method (file-remote-p name 'method)))
+                  (when (stringp method)
+					(member method '("su" "sudo" "doas"))))))))
   :bind
+  ("C-x C-r" . 'tramp-revert-buffer-with-sudo)
   ("C-x M-r" . 'tramp-cleanup-all-buffers))
 
 (use-package vc
@@ -159,6 +169,8 @@
 
 (use-package compile
   :defer nil
+  :bind
+  ("C-x j u" . 'compile)
   :init
   (add-hook 'c++-mode-hook (lambda ()
 							 (setq-local compile-command (concat
@@ -186,8 +198,13 @@
   :defer nil ;; I will always want this available
   :bind
   ("C-x j r" . 'counsel-recentf)
-  ("C-x j C-r" . 'recentf-save-list)
-  ("C-x j M-r" . 'recentf-cleanup)
+  ("C-x j R" . 'recentf-save-list)
+  ("C-x j C-r" . 'recentf-cleanup)
+  ("C-x j M-r" . (lambda ()
+				   (interactive)
+				   (split-window-right)
+				   (other-window 1)
+				   (counsel-recentf)))
   :init
   (setq recentf-exclude '("^~/org/agenda/.*$" "^.*~$" "^~/.emacs.d/games/tetris-scores$" "^.*#$")
 		recentf-max-saved-items 64
@@ -222,17 +239,11 @@
   ("C-x C-b" . 'electric-buffer-list)
   ("C-x b" . 'counsel-switch-buffer)
 
-  ("C-x C-r" . 'tramp-revert-buffer-with-sudo)
   ("C-x M-f" . 'find-file-other-window)
 
   ("C-x j d s" . desktop-save)
   ("C-x j d r" . desktop-read)
   ("C-x j d c" . desktop-clear)
-
-  ("C-x j u" . 'compile)
-
-  ("C-x j c" . 'conv/cornell-init)
-  ;; ("C-x j a" . 'org-agenda-list)
 
   ("C-x j l" . 'lsp)
   ("C-x j M-l" . 'lsp-workspace-shutdown)
@@ -252,6 +263,7 @@
 		split-width-threshold 1
 		shell-command-prompt-show-cwd t
 		;; indent-line-function 'insert-tab
+		;; read-file-name-completion-ignore-case t
 		image-scaling-factor 1.0
 		hippie-expand-try-functions-list '(try-complete-file-name-partially try-complete-file-name
 																			try-expand-all-abbrevs
@@ -327,3 +339,6 @@
 								  (interactive)
 								  (save-some-buffers)
 								  (restart-emacs))))
+
+;; (setq emacs-init-times `(("init" . ,(float-time (time-subtract (current-time) time/init)))))
+(add-to-list 'emacs-init-times `("init" . ,(float-time (time-subtract (current-time) time/init))))

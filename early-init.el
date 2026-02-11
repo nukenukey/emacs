@@ -1,5 +1,7 @@
 ;; -*- lexical-binding: t; -*-
 
+(setq-local time/early-init (current-time))
+
 ;; just go fucking crazy
 (setq gc-cons-threshold (* 512 1024 1024) ;; you can go up to 512mb before garbage collecting, most-positive-fixnum didn't seem to improve the init time
       gc-cons-percentage 0.8) ;; you can go up to 80 percent of the heap before garbage collection
@@ -28,3 +30,5 @@
 (add-hook 'after-init-hook (lambda ()
                              (setq gc-cons-threshold (* 80 100 100)
                                    gc-cons-percentage 0.1))) ;; when emacs is settled down, make the thresholds more reasonable
+
+(setq emacs-init-times `(("early-init" . ,(float-time (time-subtract (current-time) time/early-init)))))

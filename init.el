@@ -77,7 +77,7 @@
 		org-lowest-priority 5
 		org-ellipsis "🡇"
 		org-archive-location "archive/%s_archive::datetree/"
-		org-html-style (concat "<link rel=\"stylesheet\" type=\"text/css\" href=\"" (expand-file-name "~/org/org-style.css") "\">")
+		org-html-head (concat "<link rel=\"stylesheet\" type=\"text/css\" href=\"" (expand-file-name "~/org/org-style.css") "\">")
 		org-export-with-section-numbers nil
 		org-export-with-toc t
 		org-export-dispatch-use-expert-ui t
@@ -140,7 +140,7 @@
   :defer nil
   :init
   (global-hl-line-mode)
-  (keymap-global-set "M-p" '(lambda ()
+  (keymap-global-set "M-p" #'(lambda ()
                               (interactive)
                               (hl-line-mode 'toggle)))
   (dolist (mode '(vterm-mode-hook
@@ -296,47 +296,47 @@
   (electric-indent-mode)
   ;; (desktop-save-mode 1)
 
-  (keymap-global-set "M-<up>" '(lambda ()
+  (keymap-global-set "M-<up>" #'(lambda ()
 								 (interactive)
 								 (kill-whole-line)
-								 (previous-line)
+								 (forward-line -1)
 								 (yank)
-								 (previous-line)))
-  (keymap-global-set "M-<down>" '(lambda ()
+								 (forward-line -1)))
+  (keymap-global-set "M-<down>" #'(lambda ()
 								   (interactive)
 								   (kill-whole-line)
-								   (next-line)
+								   (forward-line)
 								   (yank)
-								   (previous-line)))
-  (keymap-global-set "M-o" '(lambda ()
+								   (forward-line -1)))
+  (keymap-global-set "M-o" #'(lambda ()
 							  "insert a newline at the beginning of the line and move back one line"
 							  (interactive)
 							  (move-beginning-of-line 1)
 							  (newline)
 							  (backward-char)))
-  (keymap-global-set "C-M-o" '(lambda ()
+  (keymap-global-set "C-M-o" #'(lambda ()
 								"insert a newline before the current line and stay where you were"
 								(interactive)
 								(let ((poi (point)))
 								  (beginning-of-line)
 								  (newline)
 								  (goto-char (+ 1 poi)))))
-  (keymap-global-set "C-o" '(lambda ()
+  (keymap-global-set "C-o" #'(lambda ()
 							  "move to the end of the current line and insert a newline"
 							  (interactive)
 							  (end-of-line)
 							  (electric-newline-and-maybe-indent)))
-  (keymap-global-set "M-[" '(lambda ()
+  (keymap-global-set "M-[" #'(lambda ()
 							  (interactive)
 							  (start-of-paragraph-text)))
-  (keymap-global-set "M-]" '(lambda ()
+  (keymap-global-set "M-]" #'(lambda ()
 							  (interactive)
 							  (end-of-paragraph-text)))
-  (keymap-global-set "C-x M-c" '(lambda ()
+  (keymap-global-set "C-x M-c" #'(lambda ()
 								  (interactive)
 								  (save-some-buffers)
 								  (kill-emacs)))
-  (keymap-global-set "C-x M-C" '(lambda ()
+  (keymap-global-set "C-x M-C" #'(lambda ()
 								  (interactive)
 								  (save-some-buffers)
 								  (restart-emacs))))

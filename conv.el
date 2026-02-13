@@ -14,7 +14,7 @@
             (lambda ()
               (interactive)
               (clipboard-kill-region 1 (progn
-                                         (end-of-buffer)
+										 (goto-char (point-max))
                                          (point-max)))
               (kill-buffer)
               (delete-frame)))
@@ -46,7 +46,7 @@
   (run-hooks 'conv/save-buffers-kill-terminal-hook)
   (save-buffers-kill-terminal))
 
-(add-hook 'conv/save-buffers-kill-terminal-hook '(lambda ()
+(add-hook 'conv/save-buffers-kill-terminal-hook #'(lambda ()
 												   (setq conv/last-buffer (buffer-name))))
 
 (defun conv/switch-to-last-buffer ()
@@ -78,7 +78,7 @@
 
 (defun conv/cornell-split-file (file-name)
   "returns a list consisting of the name of a file before the extension and the extension. If file-name does not contain a `.', returns nil"
-  (s-index-of "." file-name)
+  ;; (s-index-of "." file-name)
   `(,(substring file-name 0 (s-index-of "." file-name))
 	,(substring file-name (s-index-of "." file-name))))
 
@@ -90,7 +90,7 @@
 	(delete-other-windows)
 	(split-window-horizontally 120)
 	(other-window 1)
-	(let '(conv/cornell-buffer-name-list (conv/cornell-split-file (buffer-name)))
+	(let ((conv/cornell-buffer-name-list (conv/cornell-split-file (buffer-name))))
 	  (find-file (concat (car conv/cornell-buffer-name-list) "-cues" (car (cdr conv/cornell-buffer-name-list)))))))
 
 (keymap-global-set "C-x j c" 'conv/cornell-init)

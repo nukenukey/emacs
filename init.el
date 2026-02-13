@@ -61,6 +61,9 @@
 				 (interactive)
 				 (org-agenda-list)
 				 (delete-other-windows)))
+  :init
+  (setq org-global-properties '(("ENERGY_ALL" . "high medium low")
+								("TIME_ALL" . "high medium low")))
   :config
   (setq org-agenda-files '("~/org/agenda")
         diary-file "~/.emacs.d/diary.gpg"
@@ -71,15 +74,13 @@
 		org-return-follows-link t
 		org-agenda-span 'day
 		org-highest-priority 1
-		org-lowest-priority 64
+		org-lowest-priority 5
 		org-ellipsis "🡇"
 		org-archive-location "archive/%s_archive::datetree/"
 		org-html-style (concat "<link rel=\"stylesheet\" type=\"text/css\" href=\"" (expand-file-name "~/org/org-style.css") "\">")
 		org-export-with-section-numbers nil
 		org-export-with-toc t
 		org-export-dispatch-use-expert-ui t
-		org-global-properties '(("ENERGY_ALL" . "high medium low")
-								("TIME_ALL" . "high medium low"))
 		org-todo-keywords '((sequence "TODO(t)" "CURRENT(c)" "URGENT(u)" "ASSIGNMENT(a)" "EVENT(e)" "EXAM(E)" "|" "DONE(d)" "NOTDOING(n)"))))
 
 (use-package tramp

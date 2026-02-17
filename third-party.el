@@ -60,10 +60,10 @@
   :defer nil ;; I want this always available
   :ensure t
   :bind
-  ("C-x m p" . 'mc/mark-previous-lines)
-  ("C-x m C-p" . 'mc/mark-previous-like-this)
-  ("C-x m n" . 'mc/mark-next-lines)
-  ("C-x m C-n" . 'mc/mark-next-like-this)
+  ("C-x m C-p" . 'mc/mark-previous-lines)
+  ("C-x m p" . 'mc/mark-previous-like-this)
+  ("C-x m C-n" . 'mc/mark-next-lines)
+  ("C-x m n" . 'mc/mark-next-like-this)
   ("C-x m !" . 'mc/mark-all-like-this)
   ("C-x m r" . 'mc/mark-all-in-region)
   ("C-x m a" . 'mc/edit-beginnings-of-lines)

@@ -17,8 +17,9 @@
  ;; If there is more than one, they won't work right.
  '(auth-source-save-behavior nil)
  '(package-selected-packages
-   '(company counsel doom-modeline fireplace fish-mode ivy-rich lsp-mode
-			 magit multiple-cursors tldr typescript-mode))
+   '(company counsel doom-modeline doom-themes fireplace fish-mode
+			 ivy-rich lsp-mode magit multiple-cursors tldr
+			 typescript-mode))
  '(warning-suppress-types '((frameset))))
 
 (add-to-list 'emacs-init-times `("custom" . ,(float-time (time-subtract (current-time) time/custom))))

@@ -30,11 +30,9 @@
   (bind-key "m" 'tetris-move-bottom tetris-mode-map))
 
 (use-package dired
-  ;; :commands
-  ;; (dired dired-jump)
   :defer t
   :config
-  (setq dired-listing-switches "-Alh")
+  (setq dired-listing-switches "-Alhp")
   (unbind-key "v" dired-mode-map)
   (unbind-key "e" dired-mode-map)
   (bind-key "b" 'dired-view-file dired-mode-map)
@@ -48,7 +46,9 @@
   (keymap-set project-prefix-map "v" #'(lambda ()
 										 (interactive)
 										 (cd (project-root (project-current t)))
-										 (vterm))))
+										 (vterm)))
+  :config
+  (add-to-list 'project-switch-commands '(project-dired "Dired" "D")))
 
 (use-package org
   :defer 3
@@ -61,9 +61,8 @@
 				 (interactive)
 				 (org-agenda-list)
 				 (delete-other-windows)))
-  :init
-  (setq org-global-properties '(("ENERGY_ALL" . "high medium low")
-								("TIME_ALL" . "high medium low")))
+  ;; :init
+  ;; (setq
   :config
   (setq org-agenda-files '("~/org/agenda")
         diary-file "~/.emacs.d/diary.gpg"
@@ -81,7 +80,9 @@
 		org-export-with-section-numbers nil
 		org-export-with-toc t
 		org-export-dispatch-use-expert-ui t
-		org-todo-keywords '((sequence "TODO(t)" "CURRENT(c)" "URGENT(u)" "ASSIGNMENT(a)" "EVENT(e)" "EXAM(E)" "|" "DONE(d)" "NOTDOING(n)"))))
+		org-todo-keywords '((sequence "TODO(t)" "CURRENT(c)" "URGENT(u)" "ASSIGNMENT(a)" "EVENT(e)" "EXAM(E)" "|" "DONE(d)" "NOTDOING(n)"))
+		org-global-properties '(("ENERGY_ALL" . "high medium low")
+								("TIME_ALL" . "high medium low"))))
 
 (use-package tramp
   :defer t

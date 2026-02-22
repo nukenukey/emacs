@@ -5,14 +5,8 @@
 (dolist (package
 		 '(fish-mode typescript-mode tldr magit fireplace counsel ivy-rich)) ;; these dont need any more configuration than :ensure t
   (eval `(use-package ,package
-	:defer nil
-	:ensure t)))
-
-;; (use-package company
-;;   :defer nil
-;;   :ensure t
-;;   :bind
-;;   ("C-x j q" . 'company-mode))
+		   :defer nil
+		   :ensure t)))
 
 (use-package vterm
   :commands

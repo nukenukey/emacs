@@ -47,7 +47,7 @@
   (save-buffers-kill-terminal))
 
 (add-hook 'conv/save-buffers-kill-terminal-hook #'(lambda ()
-												   (setq conv/last-buffer (buffer-name))))
+													(setq conv/last-buffer (buffer-name))))
 
 (defun conv/switch-to-last-buffer ()
   "switches to conv/last-buffer"

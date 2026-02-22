@@ -4,9 +4,9 @@
 
 (dolist (package
 		 '(fish-mode typescript-mode tldr magit fireplace counsel ivy-rich)) ;; these dont need any more configuration than :ensure t
-  (use-package package
+  (eval `(use-package ,package
 	:defer nil
-	:ensure t))
+	:ensure t)))
 
 ;; (use-package company
 ;;   :defer nil

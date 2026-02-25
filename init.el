@@ -61,8 +61,6 @@
 				 (interactive)
 				 (org-agenda-list)
 				 (delete-other-windows)))
-  ;; :init
-  ;; (setq
   :config
   (setq org-agenda-files '("~/org/agenda")
         diary-file "~/.emacs.d/diary.gpg"
@@ -259,8 +257,7 @@
   (unbind-key "C-x C-l")
 
   ;; just a wall of setq and setq-default
-  (setq	tab-width 4
-		initial-scratch-message nil
+  (setq	initial-scratch-message nil
 		scroll-conservatively 100
 		split-width-threshold 1
 		shell-command-prompt-show-cwd t
@@ -279,7 +276,7 @@
 				indent-tab-modes nil
 				tab-always-indent nil
 				indent-tabs-mode t
-				tab-width 4
+				tab-width 2
 				cursor-type 'bar)
   (defvaralias 'c-basic-offset 'tab-width)
 

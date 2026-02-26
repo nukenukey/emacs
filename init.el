@@ -10,15 +10,15 @@
 (use-package use-package
   :init
   (setq use-package-check-before-init t
-		use-package-always-defer nil))
+				use-package-always-defer nil))
 
 (use-package package
   :defer t
   :config
   (setq package-archives '(("elpa" . "https://elpa.gnu.org/packages/")
                            ("melpa" . "https://melpa.org/packages/")
-						   ("org" . "https://orgmode.org/elpa/")
-						   ("nongnu" . "https://elpa.nongnu.org/nongnu/"))))
+													 ("org" . "https://orgmode.org/elpa/")
+													 ("nongnu" . "https://elpa.nongnu.org/nongnu/"))))
 
 (use-package tetris
   :defer t
@@ -44,9 +44,9 @@
   :defer t
   :init
   (keymap-set project-prefix-map "v" #'(lambda ()
-										 (interactive)
-										 (cd (project-root (project-current t)))
-										 (vterm)))
+																				 (interactive)
+																				 (cd (project-root (project-current t)))
+																				 (vterm)))
   :config
   (add-to-list 'project-switch-commands '(project-dired "Dired" "D")))
 
@@ -54,33 +54,33 @@
   :defer 3
   :bind
   ("C-x j t" . (lambda ()
-				 (interactive)
-				 (org-todo-list)
-				 (delete-other-windows)))
+								 (interactive)
+								 (org-todo-list)
+								 (delete-other-windows)))
   ("C-x j a" . (lambda ()
-				 (interactive)
-				 (org-agenda-list)
-				 (delete-other-windows)))
+								 (interactive)
+								 (org-agenda-list)
+								 (delete-other-windows)))
   :config
   (setq org-agenda-files '("~/org/agenda")
         diary-file "~/.emacs.d/diary.gpg"
         org-html-validation-link nil
-		org-agenda-start-with-log-mode t
-		org-log-into-drawer t
-		org-hide-leading-stars t
-		org-return-follows-link t
-		org-agenda-span 'day
-		org-highest-priority 1
-		org-lowest-priority 5
-		org-ellipsis "🡇"
-		org-archive-location "archive/%s_archive::datetree/"
-		org-html-head (concat "<link rel=\"stylesheet\" type=\"text/css\" href=\"" (expand-file-name "~/org/org-style.css") "\">")
-		org-export-with-section-numbers nil
-		org-export-with-toc t
-		org-export-dispatch-use-expert-ui t
-		org-todo-keywords '((sequence "TODO(t)" "CURRENT(c)" "URGENT(u)" "ASSIGNMENT(a)" "EVENT(e)" "EXAM(E)" "|" "DONE(d)" "NOTDOING(n)"))
-		org-global-properties '(("ENERGY_ALL" . "high medium low")
-								("TIME_ALL" . "high medium low"))))
+				org-agenda-start-with-log-mode t
+				org-log-into-drawer t
+				org-hide-leading-stars t
+				org-return-follows-link t
+				org-agenda-span 'day
+				org-highest-priority 1
+				org-lowest-priority 5
+				org-ellipsis "🡇"
+				org-archive-location "archive/%s_archive::datetree/"
+				org-html-head (concat "<link rel=\"stylesheet\" type=\"text/css\" href=\"" (expand-file-name "~/org/org-style.css") "\">")
+				org-export-with-section-numbers nil
+				org-export-with-toc t
+				org-export-dispatch-use-expert-ui t
+				org-todo-keywords '((sequence "TODO(t)" "CURRENT(c)" "URGENT(u)" "ASSIGNMENT(a)" "EVENT(e)" "EXAM(E)" "|" "DONE(d)" "NOTDOING(n)"))
+				org-global-properties '(("ENERGY_ALL" . "high medium low")
+																("TIME_ALL" . "high medium low"))))
 
 (use-package tramp
   :defer t
@@ -95,12 +95,12 @@
   ;;  '(:application tramp :protocol "sudo")
   ;;  'my-auto-save-profile)
   (setq backup-enable-predicate
-		(lambda (name)
+				(lambda (name)
           (and (normal-backup-enable-predicate name)
                (not
-				(let ((method (file-remote-p name 'method)))
+								(let ((method (file-remote-p name 'method)))
                   (when (stringp method)
-					(member method '("su" "sudo" "doas"))))))))
+										(member method '("su" "sudo" "doas"))))))))
   :bind
   ("C-x C-r" . 'tramp-revert-buffer-with-sudo)
   ("C-x M-r" . 'tramp-cleanup-all-buffers))
@@ -125,13 +125,13 @@
   (setq display-line-numbers-width-start t)
   (global-display-line-numbers-mode t)
   (dolist (mode '(term-mode-hook ;; not in some modes please
-				  shell-mode-hook
+									shell-mode-hook
                   vterm-mode-hook
-				  eshell-mode-hook
+									eshell-mode-hook
                   tldr-mode-hook
-				  ;; org-mode-hook
-				  doc-view-mode-hook
-	  			  fireplace-mode-hook))
+									;; org-mode-hook
+									doc-view-mode-hook
+	  							fireplace-mode-hook))
     (add-hook mode (lambda ()
                      (display-line-numbers-mode 0)))))
 
@@ -157,14 +157,14 @@
                                      (interactive)
                                      (message (format "num of tabs: %s" (length (tab-bar-tabs))))))
   (keymap-set tab-prefix-map "0" #'(lambda ()
-									 (interactive)
-									 (tab-close)
-									 (when (= (length (tab-bar-tabs)) 1)
-									   (tab-bar-mode 0))))
+																		 (interactive)
+																		 (tab-close)
+																		 (when (= (length (tab-bar-tabs)) 1)
+																			 (tab-bar-mode 0))))
   (keymap-set tab-prefix-map "1" #'(lambda ()
-									 (interactive)
-									 (tab-close-other)
-									 (tab-bar-mode 0)))
+																		 (interactive)
+																		 (tab-close-other)
+																		 (tab-bar-mode 0)))
   (keymap-global-set "C-S-t" 'tab-bar-undo-close-tab))
 
 (use-package compile
@@ -173,21 +173,21 @@
   ("C-x j u" . 'compile)
   :init
   (add-hook 'c++-mode-hook (lambda ()
-							 (setq-local compile-command (concat
-														  "g++ -fdiagnostics-all-candidates -fsanitize=address -Wall -Wextra -Werror -Wpedantic -g "
-														  (f-filename (f-this-file))
-														  " -o "
-														  (substring (f-filename (f-this-file)) 0 (s-index-of "." (f-filename (f-this-file))))))))
+														 (setq-local compile-command (concat
+																													"g++ -fdiagnostics-all-candidates -fsanitize=address -Wall -Wextra -Werror -Wpedantic -g "
+																													(f-filename (f-this-file))
+																													" -o "
+																													(substring (f-filename (f-this-file)) 0 (s-index-of "." (f-filename (f-this-file))))))))
   (add-hook 'java-mode-hook (lambda ()
-							  (setq-local compile-command (concat "javac " (f-filename (f-this-file))))))
+															(setq-local compile-command (concat "javac " (f-filename (f-this-file))))))
   (add-hook 'rust-mode-hook (lambda ()
-							  (setq-local compile-command (concat "rustc " (f-filename (f-this-file))))))
+															(setq-local compile-command (concat "rustc " (f-filename (f-this-file))))))
   (add-hook 'c-mode-hook (lambda ()
-						   (setq-local compile-command (concat
-														"gcc -fsanitize=address -Wall -Wextra -Werror -Wpedantic -g "
-														(f-filename (f-this-file))
-														" -o "
-														(substring (f-filename (f-this-file)) 0 (s-index-of "." (f-filename (f-this-file)))))))))
+													 (setq-local compile-command (concat
+																												"gcc -fsanitize=address -Wall -Wextra -Werror -Wpedantic -g "
+																												(f-filename (f-this-file))
+																												" -o "
+																												(substring (f-filename (f-this-file)) 0 (s-index-of "." (f-filename (f-this-file)))))))))
 
 (use-package epa
   :defer t
@@ -213,7 +213,7 @@
 											 (funcall recentf-menu-action file)))))
   :init
   (setq recentf-exclude '("^~/org/agenda/.*$" "^.*~$" "^~/.emacs.d/games/tetris-scores$" "^.*#$")
-				recentf-max-saved-items 64
+				recentf-max-saved-items 128
 				recentf-auto-cleanup 'mode)
   (add-to-list 'auto-save-hook #'recentf-save-list)
   :config
@@ -264,86 +264,86 @@
 
   ;; just a wall of setq and setq-default
   (setq	initial-scratch-message nil
-		scroll-conservatively 100
-		split-width-threshold 1
-		shell-command-prompt-show-cwd t
-		;; indent-line-function 'insert-tab
-		;; read-file-name-completion-ignore-case t
-		image-scaling-factor 1.0
-		hippie-expand-try-functions-list '(try-complete-file-name-partially try-complete-file-name
-																			try-expand-all-abbrevs
-																			try-expand-dabbrev
-																			try-expand-dabbrev-from-kill
-																			try-expand-dabbrev-all-buffers
-																			try-complete-lisp-symbol-partially
-																			try-complete-lisp-symbol
-																			try-expand-list try-expand-line))
+				scroll-conservatively 100
+				split-width-threshold 1
+				shell-command-prompt-show-cwd t
+				;; recenter-positions '(top middle bottom)
+				next-screen-context-lines 3
+				;; indent-line-function 'insert-tab
+				read-file-name-completion-ignore-case t
+				image-scaling-factor 1.0
+				hippie-expand-try-functions-list '(try-complete-file-name-partially try-complete-file-name
+																																						try-expand-all-abbrevs
+																																						try-expand-dabbrev
+																																						try-expand-dabbrev-from-kill
+																																						try-expand-dabbrev-all-buffers
+																																						try-complete-lisp-symbol-partially
+																																						try-complete-lisp-symbol
+																																						try-expand-list try-expand-line))
   (setq-default tab-stop-list '(2)
-				indent-tab-modes nil
-				tab-always-indent nil
-				indent-tabs-mode t
-				tab-width 2
-				cursor-type 'bar)
+								indent-tab-modes nil
+								tab-always-indent nil
+								indent-tabs-mode t
+								tab-width 2
+								cursor-type 'bar)
   (defvaralias 'c-basic-offset 'tab-width)
-
   ;; (put 'narrow-to-region 'disabled nil)
 
   (dolist (file (mapcar (lambda (f) ;; load user files
-						  (concat user-emacs-directory f))
-						'("third-party.el" "local.el" "conv.el")))
-	(when (file-exists-p file)
-	  (load-file (concat user-emacs-directory file))))
+													(concat user-emacs-directory f))
+												'("third-party.el" "local.el" "conv.el")))
+		(when (file-exists-p file)
+			(load-file (concat user-emacs-directory file))))
 
   (add-hook 'text-mode-hook 'flyspell-mode)
-
   (electric-pair-mode)
   (electric-indent-mode)
   ;; (desktop-save-mode 1)
 
   (keymap-global-set "M-<up>" #'(lambda ()
-								  (interactive)
-								  (kill-whole-line)
-								  (forward-line -1)
-								  (yank)
-								  (forward-line -1)))
+																	(interactive)
+																	(kill-whole-line)
+																	(forward-line -1)
+																	(yank)
+																	(forward-line -1)))
   (keymap-global-set "M-<down>" #'(lambda ()
-									(interactive)
-									(kill-whole-line)
-									(forward-line)
-									(yank)
-									(forward-line -1)))
+																		(interactive)
+																		(kill-whole-line)
+																		(forward-line)
+																		(yank)
+																		(forward-line -1)))
   (keymap-global-set "M-o" #'(lambda ()
-							   "insert a newline at the beginning of the line and move back one line"
-							   (interactive)
-							   (move-beginning-of-line 1)
-							   (newline)
-							   (backward-char)))
+															 "insert a newline at the beginning of the line and move back one line"
+															 (interactive)
+															 (move-beginning-of-line 1)
+															 (newline)
+															 (backward-char)))
   (keymap-global-set "C-M-o" #'(lambda ()
-								 "insert a newline before the current line and stay where you were"
-								 (interactive)
-								 (let ((poi (point)))
-								   (beginning-of-line)
-								   (newline)
-								   (goto-char (+ 1 poi)))))
+																 "insert a newline before the current line and stay where you were"
+																 (interactive)
+																 (let ((poi (point)))
+																	 (beginning-of-line)
+																	 (newline)
+																	 (goto-char (+ 1 poi)))))
   (keymap-global-set "C-o" #'(lambda ()
-							   "move to the end of the current line and insert a newline"
-							   (interactive)
-							   (end-of-line)
-							   (electric-newline-and-maybe-indent)))
+															 "move to the end of the current line and insert a newline"
+															 (interactive)
+															 (end-of-line)
+															 (electric-newline-and-maybe-indent)))
   (keymap-global-set "M-[" #'(lambda ()
-							   (interactive)
-							   (start-of-paragraph-text)))
+															 (interactive)
+															 (start-of-paragraph-text)))
   (keymap-global-set "M-]" #'(lambda ()
-							   (interactive)
-							   (end-of-paragraph-text)))
+															 (interactive)
+															 (end-of-paragraph-text)))
   (keymap-global-set "C-x M-c" #'(lambda ()
-								   (interactive)
-								   (save-some-buffers)
-								   (kill-emacs)))
+																	 (interactive)
+																	 (save-some-buffers)
+																	 (kill-emacs)))
   (keymap-global-set "C-x M-C" #'(lambda ()
-								   (interactive)
-								   (save-some-buffers)
-								   (restart-emacs))))
+																	 (interactive)
+																	 (save-some-buffers)
+																	 (restart-emacs))))
 
 ;; (setq emacs-init-times `(("init" . ,(float-time (time-subtract (current-time) time/init)))))
 (add-to-list 'emacs-init-times `("init" . ,(float-time (time-subtract (current-time) time/init))))

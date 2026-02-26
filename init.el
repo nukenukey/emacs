@@ -200,15 +200,21 @@
   ("C-x j r" . 'counsel-recentf)
   ("C-x j R" . 'recentf-save-list)
   ("C-x j C-r" . 'recentf-cleanup)
-  ("C-x j M-r" . (lambda ()
-				   (interactive)
-				   (split-window-right)
-				   (other-window 1)
-				   (counsel-recentf)))
+  ("C-x j M-r" . (lambda (file)
+									 (interactive
+										(list
+										 (progn (unless recentf-mode (recentf-mode 1))
+														(completing-read (format-prompt "Open recent file" nil)
+																						 recentf-list nil t))))
+									 (when file
+										 (progn
+											 (split-window-horizontally)
+											 (other-window 1)
+											 (funcall recentf-menu-action file)))))
   :init
   (setq recentf-exclude '("^~/org/agenda/.*$" "^.*~$" "^~/.emacs.d/games/tetris-scores$" "^.*#$")
-		recentf-max-saved-items 64
-		recentf-auto-cleanup 'mode)
+				recentf-max-saved-items 64
+				recentf-auto-cleanup 'mode)
   (add-to-list 'auto-save-hook #'recentf-save-list)
   :config
   (recentf-mode))

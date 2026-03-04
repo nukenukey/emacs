@@ -32,7 +32,8 @@
 (use-package dired
   :defer t
   :config
-  (setq dired-listing-switches "-Alhp")
+  (setq dired-listing-switches "-Alhp"
+				dired-kill-when-opening-new-dired-buffer t)
   (unbind-key "v" dired-mode-map)
   (unbind-key "e" dired-mode-map)
   (bind-key "b" 'dired-view-file dired-mode-map)
@@ -187,7 +188,11 @@
 																												"gcc -fsanitize=address -Wall -Wextra -Werror -Wpedantic -g "
 																												(f-filename (f-this-file))
 																												" -o "
-																												(substring (f-filename (f-this-file)) 0 (s-index-of "." (f-filename (f-this-file)))))))))
+																												(substring (f-filename (f-this-file)) 0 (s-index-of "." (f-filename (f-this-file))))))))
+	(add-hook 'latex-mode-hook (lambda ()
+															 (setq-local compile-command (concat
+																														"pdflatex "
+																														(f-filename (f-this-file)))))))
 
 (use-package epa
   :defer t
@@ -198,8 +203,8 @@
   :defer nil ;; I will always want this available
   :bind
   ("C-x j r" . 'counsel-recentf)
-  ("C-x j R" . 'recentf-save-list)
-  ("C-x j C-r" . 'recentf-cleanup)
+  ("C-x j C-R" . 'recentf-save-list)
+  ("C-x j R" . 'recentf-cleanup)
   ("C-x j M-r" . (lambda (file)
 									 (interactive
 										(list
@@ -267,7 +272,6 @@
 				scroll-conservatively 100
 				split-width-threshold 1
 				shell-command-prompt-show-cwd t
-				;; recenter-positions '(top middle bottom)
 				next-screen-context-lines 3
 				;; indent-line-function 'insert-tab
 				read-file-name-completion-ignore-case t
@@ -293,57 +297,59 @@
 													(concat user-emacs-directory f))
 												'("third-party.el" "local.el" "conv.el")))
 		(when (file-exists-p file)
-			(load-file (concat user-emacs-directory file))))
+			(load-file file)))
 
-  (add-hook 'text-mode-hook 'flyspell-mode)
-  (electric-pair-mode)
-  (electric-indent-mode)
-  ;; (desktop-save-mode 1)
+	(add-hook 'text-mode-hook 'flyspell-mode)
+	(electric-pair-mode)
+	(electric-indent-mode)
+	;; (desktop-save-mode 1)
 
-  (keymap-global-set "M-<up>" #'(lambda ()
+	(keymap-global-set "M-<up>" #'(lambda ()
 																	(interactive)
 																	(kill-whole-line)
 																	(forward-line -1)
 																	(yank)
 																	(forward-line -1)))
-  (keymap-global-set "M-<down>" #'(lambda ()
+	(keymap-global-set "M-<down>" #'(lambda ()
 																		(interactive)
 																		(kill-whole-line)
 																		(forward-line)
 																		(yank)
 																		(forward-line -1)))
-  (keymap-global-set "M-o" #'(lambda ()
+	(keymap-global-set "M-o" #'(lambda ()
 															 "insert a newline at the beginning of the line and move back one line"
 															 (interactive)
 															 (move-beginning-of-line 1)
 															 (newline)
 															 (backward-char)))
-  (keymap-global-set "C-M-o" #'(lambda ()
+	(keymap-global-set "C-M-o" #'(lambda ()
 																 "insert a newline before the current line and stay where you were"
 																 (interactive)
 																 (let ((poi (point)))
 																	 (beginning-of-line)
 																	 (newline)
 																	 (goto-char (+ 1 poi)))))
-  (keymap-global-set "C-o" #'(lambda ()
+	(keymap-global-set "C-o" #'(lambda ()
 															 "move to the end of the current line and insert a newline"
 															 (interactive)
 															 (end-of-line)
 															 (electric-newline-and-maybe-indent)))
-  (keymap-global-set "M-[" #'(lambda ()
+	(keymap-global-set "M-[" #'(lambda ()
 															 (interactive)
 															 (start-of-paragraph-text)))
-  (keymap-global-set "M-]" #'(lambda ()
+	(keymap-global-set "M-]" #'(lambda ()
 															 (interactive)
 															 (end-of-paragraph-text)))
-  (keymap-global-set "C-x M-c" #'(lambda ()
+	(keymap-global-set "C-x M-c" #'(lambda ()
 																	 (interactive)
 																	 (save-some-buffers)
 																	 (kill-emacs)))
-  (keymap-global-set "C-x M-C" #'(lambda ()
+	(keymap-global-set "C-x M-C" #'(lambda ()
 																	 (interactive)
 																	 (save-some-buffers)
-																	 (restart-emacs))))
+																	 (restart-emacs)))
+	(keymap-global-set "C-x C-z" #'(lambda ()
+																	 (interactive))))
 
 ;; (setq emacs-init-times `(("init" . ,(float-time (time-subtract (current-time) time/init)))))
 (add-to-list 'emacs-init-times `("init" . ,(float-time (time-subtract (current-time) time/init))))

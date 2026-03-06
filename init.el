@@ -15,10 +15,10 @@
 (use-package package
   :defer t
   :config
-  (setq package-archives '(("elpa" . "https://elpa.gnu.org/packages/")
-                           ("melpa" . "https://melpa.org/packages/")
+  (setq package-archives '(("melpa" . "https://melpa.org/packages/")
 													 ("org" . "https://orgmode.org/elpa/")
-													 ("nongnu" . "https://elpa.nongnu.org/nongnu/"))))
+													 ("nongnu" . "https://elpa.nongnu.org/nongnu/")
+													 ("elpa" . "https://elpa.gnu.org/packages/"))))
 
 (use-package tetris
   :defer t
@@ -31,6 +31,12 @@
 
 (use-package dired
   :defer t
+	:bind
+	("C-x M-d" . (lambda (direc)
+								 (interactive "D")
+								 (when direc (progn (split-window-horizontally)
+																		(other-window 1)
+																		(dired direc)))))
   :config
   (setq dired-listing-switches "-Alhp"
 				dired-kill-when-opening-new-dired-buffer t)

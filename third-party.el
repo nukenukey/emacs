@@ -3,10 +3,16 @@
 (setq-local time/third-party (current-time))
 
 (dolist (package
-		 '(fish-mode typescript-mode tldr magit fireplace counsel ivy-rich)) ;; these dont need any more configuration than :ensure t
+				 '(fish-mode typescript-mode tldr magit fireplace counsel ivy-rich)) ;; these dont need any more configuration than :ensure t
   (eval `(use-package ,package
-		   :defer nil
-		   :ensure t)))
+					 :defer nil
+					 :ensure t)))
+
+(use-package yasnippet
+	:ensure t
+	:defer nil
+	:config
+	(yas-global-mode 1))
 
 (use-package vterm
   :commands
@@ -22,12 +28,12 @@
                  "M-&"
                  "M-<"
                  "M->"
-				 "M-L"
-				 "M-J"
-				 "M-K"
-				 "M-H"
-				 "M-W"
-				 "C-SPC"
+								 "M-L"
+								 "M-J"
+								 "M-K"
+								 "M-H"
+								 "M-W"
+								 "C-SPC"
                  "M-w"))
     (unbind-key key vterm-mode-map)))
 
@@ -64,9 +70,9 @@
   ("C-x m e" . 'mc/edit-ends-of-lines)
   :init
   (add-hook 'multiple-cursors-mode-hook (lambda ()
-										  (if multiple-cursors-mode
-											  (setq cursor-type t)
-											(setq cursor-type 'bar))))
+																					(if multiple-cursors-mode
+																							(setq cursor-type t)
+																						(setq cursor-type 'bar))))
   (unbind-key "C-x m" global-map))
 
 (use-package doom-modeline
@@ -75,14 +81,14 @@
   :init
   (setq doom-modeline-icon nil)
   (unless (string= (getenv "XDG_CURRENT_DESKTOP") "sway") ;; unless we are in sway, load a bunch of modeline stuff
-	(setq	 doom-modeline-time t
-			 doom-modeline-time-analogue-clock t
-			 doom-modeline-time-clock-size 11
-			 display-time-format "%H:%M %a %b %d"
-			 display-time-default-load-average nil
-			 doom-modeline-battery t)
-	(display-battery-mode)
-	(display-time))
+		(setq	 doom-modeline-time t
+					 doom-modeline-time-analogue-clock t
+					 doom-modeline-time-clock-size 11
+					 display-time-format "%H:%M %a %b %d"
+					 display-time-default-load-average nil
+					 doom-modeline-battery t)
+		(display-battery-mode)
+		(display-time))
   :config
   (doom-modeline-mode))
 

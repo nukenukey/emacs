@@ -14,7 +14,7 @@
             (lambda ()
               (interactive)
               (clipboard-kill-region 1 (progn
-										 (goto-char (point-max))
+																				 (goto-char (point-max))
                                          (point-max)))
               (kill-buffer)
               (delete-frame)))
@@ -33,11 +33,11 @@
   "upgrades all the packages and asks you whether to upgrade for all"
   (interactive)
   (let (non-dep-packs (package--find-non-dependencies))
-	(dolist (pack (package--upgradeable-packages))
-	  (when (or
-			 (member pack non-dep-packs)
-			 (y-or-n-p (format "upgrade %s?" pack)))
-		(with-demoted-errors "error encountered: %s" (package-upgrade pack)))))
+		(dolist (pack (package--upgradeable-packages))
+			(when (or
+						 (member pack non-dep-packs)
+						 (y-or-n-p (format "upgrade %s?" pack)))
+				(with-demoted-errors "error encountered: %s" (package-upgrade pack)))))
   (message "done!"))
 
 (defun conv/save-buffers-kill-terminal ()
@@ -47,7 +47,7 @@
   (save-buffers-kill-terminal))
 
 (add-hook 'conv/save-buffers-kill-terminal-hook #'(lambda ()
-													(setq conv/last-buffer (buffer-name))))
+																										(setq conv/last-buffer (buffer-name))))
 
 (defun conv/switch-to-last-buffer ()
   "switches to conv/last-buffer"
@@ -80,18 +80,18 @@
   "returns a list consisting of the name of a file before the extension and the extension. If file-name does not contain a `.', returns nil"
   ;; (s-index-of "." file-name)
   `(,(substring file-name 0 (s-index-of "." file-name))
-	,(substring file-name (s-index-of "." file-name))))
+		,(substring file-name (s-index-of "." file-name))))
 
 (defun conv/cornell-init ()
   "makes windows for cornell style notes"
   (interactive)
   (if (not (f-this-file))
-	  (message "this buffer is not a file?")
-	(delete-other-windows)
-	(split-window-horizontally 120)
-	(other-window 1)
-	(let ((conv/cornell-buffer-name-list (conv/cornell-split-file (buffer-name))))
-	  (find-file (concat (car conv/cornell-buffer-name-list) "-cues" (car (cdr conv/cornell-buffer-name-list)))))))
+			(message "this buffer is not a file?")
+		(delete-other-windows)
+		(split-window-horizontally 120)
+		(other-window 1)
+		(let ((conv/cornell-buffer-name-list (conv/cornell-split-file (buffer-name))))
+			(find-file (concat (car conv/cornell-buffer-name-list) "-cues" (car (cdr conv/cornell-buffer-name-list)))))))
 
 (keymap-global-set "C-x j c" 'conv/cornell-init)
 

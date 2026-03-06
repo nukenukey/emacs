@@ -19,9 +19,9 @@
 
 (setq use-short-answers t ;; just y and n pls
       confirm-kill-emacs 'yes-or-no-p
-	  inhibit-default-init t ;; default init stuff
-	  inhibit-startup-screen t
-	  ring-bell-function 'ignore)
+			inhibit-default-init t ;; default init stuff
+			inhibit-startup-screen t
+			ring-bell-function 'ignore)
 
 (add-to-list 'default-frame-alist '(height . 25))
 (add-to-list 'default-frame-alist '(width . 75))

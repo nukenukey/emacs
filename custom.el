@@ -17,9 +17,9 @@
  ;; If there is more than one, they won't work right.
  '(auth-source-save-behavior nil)
  '(package-selected-packages
-   '(company counsel doom-modeline doom-themes fireplace fish-mode
-			 ivy-rich lsp-mode magit multiple-cursors tldr
-			 typescript-mode))
+	 '(company counsel doom-modeline doom-themes fireplace fish-mode
+						 ivy-rich lsp-mode magit multiple-cursors rust-mode tldr
+						 typescript-mode vterm yasnippet))
  '(warning-suppress-types '((frameset))))
 
 ;; Source - https://stackoverflow.com/q/69232418
@@ -46,10 +46,10 @@
 
 (dolist (pat jetbrains-ligature-mode--ligatures)
   (set-char-table-range composition-function-table
-						(aref pat 0)
-						(nconc (char-table-range composition-function-table (aref pat 0))
+												(aref pat 0)
+												(nconc (char-table-range composition-function-table (aref pat 0))
                                (list (vector (regexp-quote pat)
-											 0
-											 'compose-gstring-for-graphic)))))
+																						 0
+																						 'compose-gstring-for-graphic)))))
 
 (add-to-list 'emacs-init-times `("custom" . ,(float-time (time-subtract (current-time) time/custom))))

@@ -7,4 +7,4 @@ fi
 
 ACTION="(dired-jump)"
 
-emacsclient -a '' -c -e "(progn ${SELECT_FRAME} ${INITIAL_ACTION})" || { notify-send "emacsclient could not be started" ; return 1 ; }
+emacsclient -a '' -c -e "(progn ${SELECT_FRAME} ${ACTION})" || { notify-send "emacsclient could not be started" ; return 1 ; }

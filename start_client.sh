@@ -5,18 +5,6 @@ else
 	SELECT_FRAME=""
 fi
 
-start_daemon () {
-		emacs --daemon || { notify-send "emacs daemon could not be started" ; return 1 ; }
-}
+ACTION="(dired-jump)"
 
-restart_emacs () {
-		echo "restarting emacs"
-		pkill -f "emacs --daemon" || { notify-send "emacs could not be restarted" ; return 1 ; }
-}
-
-start_client () {
-		emacsclient -c -a '' -e "(progn ${SELECT_FRAME} (dired-jump)))" || { notify-send "emacsclient could not be started" ; return 1 ; }
-		# emacsclient -c -a '' -e "(progn ${SELECT_FRAME} (or (and (boundp 'conv/last-buffer) (conv/switch-to-last-buffer)) (dired-jump)))"
-}
-
-start_client || { restart_emacs && start_client ; }
+emacsclient -a '' -c -e "(progn ${SELECT_FRAME} ${INITIAL_ACTION})" || { notify-send "emacsclient could not be started" ; return 1 ; }

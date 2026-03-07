@@ -5,11 +5,18 @@ else
 	SELECT_FRAME=""
 fi
 
-# if [ -d "/usr/share/cowsay/cows" -a $(command -v fortune) -a $(command -v cowthink) ] ; then
-	# COWSAY_CMD="fortune -c | cowthink -nf $(ls /usr/share/cowsay/cows | shuf | head -1)"
-	# FORTUNE_COWSAY_BUFFER_OR_DIRED="(with-current-buffer (get-buffer-create \"*fortune*\") (insert (shell-command-to-string \"${COWSAY_CMD}\"))) (switch-to-buffer \"*fortune*\")))"
-# else
-	# FORTUNE_COWSAY_BUFFER_OR_DIRED="(dired-jump))"
-# fi
+start_daemon () {
+		emacs --daemon || { notify-send "emacs daemon could not be started" ; exit 1 }
+}
 
-emacsclient -c -a '' -e "(progn ${SELECT_FRAME} (or (and (boundp 'conv/last-buffer) (conv/switch-to-last-buffer)) (dired-jump)))"
+restart_emacs () {
+		echo "restarting emacs"
+		pkill -f "emacs --daemon" || { notify-send "emacs could not be restarted" ; exit 1 }
+}
+
+start_client () {
+		emacsclient -c -a '' -e "(progn ${SELECT_FRAME} (dired-jump)))" || { notify-send "emacsclient could not be started" ; exit 1}
+		# emacsclient -c -a '' -e "(progn ${SELECT_FRAME} (or (and (boundp 'conv/last-buffer) (conv/switch-to-last-buffer)) (dired-jump)))"
+}
+
+start_client || { restart_emacs && start_client }

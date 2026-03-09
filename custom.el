@@ -16,10 +16,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(auth-source-save-behavior nil)
- '(package-selected-packages
-	 '(company counsel doom-modeline doom-themes fireplace fish-mode
-						 ivy-rich lsp-mode magit multiple-cursors rust-mode tldr
-						 typescript-mode vterm yasnippet))
+ '(package-selected-packages nil)
  '(warning-suppress-types '((frameset))))
 
 ;; Source - https://stackoverflow.com/q/69232418

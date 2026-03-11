@@ -1,0 +1,20 @@
+;;; -*- mode: lisp-interaction; -*-
+fundamental-mode
+(today (format-time-string "%D")
+			 :ann "today's date"
+			 :doc "insert today's date")
+(todayy (format-time-string "%A %B %d"))
+
+org-mode
+(\\equ "\\begin{equation}\n" r n "\\end{equation}")
+(\\arrl "\\begin{array}{l}\n" r n "\\end{array}")
+(\\arrr "\\begin{array}{r}\n" r n "\\end{array}")
+(\\box "\\boxed{\n" r n "}")
+(ce "\\ce{" r "}")
+(dce "$\\ce{" r "}$")
+(img "[[" p "][" p "]]")
+(\\def "\\begin{equation}\\boxed{\n\\textbf{Definition}\\text{: " r "}" n "}\\end{equation}")
+(\\tc "$\\textcolor{" (p "color: ") "}{" r "}$")
+(\\note "\\textcolor{red}{note}: " r)
+(\\dnote "$\\textcolor{red}{note}$: " r)
+(\\begin "\\begin{" (p "" whatisit) "}\n" r "\n\\end{" (s whatisit) "}")

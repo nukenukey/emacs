@@ -45,7 +45,8 @@
   (bind-key "b" 'dired-view-file dired-mode-map)
   (bind-key "v" 'vterm dired-mode-map)
   (bind-key "e" 'eshell dired-mode-map)
-  (bind-key "-" 'dired-up-directory dired-mode-map))
+  (bind-key "-" 'dired-up-directory dired-mode-map)
+	(bind-key "C-j" 'dired-find-file))
 
 (use-package project
   :defer t
@@ -229,6 +230,10 @@
   (add-to-list 'auto-save-hook #'recentf-save-list)
   :config
   (recentf-mode))
+
+;; (use-package flyspell
+;; 	:bind
+;; 	("C-." . flyspell-auto-correct-word))
 
 (use-package emacs
   :defer nil

@@ -8,11 +8,10 @@
 					 :defer nil
 					 :ensure t)))
 
-(use-package yasnippet
+(use-package tempel
 	:ensure t
-	:defer nil
-	:config
-	(yas-global-mode 1))
+	:bind
+	("C-M-j" . tempel-expand))
 
 (use-package vterm
   :commands
@@ -81,12 +80,12 @@
   :init
   (setq doom-modeline-icon nil)
   (unless (string= (getenv "XDG_CURRENT_DESKTOP") "sway") ;; unless we are in sway, load a bunch of modeline stuff
-		(setq	 doom-modeline-time t
-					 doom-modeline-time-analogue-clock t
-					 doom-modeline-time-clock-size 11
-					 display-time-format "%H:%M %a %b %d"
-					 display-time-default-load-average nil
-					 doom-modeline-battery t)
+		(setq doom-modeline-time t
+					doom-modeline-time-analogue-clock t
+					doom-modeline-time-clock-size 11
+					display-time-format "%H:%M %a %b %d"
+					display-time-default-load-average nil
+					doom-modeline-battery t)
 		(display-battery-mode)
 		(display-time))
   :config

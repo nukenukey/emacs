@@ -11,7 +11,8 @@
 (use-package tempel
 	:ensure t
 	:bind
-	("C-M-j" . tempel-expand))
+	("C-M-j" . tempel-expand)
+	("M-*" . tempel-insert))
 
 (use-package vterm
   :commands

@@ -88,7 +88,8 @@
 				org-export-dispatch-use-expert-ui t
 				org-todo-keywords '((sequence "TODO(t)" "CURRENT(c)" "URGENT(u)" "ASSIGNMENT(a)" "EVENT(e)" "EXAM(E)" "|" "DONE(d)" "NOTDOING(n)"))
 				org-global-properties '(("ENERGY_ALL" . "high medium low")
-																("TIME_ALL" . "high medium low"))))
+																("TIME_ALL" . "high medium low"))
+				org-agenda-sticky t))
 
 (use-package tramp
   :defer t

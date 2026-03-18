@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-if [ "$XDG_CURRENT_DESKTOP" != "sway" ] ; then
+if [ "$XDG_CURRENT_DESKTOP" != "sway*" ] ; then
 	SELECT_FRAME="(toggle-frame-fullscreen) (select-frame-set-input-focus (selected-frame))"
 else
 	SELECT_FRAME=""

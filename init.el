@@ -18,7 +18,8 @@
   (setq package-archives '(("melpa" . "https://melpa.org/packages/")
 													 ("org" . "https://orgmode.org/elpa/")
 													 ("nongnu" . "https://elpa.nongnu.org/nongnu/")
-													 ("elpa" . "https://elpa.gnu.org/packages/"))))
+													 ("elpa" . "https://elpa.gnu.org/packages/"))
+				package-archive-priorities '(("elpa" . 4) ("nongnu" . 3) ("org" . 2) ("melpa" . 1))))
 
 (use-package tetris
   :defer t
@@ -55,6 +56,7 @@
 																				 (interactive)
 																				 (cd (project-root (project-current t)))
 																				 (vterm)))
+	(keymap-set project-prefix-map "s" #'dired-sidebar-toggle-sidebar)
   :config
   (add-to-list 'project-switch-commands '(project-dired "Dired" "D")))
 

@@ -20,3 +20,6 @@ org-mode
 (\\dnote "$\\textcolor{red}{note}$: " r)
 (\\begin "\\begin{" (p "" whatisit) "}\n" r "\n\\end{" (s whatisit) "}")
 (\\thm "$\\textcolor{red}{Theorem:}\\text{" p "}$\n\\begin{array}{l}\n" r "\n\\end{array}")
+(\\exp "\\textcolor{blue}{\\text{" r "}}")
+(\\pad "\\phantom{()()()}")
+(\\pic "$\\textcolor{red}{\\text{pic needed}}$")

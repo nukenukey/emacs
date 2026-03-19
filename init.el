@@ -35,9 +35,10 @@
 	:bind
 	("C-x M-d" . (lambda (direc)
 								 (interactive "D")
-								 (when direc (progn (split-window-horizontally)
-																		(other-window 1)
-																		(dired direc)))))
+								 (when direc
+									 (progn (split-window-horizontally)
+													(other-window 1)
+													(dired direc)))))
   :config
   (setq dired-listing-switches "-Alhp"
 				dired-kill-when-opening-new-dired-buffer t)

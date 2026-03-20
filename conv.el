@@ -40,20 +40,24 @@
 				(with-demoted-errors "error encountered: %s" (package-upgrade pack)))))
   (message "done!"))
 
-(defun conv/save-buffers-kill-terminal ()
-  "runs conv/save-buffers-kill-terminal hook and then runs save-buffers-kill-terminal"
-  (interactive)
-  (run-hooks 'conv/save-buffers-kill-terminal-hook)
-  (save-buffers-kill-terminal))
+;; (defun conv/save-buffers-kill-terminal ()
+;;   "runs conv/save-buffers-kill-terminal hook and then runs save-buffers-kill-terminal"
+;;   (interactive)
+;;   (run-hooks 'conv/save-buffers-kill-terminal-hook)
+;; 	(if (daemonp)
+;; 			(progn
+;; 				(save-some-buffers)
+;; 				(delete-frame))
+;; 		(save-buffers-kill-terminal)))
 
-(add-hook 'conv/save-buffers-kill-terminal-hook #'(lambda ()
-																										(setq conv/last-buffer (buffer-name))))
+;; (add-hook 'conv/save-buffers-kill-terminal-hook #'(lambda ()
+;; 																										(setq conv/last-buffer (buffer-name))))
 
 (defun conv/switch-to-last-buffer ()
   "switches to conv/last-buffer"
   (switch-to-buffer conv/last-buffer))
 
-(keymap-global-set "C-x C-c" 'conv/save-buffers-kill-terminal)
+;; (keymap-global-set "C-x C-c" 'conv/save-buffers-kill-terminal)
 
 (defun conv/gpg-detach-sign-file (file)
   "function to detach-sign files using gpg bc epa doesn't gel w/ me"

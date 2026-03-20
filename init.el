@@ -220,7 +220,7 @@
 									 (interactive
 										(list
 										 (progn (unless recentf-mode (recentf-mode 1))
-														(completing-read (format-prompt "Open recent file" nil)
+														(completing-read (format-prompt "Recentf other window" nil)
 																						 recentf-list nil t))))
 									 (when file
 										 (progn
@@ -318,6 +318,12 @@
 	(electric-pair-mode)
 	(electric-indent-mode)
 	;; (desktop-save-mode 1)
+
+	(when (daemonp)
+		(keymap-global-set "C-x C-c" #'(lambda ()
+																		 (interactive)
+																		 (save-some-buffers)
+																		 (delete-frame))))
 
 	(keymap-global-set "M-<up>" #'(lambda ()
 																	(interactive)

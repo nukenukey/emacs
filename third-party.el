@@ -9,6 +9,7 @@
 					 :ensure t)))
 
 (use-package dired-sidebar
+	:ensure t
 	:defer t
 	:config
 	(setq dired-sidebar-display-alist '((side . right) (slot . -1))

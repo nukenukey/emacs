@@ -1,7 +1,15 @@
 #!/usr/bin/env fish
-argparse -x c,F c/client F/fullscreen f/floating e/eval= s/select_frame -- $argv
+argparse -x c,F -x i,c -x i,F -x i,f -x i,e -x i,s i/install c/client F/fullscreen f/floating e/eval= s/select_frame -- $argv
+or return
 
-#TODO: make select frame / auto maximize functionality
+if set -q _flag_i
+		if [ command -q stow ]
+				stow -t ~/.emacs.d/ .
+		else
+				echo "stow must be installed" >&2
+				exit 1
+		end
+end
 
 if set -q _flag_c
 		set emacs_command "emacsclient -c -a ''"
@@ -21,4 +29,5 @@ if set -q _flag_e
 		set -a emacs_command "-e $_flag_e"
 end
 
+echo "$emacs_command"
 eval "$emacs_command"

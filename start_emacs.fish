@@ -3,7 +3,7 @@ argparse -x c,F -x i,c -x i,F -x i,f -x i,e -x i,s i/install c/client F/fullscre
 or return
 
 if set -q _flag_i
-		if [ command -q stow ]
+		if command -q stow
 				stow -t ~/.emacs.d/ .
 		else
 				echo "stow must be installed" >&2
@@ -26,8 +26,12 @@ if set -q _flag_f
 end
 
 if set -q _flag_e
-		set -a emacs_command "-e $_flag_e"
+		set to_eval "-e $_flag_e"
 end
 
-echo "$emacs_command"
-eval "$emacs_command"
+if set -q _flag_s
+		set to_eval "--eval='(progn (select-frame-set-input-focus (selected-frame)) $_flag_e)'"
+end
+
+echo "$emacs_command $to_eval"
+eval "$emacs_command $to_eval"

@@ -26,7 +26,7 @@ if set -q _flag_f
 end
 
 if set -q _flag_e
-		set to_eval "-e $_flag_e"
+		set to_eval "--eval='$_flag_e'"
 end
 
 if set -q _flag_s

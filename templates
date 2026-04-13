@@ -4,6 +4,8 @@ fundamental-mode
 			 :ann "today's date"
 			 :doc "insert today's date")
 (todayy (format-time-string "%A %B %d"))
+(iso (format-time-string "%Y-%m-%dT%H:%M:%S")
+			:ann "the date in iso 8601 format")
 
 org-mode
 (\\equ "\\begin{equation}\n" r n "\\end{equation}")
@@ -22,4 +24,10 @@ org-mode
 (\\thm "$\\textcolor{red}{Theorem:}\\text{" p "}$\n\\begin{array}{l}\n" r "\n\\end{array}")
 (\\exp "\\textcolor{blue}{\\text{" r "}}")
 (\\pad "\\phantom{()()()}")
-(\\pic "$\\textcolor{red}{\\text{pic needed}}$")
+(\\pic "\\textcolor{red}{\\text{pic needed}}")
+(\\dpic "$\\textcolor{red}{\\text{pic needed}}$")
+
+c-mode
+(gtk "/* -*- compile-command: \"gcc $(pkg-config --cflags gtk4) -o front_end front_end.c $(pkg-config --libs gtk4)\"; -*- */
+#include <gtk/gtk.h>
+")

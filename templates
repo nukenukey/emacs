@@ -4,7 +4,7 @@ fundamental-mode
 			 :ann "today's date"
 			 :doc "insert today's date")
 (todayy (format-time-string "%A %B %d"))
-(iso (format-time-string "%Y-%m-%dT%H:%M:%S")
+(iso (format-time-string "%FT%T%z")
 			:ann "the date in iso 8601 format")
 
 org-mode
@@ -26,6 +26,8 @@ org-mode
 (\\pad "\\phantom{()()()}")
 (\\pic "\\textcolor{red}{\\text{pic needed}}")
 (\\dpic "$\\textcolor{red}{\\text{pic needed}}$")
+(\( "\\left(" r "\\right")
+(| "\\left|" r "\\right|")
 
 c-mode
 (gtk "/* -*- compile-command: \"gcc $(pkg-config --cflags gtk4) -o front_end front_end.c $(pkg-config --libs gtk4)\"; -*- */

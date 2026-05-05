@@ -89,9 +89,11 @@
 				org-export-with-section-numbers nil
 				org-export-with-toc t
 				org-export-dispatch-use-expert-ui t
-				org-todo-keywords '((sequence "TODO(t)" "CURRENT(c)" "URGENT(u)" "ASSIGNMENT(a)" "EVENT(e)" "EXAM(E)" "|" "DONE(d)" "NOTDOING(n)"))
+				org-todo-keywords '((sequence "TODO(t)" "CURRENT(c)" "URGENT(u)" "ASSIGNMENT(a)" "EVENT(e)" "EXAM(E)" "|" "DONE(d)" "NOTDOING(n)" "PARTIAL(p)"))
 				org-global-properties '(("ENERGY_ALL" . "high medium low")
 																("TIME_ALL" . "high medium low"))
+				;; org-faces-easy-properties '((todo . :background) (tag . :background) (priority . :background))
+				org-agenda-deadline-faces '((1.0 . (:foreground "red" :box t)) (0.5 . (:foreground "red" :box t)) (0.0 . (:foreground "red" :box t)))
 				org-agenda-sticky t))
 
 (use-package tramp
@@ -228,16 +230,12 @@
 											 (other-window 1)
 											 (funcall recentf-menu-action file)))))
   :init
-  (setq recentf-exclude '("^~/org/agenda/.*$" "^.*~$" "^~/.emacs.d/games/tetris-scores$" "^.*#$")
+  (setq recentf-exclude '("^~/org/agenda/.*$" "^.*~$" "^~/\\.emacs\\.d/games/tetris-scores$" "^.*#$")
 				recentf-max-saved-items 128
 				recentf-auto-cleanup 'mode)
   (add-to-list 'auto-save-hook #'recentf-save-list)
   :config
   (recentf-mode))
-
-;; (use-package flyspell
-;; 	:bind
-;; 	("C-." . flyspell-auto-correct-word))
 
 (use-package emacs
   :defer nil
@@ -283,7 +281,7 @@
   (unbind-key "C-x C-l")
 
   ;; just a wall of setq and setq-default
-  (setq	initial-scratch-message nil
+  (setq initial-scratch-message nil
 				scroll-conservatively 100
 				split-width-threshold 1
 				shell-command-prompt-show-cwd t
@@ -299,6 +297,7 @@
 																																						try-complete-lisp-symbol-partially
 																																						try-complete-lisp-symbol
 																																						try-expand-list try-expand-line))
+
   (setq-default tab-stop-list '(2)
 								indent-tab-modes nil
 								tab-always-indent nil
@@ -317,7 +316,7 @@
 	(add-hook 'text-mode-hook 'flyspell-mode)
 	(electric-pair-mode)
 	(electric-indent-mode)
-	;; (desktop-save-mode 1)
+	(column-number-mode -1)
 
 	(when (daemonp)
 		(keymap-global-set "C-x C-c" #'(lambda ()

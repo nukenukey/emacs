@@ -26,12 +26,12 @@ if set -q _flag_f
 end
 
 if set -q _flag_e
-		set to_eval "--eval='$_flag_e'"
+		set to_eval "-e '$_flag_e'"
 end
 
 if set -q _flag_s
-		set to_eval "--eval='(progn (select-frame-set-input-focus (selected-frame)) $_flag_e)'"
+		set to_eval "-e '(progn (select-frame-set-input-focus (selected-frame)) $_flag_e)'"
 end
 
 echo "$emacs_command $to_eval"
-eval "$emacs_command $to_eval"
+exec env -S "$emacs_command $to_eval" 

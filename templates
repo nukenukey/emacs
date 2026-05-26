@@ -43,3 +43,8 @@ c-mode
 java-mode
 (class "public class " p " {" n r n "}")
 (main "public static void main(String[] args) {" n r n "}")
+
+c-mode
+(glut "/* -*- compile-command: \"gcc test.c -lGL -lGLU -lglut\"; -*- */
+#include <GL/glut.h>\n")
+(stdio "#include <stdio.h>\n")

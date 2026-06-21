@@ -25,6 +25,7 @@
 
 (add-to-list 'default-frame-alist '(height . 25))
 (add-to-list 'default-frame-alist '(width . 75))
+(add-to-list 'default-frame-alist '(fullscreen . fullscreen))
 
 ;; alright now relax a little
 (add-hook 'after-init-hook (lambda ()

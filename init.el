@@ -21,6 +21,11 @@
 													 ("elpa" . "https://elpa.gnu.org/packages/"))
 				package-archive-priorities '(("elpa" . 4) ("nongnu" . 3) ("org" . 2) ("melpa" . 1))))
 
+(use-package calc
+	:defer t
+	:config
+	(setq calc-angle-mode 'rad))
+
 (use-package tetris
   :defer t
   :config
@@ -371,5 +376,4 @@
 	(keymap-global-set "C-x C-z" #'(lambda ()
 																	 (interactive))))
 
-;; (setq emacs-init-times `(("init" . ,(float-time (time-subtract (current-time) time/init)))))
 (add-to-list 'emacs-init-times `("init" . ,(float-time (time-subtract (current-time) time/init))))

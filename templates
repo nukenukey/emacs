@@ -33,7 +33,8 @@ org-mode
 (\\sum "\\displaystyle\\sum_{" p "}^" r)
 (\\lim "\\lim\\limits_{" p "}" r)
 (\[ "\\left[" r "\\right")
-
+(sp "\\text{ }")
+(\\x "\\xcancel{" r "}")
 
 c-mode
 (gtk "/* -*- compile-command: \"gcc $(pkg-config --cflags gtk4) -o front_end front_end.c $(pkg-config --libs gtk4)\"; -*- */

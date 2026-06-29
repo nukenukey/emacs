@@ -35,6 +35,7 @@ org-mode
 (\[ "\\left[" r "\\right")
 (sp "\\text{ }")
 (\\x "\\xcancel{" r "}")
+(\\lhop "\\overset{\\textcolor{red}{\\text{H}}}=")
 
 c-mode
 (gtk "/* -*- compile-command: \"gcc $(pkg-config --cflags gtk4) -o front_end front_end.c $(pkg-config --libs gtk4)\"; -*- */

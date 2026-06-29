@@ -29,7 +29,7 @@
   :defer t
   :ensure nil ;; I have this as a system package
   :config
-  (setq vterm-shell "/bin/bash")
+  (setq vterm-shell "/usr/bin/fish")
   (dolist (key '("M-:"
                  "M-!"
                  "M-&"

@@ -35,6 +35,11 @@
   (bind-key "d" 'tetris-move-right tetris-mode-map)
   (bind-key "m" 'tetris-move-bottom tetris-mode-map))
 
+(use-package flyspell
+	:defer nil
+	:bind
+	("C-." . flyspell-auto-correct-word))
+
 (use-package dired
   :defer t
 	:bind
@@ -122,7 +127,8 @@
 										(member method '("su" "sudo" "doas"))))))))
   :bind
   ("C-x C-r" . 'tramp-revert-buffer-with-sudo)
-  ("C-x M-r" . 'tramp-cleanup-all-buffers))
+	("C-x M-r" . 'tramp-cleanup-some-buffers)
+  ("C-x C-M-r" . 'tramp-cleanup-all-buffers))
 
 (use-package vc
   :defer t
@@ -136,6 +142,11 @@
   ("M-J" . 'windmove-down)
   ("M-K" . 'windmove-up)
   ("M-L" . 'windmove-right))
+
+(use-package eshell
+	:defer nil
+	:bind
+	("C-x j e" . 'eshell))
 
 (use-package display-line-numbers
   :defer nil
@@ -236,11 +247,28 @@
 											 (funcall recentf-menu-action file)))))
   :init
   (setq recentf-exclude '("^~/org/agenda/.*$" "^.*~$" "^~/\\.emacs\\.d/games/tetris-scores$" "^.*#$")
-				recentf-max-saved-items 128
+				recentf-max-saved-items 256
 				recentf-auto-cleanup 'mode)
   (add-to-list 'auto-save-hook #'recentf-save-list)
   :config
   (recentf-mode))
+
+(use-package eshell
+	:defer t
+	:bind
+	("M-<left>" . (lambda ()
+									(interactive)
+									(cd "-")))
+	:config
+	(defcustom eshell-prompt-function
+		(lambda ()
+			(concat (abbreviate-file-name (eshell/pwd))
+							(unless (eshell-exit-success-p)
+								(format " [%d]" eshell-last-command-status))
+							(if (= (file-user-uid) 0) " # " " $ ")))
+		"A function that returns the Eshell prompt string."
+		:type 'function
+		:group 'eshell-prompt))
 
 (use-package emacs
   :defer nil
@@ -279,7 +307,7 @@
   ("C-x j f" . 'flyspell-buffer)
   ("C-x j C-f" . 'flyspell-mode)
 
-  ("C-x j m" . 'make-directory)
+  ;; ("C-x j m" . 'make-directory)
 
   :config
   (keymap-set help-map "g" 'shortdoc-display-group)
@@ -373,7 +401,8 @@
 																	 (interactive)
 																	 (save-some-buffers)
 																	 (restart-emacs)))
-	(keymap-global-set "C-x C-z" #'(lambda ()
-																	 (interactive))))
+	;; (keymap-global-set "C-x C-z" #'(lambda ()
+																	 ;; (interactive)))
+	)
 
 (add-to-list 'emacs-init-times `("init" . ,(float-time (time-subtract (current-time) time/init))))

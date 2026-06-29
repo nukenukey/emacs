@@ -1,9 +1,14 @@
-;; -*- lexical-binding: t; -*-
+;;; conv.el --- convinience and quality of life stuff -*- lexical-binding: t; -*-
+;; Copyright (C) 2026 nukenukey
+;; Author: nukenukey <micklebubble22@gmail.com>
+;; Version: 1
 
-(setq-local time/conv (current-time))
+;;; Commentary:
+;; This package is for personal use, use at ur own risk and stuff
+
 
 (defun conv/text-input ()
-  "pop up emacs window to edit text in then save to clipboard and close frame a la josh blais"
+  "pop up emacs window to edit text in then save to clipboard and close frame like josh blais's one post"
   (interactive)
   (let ((buf (get-buffer-create "*conv/text-input*")))
     (with-current-buffer buf
@@ -59,6 +64,7 @@
 
 ;; (keymap-global-set "C-x C-c" 'conv/save-buffers-kill-terminal)
 
+;;;###autoload
 (defun conv/gpg-detach-sign-file (file)
   "function to detach-sign files using gpg bc epa doesn't gel w/ me"
   (interactive "b")
@@ -69,6 +75,7 @@
              (other-window 1))
     (error "file %s does not exist" file)))
 
+;;;###autoload
 (defun conv/gpg-verify-file (file)
   "function to verify files using gpg bc epa still doesn't gel w/ me"
   (interactive "f")
@@ -86,6 +93,7 @@
   `(,(substring file-name 0 (s-index-of "." file-name))
 		,(substring file-name (s-index-of "." file-name))))
 
+;;;###autoload
 (defun conv/cornell-init ()
   "makes windows for cornell style notes"
   (interactive)
@@ -97,6 +105,6 @@
 		(let ((conv/cornell-buffer-name-list (conv/cornell-split-file (buffer-name))))
 			(find-file (concat (car conv/cornell-buffer-name-list) "-cues" (car (cdr conv/cornell-buffer-name-list)))))))
 
+;;;###autoload
 (keymap-global-set "C-x j c" 'conv/cornell-init)
-
-(add-to-list 'emacs-init-times `("conv" . ,(float-time (time-subtract (current-time) time/conv))))
+;;; conv.el ends here

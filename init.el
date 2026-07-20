@@ -21,6 +21,33 @@
 													 ("elpa" . "https://elpa.gnu.org/packages/"))
 				package-archive-priorities '(("elpa" . 4) ("nongnu" . 3) ("org" . 2) ("melpa" . 1))))
 
+(use-package tex-mode
+	:defer t
+	:bind (:map tex-mode-map
+							("C-c C-p" . (lambda ()
+														 (interactive)
+														 (let ((pdf (concat
+																				 (car (cdr (list
+																										(string-match "^.*\\." (f-filename (f-this-file)))
+																										(substring (f-filename (f-this-file)) 0 (- (car (cdr (match-data))) 1)))))
+																				 ".pdf")))
+															 (if (file-exists-p pdf)
+																 	 (progn
+																		 (delete-other-windows)
+																		 (split-window-right)
+																		 ;; (enlarge-window 50)
+																		 (other-window 1)
+																		 (forward-char 4)
+																		 (find-file pdf)
+																		 (shrink-window-horizontally 19)
+																		 (other-window 1))
+																 (message "pdf does not exist")))))
+							("C-c M-p" . (lambda ()
+														 (interactive)
+														 (other-window 1)
+														 (revert-buffer nil t)
+														 (other-window 1)))))
+
 (use-package calc
 	:defer t
 	:config
@@ -34,11 +61,6 @@
   (bind-key "s" 'tetris-move-down tetris-mode-map)
   (bind-key "d" 'tetris-move-right tetris-mode-map)
   (bind-key "m" 'tetris-move-bottom tetris-mode-map))
-
-(use-package flyspell
-	:defer nil
-	:bind
-	("C-." . flyspell-auto-correct-word))
 
 (use-package dired
   :defer t
@@ -66,6 +88,12 @@
   (keymap-set project-prefix-map "v" #'(lambda ()
 																				 (interactive)
 																				 (cd (project-root (project-current t)))
+																				 (vterm)))
+  (keymap-set project-prefix-map "M-v" #'(lambda ()
+																				 (interactive)
+																				 (cd (project-root (project-current t)))
+																				 (split-window-right)
+																				 (other-window 1)
 																				 (vterm)))
 	(keymap-set project-prefix-map "s" #'dired-sidebar-toggle-sidebar)
   :config
@@ -201,6 +229,11 @@
   :defer nil
   :bind
   ("C-x j u" . 'compile)
+	("C-x j U" . (lambda ()
+								 (interactive)
+								 (compile compile-command)
+								 (other-window 1)
+								 (delete-window)))
   :init
   (add-hook 'c++-mode-hook (lambda ()
 														 (setq-local compile-command (concat
@@ -246,7 +279,12 @@
 											 (other-window 1)
 											 (funcall recentf-menu-action file)))))
   :init
-  (setq recentf-exclude '("^~/org/agenda/.*$" "^.*~$" "^~/\\.emacs\\.d/games/tetris-scores$" "^.*#$")
+  (setq recentf-exclude '(
+													;; "^~/org/agenda/.*$"
+													"^.*~$"
+													"^~/\\.emacs\\.d/games/tetris-scores$"
+													"^.*#$"
+													)
 				recentf-max-saved-items 256
 				recentf-auto-cleanup 'mode)
   (add-to-list 'auto-save-hook #'recentf-save-list)

@@ -1,5 +1,15 @@
 #!/usr/bin/env fish
-argparse -x c,F c/client F/fullscreen f/floating s/select_frame e/eval= -- $argv ; or return
+argparse -x c,F i/install c/client F/fullscreen f/floating s/select_frame e/eval= -- $argv ; or return
+
+if set -q _flag_i
+		if [ (command -q stow) ]
+				echo "stow must be installed" >&2
+				exit 1
+		else
+				stow -t ~/.emacs.d/ .
+				exit 0
+		end
+end
 
 if set -q _flag_c
 		set emacs_command "emacsclient -c -a '' "

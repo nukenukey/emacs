@@ -35,18 +35,19 @@
 																 	 (progn
 																		 (delete-other-windows)
 																		 (split-window-right)
-																		 ;; (enlarge-window 50)
 																		 (other-window 1)
-																		 (forward-char 4)
 																		 (find-file pdf)
 																		 (shrink-window-horizontally 19)
+																		 (sleep-for 0.05) ;; doc-view-fit-height-to-window needs the pdf to be fully loaded
+																		 (doc-view-fit-height-to-window)
 																		 (other-window 1))
-																 (message "pdf does not exist")))))
-							("C-c M-p" . (lambda ()
-														 (interactive)
-														 (other-window 1)
-														 (revert-buffer nil t)
-														 (other-window 1)))))
+																 (message "%s %s" pdf "does not exist")))))
+							;; ("C-c M-p" . (lambda ()
+							;; 							 (interactive)
+							;; 							 (other-window 1)
+							;; 							 (revert-buffer nil t)
+							;; 							 (other-window 1)))
+							))
 
 (use-package calc
 	:defer t

@@ -45,13 +45,13 @@ tex-mode
 \\usepackage{wrapfig}
 \\usepackage{bigints}
 ")
-(sideimg "\\begin{minipage}{0.7\\textwidth}"
-n r n
+(sideimg "\\begin{minipage}{0.65\\textwidth}"
+n r p n
 "\\end{minipage}
 \\hfill
 \\begin{minipage}{0.3\\textwidth}
-\\begin{tabular}{|p{\\textwidth}}\\\\
-
+\\begin{tabular}{p{\\textwidth}}\\\\
+\\includegraphics[width=\\textwidth]{" q "}
 \\end{tabular}
 \\end{minipage}")
 (twopart "\\begin{minipage}{" (p "" firstwidth)"\\textwidth}"

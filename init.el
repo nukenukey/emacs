@@ -73,7 +73,7 @@
 													(other-window 1)
 													(dired direc)))))
   :config
-  (setq dired-listing-switches "-Alhp"
+  (setq dired-listing-switches "-AlhF"
 				dired-kill-when-opening-new-dired-buffer t)
   (unbind-key "v" dired-mode-map)
   (unbind-key "e" dired-mode-map)
@@ -337,9 +337,7 @@
 
   ("C-x M-f" . 'find-file-other-window)
 
-  ("C-x j d s" . desktop-save)
-  ("C-x j d r" . desktop-read)
-  ("C-x j d c" . desktop-clear)
+	("C-x j d" . 'dictionary-lookup-definition)
 
   ("C-x j l" . 'lsp)
   ("C-x j M-l" . 'lsp-workspace-shutdown)

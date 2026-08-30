@@ -8,12 +8,12 @@
 					 :defer nil
 					 :ensure t)))
 
-(use-package dired-sidebar
-	:ensure t
-	:defer t
-	:config
-	(setq dired-sidebar-display-alist '((side . right) (slot . -1))
-				dired-sidebar-width 45))
+;; (use-package dired-sidebar
+;; 	:ensure t
+;; 	:defer t
+;; 	:config
+;; 	(setq dired-sidebar-display-alist '((side . right) (slot . -1))
+;; 				dired-sidebar-width 45))
 
 (use-package tempel
 	:ensure t

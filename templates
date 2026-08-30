@@ -38,6 +38,31 @@ org-mode
 (\\lhop "\\overset{\\textcolor{red}{\\text{H}}}=")
 
 tex-mode
+(mathpkg "\\usepackage{amsmath}
+\\usepackage{amssymb}
+\\usepackage{cancel}
+\\usepackage{graphicx}
+\\usepackage{wrapfig}
+\\usepackage{bigints}
+")
+(sideimg "\\begin{minipage}{0.65\\textwidth}"
+n r p n
+"\\end{minipage}
+\\hfill
+\\begin{minipage}{0.3\\textwidth}
+\\begin{tabular}{p{\\textwidth}}\\\\
+\\includegraphics[width=\\textwidth]{" q "}
+\\end{tabular}
+\\end{minipage}")
+(twopart "\\begin{minipage}{" (p "" firstwidth)"\\textwidth}"
+n r n
+"\\end{minipage}
+\\hfill
+\\begin{minipage}{" (s firstwidth)"\\textwidth}
+\\begin{tabular}{|p{\\textwidth}}\\\\
+
+\\end{tabular}
+\\end{minipage}")
 (doc "\\documentclass[12pt]{article}
 \\usepackage[a4paper, margin=0.5in]{geometry}
 \\usepackage{amsmath}

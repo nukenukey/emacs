@@ -7,22 +7,42 @@
 (setq custom-file (concat user-emacs-directory "custom.el"))
 (load-file custom-file)
 
+(setq nil-if-daemon (not (daemonp)))
+
 (use-package use-package
+	:defer nil
   :init
   (setq use-package-check-before-init t
 				use-package-always-defer nil))
 
 (use-package package
-  :defer t
+  :defer nil-if-daemon
   :config
   (setq package-archives '(("melpa" . "https://melpa.org/packages/")
 													 ("org" . "https://orgmode.org/elpa/")
 													 ("nongnu" . "https://elpa.nongnu.org/nongnu/")
-													 ("elpa" . "https://elpa.gnu.org/packages/"))
-				package-archive-priorities '(("elpa" . 4) ("nongnu" . 3) ("org" . 2) ("melpa" . 1))))
+													 ("gnu" . "https://elpa.gnu.org/packages/"))
+				package-archive-priorities '(("gnu" . 4) ("nongnu" . 3) ("org" . 2) ("melpa" . 1))))
+
+(use-package info
+	:defer nil-if-daemon
+	:init
+	(when (file-directory-p "~/.local/share/info")
+		(add-to-list 'Info-additional-directory-list (expand-file-name "~/.local/share/info"))))
+
+(use-package bookmark
+	:defer nil-if-daemon
+	:init
+	(setq bookmark-save-flag 1))
+
+(use-package octave
+	:defer nil-if-daemon
+	:init
+	(setq auto-mode-alist (assoc-delete-all "\\.m\\'" auto-mode-alist))
+	(add-to-list 'auto-mode-alist '("\\.m\\'" . octave-mode)))
 
 (use-package tex-mode
-	:defer t
+	:defer nil-if-daemon
 	:bind (:map tex-mode-map
 							("C-c C-p" . (lambda ()
 														 (interactive)
@@ -40,21 +60,28 @@
 																		 (forward-char 4)
 																		 (find-file pdf)
 																		 (shrink-window-horizontally 19)
+																		 (sleep-for 0.05) ;; doc-view-fit-height-to-window needs the pdf to be fully loaded
+																		 (doc-view-fit-page-to-window)
 																		 (other-window 1))
-																 (message "pdf does not exist")))))
-							("C-c M-p" . (lambda ()
-														 (interactive)
-														 (other-window 1)
-														 (revert-buffer nil t)
-														 (other-window 1)))))
+																 (message "%s %s" pdf "does not exist")))))))
 
-(use-package calc
-	:defer t
-	:config
-	(setq calc-angle-mode 'rad))
+;; (defun calc-ask-deg-rad ()
+;; 	;; (interactive "cDegree, Radians, or HMS?")
+;; 	(let ((drh (downcase (read-char "Degrees(d), Radians(r), or HMS(nil)?"))))
+;; 		(when (eq drh 100)
+;; 			(setq calc-angle-mode 'deg))
+;; 		(when (eq drh 114)
+;; 			(setq calc-angle-mode 'rad))
+;; 		(when (eq drh 104)
+;; 			(setq calc-angle-mode 'hms))))
+
+;; (use-package calc
+;; 	:defer t
+;; 	:init
+;; 	(add-hook 'calc-mode-hook 'calc-ask-deg-rad))
 
 (use-package tetris
-  :defer t
+  :defer nil-if-daemon
   :config
   (bind-key "w" 'tetris-rotate-prev tetris-mode-map)
   (bind-key "a" 'tetris-move-left tetris-mode-map)
@@ -63,7 +90,7 @@
   (bind-key "m" 'tetris-move-bottom tetris-mode-map))
 
 (use-package dired
-  :defer t
+  :defer nil-if-daemon
 	:bind
 	("C-x M-d" . (lambda (direc)
 								 (interactive "D")
@@ -83,24 +110,23 @@
 	(bind-key "C-j" 'dired-find-file))
 
 (use-package project
-  :defer t
+  :defer nil-if-daemon
   :init
   (keymap-set project-prefix-map "v" #'(lambda ()
 																				 (interactive)
 																				 (cd (project-root (project-current t)))
 																				 (vterm)))
   (keymap-set project-prefix-map "M-v" #'(lambda ()
-																				 (interactive)
-																				 (cd (project-root (project-current t)))
-																				 (split-window-right)
-																				 (other-window 1)
-																				 (vterm)))
-	(keymap-set project-prefix-map "s" #'dired-sidebar-toggle-sidebar)
+																					 (interactive)
+																					 (cd (project-root (project-current t)))
+																					 (split-window-right)
+																					 (other-window 1)
+																					 (vterm)))
   :config
   (add-to-list 'project-switch-commands '(project-dired "Dired" "D")))
 
 (use-package org
-  :defer 3
+  :defer nil-if-daemon
   :bind
   ("C-x j t" . (lambda ()
 								 (interactive)
@@ -127,15 +153,15 @@
 				org-export-with-section-numbers nil
 				org-export-with-toc t
 				org-export-dispatch-use-expert-ui t
-				org-todo-keywords '((sequence "TODO(t)" "CURRENT(c)" "URGENT(u)" "ASSIGNMENT(a)" "EVENT(e)" "EXAM(E)" "|" "DONE(d)" "NOTDOING(n)" "PARTIAL(p)"))
+				org-todo-keywords '((sequence "TODO(t)" "CURRENT(c)" "URGENT(u)" "ASSIGNMENT(a)" "EVENT(e)" "EXAM(E)" "LAB(l)" "|" "DONE(d)" "NOTDOING(n)" "PARTIAL(p)"))
 				org-global-properties '(("ENERGY_ALL" . "high medium low")
 																("TIME_ALL" . "high medium low"))
 				;; org-faces-easy-properties '((todo . :background) (tag . :background) (priority . :background))
-				org-agenda-deadline-faces '((1.0 . (:foreground "red" :box t)) (0.5 . (:foreground "red" :box t)) (0.0 . (:foreground "red" :box t)))
+				org-agenda-deadline-faces '((1.0 . (:foreground "red" :underline t)) (0.5 . (:foreground "red" :underline t)) (0.0 . (:foreground "red" :underline t)))
 				org-agenda-sticky t))
 
 (use-package tramp
-  :defer t
+  :defer nil-if-daemon
   :init
   (setq tramp-use-scp-direct-remote-copying t) ;; for speed
 
@@ -159,7 +185,7 @@
   ("C-x C-M-r" . 'tramp-cleanup-all-buffers))
 
 (use-package vc
-  :defer t
+  :defer nil-if-daemon
   :init
   (setq vc-handled-backends '(Git)))
 
@@ -172,9 +198,11 @@
   ("M-L" . 'windmove-right))
 
 (use-package eshell
-	:defer nil
+	:defer nil-if-daemon
 	:bind
-	("C-x j e" . 'eshell))
+	("C-x j e" . 'eshell)
+	:init
+	(setq eshell-banner-message ""))
 
 (use-package display-line-numbers
   :defer nil
@@ -208,7 +236,7 @@
 (use-package tab-bar
   :commands
   (tab-bar-new-tab)
-  :defer t
+  :defer nil-if-daemon
   :config
   ;; (setq tab-bar-format nil)
   (keymap-set tab-prefix-map "l" #'(lambda ()
@@ -226,7 +254,7 @@
   (keymap-global-set "C-S-t" 'tab-bar-undo-close-tab))
 
 (use-package compile
-  :defer nil
+  :defer nil-if-daemon
   :bind
   ("C-x j u" . 'compile)
 	("C-x j U" . (lambda ()
@@ -240,7 +268,7 @@
 																													"g++ -fdiagnostics-all-candidates -fsanitize=address -Wall -Wextra -Werror -Wpedantic -g "
 																													(f-filename (f-this-file))
 																													" -o "
-																													(substring (f-filename (f-this-file)) 0 (s-index-of "." (f-filename (f-this-file))))))))
+																													(f-base (f-filename (f-this-file)))))))
   (add-hook 'java-mode-hook (lambda ()
 															(setq-local compile-command (concat "javac " (f-filename (f-this-file))))))
   (add-hook 'rust-mode-hook (lambda ()
@@ -280,23 +308,23 @@
 											 (funcall recentf-menu-action file)))))
   :init
   (setq recentf-exclude '(
-													;; "^~/org/agenda/.*$"
+													"^~/org/agenda/.*$"
 													"^.*~$"
 													"^~/\\.emacs\\.d/games/tetris-scores$"
 													"^.*#$"
 													)
-				recentf-max-saved-items 256
+				recentf-max-saved-items 128
 				recentf-auto-cleanup 'mode)
   (add-to-list 'auto-save-hook #'recentf-save-list)
   :config
   (recentf-mode))
 
 (use-package eshell
-	:defer t
+	:defer nil-if-daemon
 	:bind
 	("M-<left>" . (lambda ()
 									(interactive)
-									(cd "-")))
+									(eshell/cd "-")))
 	:config
 	(defcustom eshell-prompt-function
 		(lambda ()
@@ -344,6 +372,7 @@
   ("C-x j M-l" . 'lsp-workspace-shutdown)
   ("C-x j f" . 'flyspell-buffer)
   ("C-x j C-f" . 'flyspell-mode)
+	("M-i" . 'overwrite-mode)
 
   ;; ("C-x j m" . 'make-directory)
 
@@ -440,7 +469,7 @@
 																	 (save-some-buffers)
 																	 (restart-emacs)))
 	;; (keymap-global-set "C-x C-z" #'(lambda ()
-																	 ;; (interactive)))
+	;; (interactive)))
 	)
 
 (add-to-list 'emacs-init-times `("init" . ,(float-time (time-subtract (current-time) time/init))))

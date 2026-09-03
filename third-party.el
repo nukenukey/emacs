@@ -3,17 +3,26 @@
 (setq-local time/third-party (current-time))
 
 (dolist (package
-				 '(rust-mode fish-mode typescript-mode tldr magit fireplace counsel ivy-rich)) ;; these dont need any more configuration than :ensure t
+				 '(rust-mode fish-mode typescript-mode tldr fireplace counsel ivy-rich)) ;; these dont need any more configuration than :ensure t
   (eval `(use-package ,package
 					 :defer nil
 					 :ensure t)))
 
-;; (use-package dired-sidebar
-;; 	:ensure t
-;; 	:defer t
-;; 	:config
-;; 	(setq dired-sidebar-display-alist '((side . right) (slot . -1))
-;; 				dired-sidebar-width 45))
+(use-package magit
+	:ensure t
+	:defer t
+	:bind
+	("C-x M-g" . (lambda ()
+								 (interactive)
+								 (magit)
+								 (delete-other-windows))))
+
+(use-package dired-sidebar
+	:ensure t
+	:defer t
+	:config
+	(setq dired-sidebar-display-alist '((side . right) (slot . -1))
+				dired-sidebar-width 45))
 
 (use-package tempel
 	:ensure t
@@ -26,6 +35,11 @@
   (vterm)
   :bind
   ("C-x j v" . 'vterm)
+	("C-x j M-v" . (lambda ()
+									 (interactive)
+									 (split-window-right)
+									 (other-window 1)
+									 (vterm)))
   :defer t
   :ensure nil ;; I have this as a system package
   :config

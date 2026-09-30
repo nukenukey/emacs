@@ -41,6 +41,26 @@
 	(setq auto-mode-alist (assoc-delete-all "\\.m\\'" auto-mode-alist))
 	(add-to-list 'auto-mode-alist '("\\.m\\'" . octave-mode)))
 
+(defcustom tex/figure-drawing-program ""
+	"This is the program which will be called to draw stuff for latex")
+
+(defun tex/draw-and-insert-figure (png)
+	(interactive "FPng to edit:")
+	(f-touch png)
+	(shell-command (concat tex/figure-drawing-program " " png))
+	(insert (concat "\\includegraphics{ " png " }\n")))
+
+(defun tex/get-nice-title ()
+	(string-trim (mapconcat (lambda (word)
+														(if (member word '("and" "or" "at" "a" "an" "of"))
+																(concat word " ")
+															(capitalize (concat word " "))))
+													(string-split (car (cdr (string-split (f-base (f-this-file)) "_"))) "-"))))
+
+;; (defun tex/new-tex-file (f)
+;; 	(interactive "F")
+;; 	(find-file (concat (format-time-string "%F"))))
+
 (use-package tex-mode
 	:defer nil-if-daemon
 	:bind (:map tex-mode-map
@@ -59,26 +79,12 @@
 																		 (other-window 1)
 																		 (forward-char 4)
 																		 (find-file pdf)
-																		 (shrink-window-horizontally 19)
+																		 (shrink-window-horizontally 24)
 																		 (sleep-for 0.05) ;; doc-view-fit-height-to-window needs the pdf to be fully loaded
 																		 (doc-view-fit-page-to-window)
 																		 (other-window 1))
-																 (message "%s %s" pdf "does not exist")))))))
-
-;; (defun calc-ask-deg-rad ()
-;; 	;; (interactive "cDegree, Radians, or HMS?")
-;; 	(let ((drh (downcase (read-char "Degrees(d), Radians(r), or HMS(nil)?"))))
-;; 		(when (eq drh 100)
-;; 			(setq calc-angle-mode 'deg))
-;; 		(when (eq drh 114)
-;; 			(setq calc-angle-mode 'rad))
-;; 		(when (eq drh 104)
-;; 			(setq calc-angle-mode 'hms))))
-
-;; (use-package calc
-;; 	:defer t
-;; 	:init
-;; 	(add-hook 'calc-mode-hook 'calc-ask-deg-rad))
+																 (message "%s %s" pdf "does not exist")))))
+							("C-c TAB" . 'tex/draw-and-insert-figure)))
 
 (use-package tetris
   :defer nil-if-daemon
@@ -278,11 +284,11 @@
 																												"gcc -fsanitize=address -Wall -Wextra -Werror -Wpedantic -g "
 																												(f-filename (f-this-file))
 																												" -o "
-																												(substring (f-filename (f-this-file)) 0 (s-index-of "." (f-filename (f-this-file))))))))
+																												(f-base (f-filename (f-this-file)))))))
 	(add-hook 'latex-mode-hook (lambda ()
 															 (setq-local compile-command (concat
 																														"pdflatex "
-																														(f-filename (f-this-file)))))))
+																														(s-replace-regexp "'" "\\\\'" (f-filename (f-this-file))))))))
 
 (use-package epa
   :defer t
@@ -354,7 +360,7 @@
   ("C-k" . 'kill-whole-line)
   ("M-k" . 'kill-line)
   ("C-x C-a" . 'mark-whole-buffer)
-  ("M-D" . 'backward-kill-word)
+  ("M-D" . 'backward-kill-sexp)
 
   ("s-x" . 'counsel-linux-app)
 
@@ -381,6 +387,20 @@
   (unbind-key "C-x C-l")
 
   ;; just a wall of setq and setq-default
+	(setq treesit-language-source-alist
+				'((typescript . ("https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src"))
+					(tsx . ("https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src"))
+					(ruby . ("https://github.com/tree-sitter/tree-sitter-ruby"))
+					(c . ("https://github.com/tree-sitter/tree-sitter-c"))
+					(c++ . ("https://github.com/tree-sitter/tree-sitter-cpp"))
+					(rust . ("https://github.com/tree-sitter/tree-sitter-rust"))
+					(go . ("https://github.com/tree-sitter/tree-sitter-go"))
+					(python . ("https://github.com/tree-sitter/tree-sitter-python"))
+					(html . ("https://github.com/tree-sitter/tree-sitter-html"))
+					(java . ("https://github.com/tree-sitter/tree-sitter-java"))
+					(kotlin . ("https://github.com/tree-sitter/kotlin-tree-sitter"))
+					))
+	
   (setq initial-scratch-message nil
 				scroll-conservatively 100
 				split-width-threshold 1
@@ -405,7 +425,6 @@
 								tab-width 2
 								cursor-type 'bar)
   (defvaralias 'c-basic-offset 'tab-width)
-  ;; (put 'narrow-to-region 'disabled nil)
 
   (dolist (file (mapcar (lambda (f) ;; load user files
 													(concat user-emacs-directory f))

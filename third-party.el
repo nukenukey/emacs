@@ -8,6 +8,15 @@
 					 :defer nil
 					 :ensure t)))
 
+(use-package constants
+	:defer nil
+	:ensure t
+	:config
+	(setq constants-user-defined
+			'(("vacuump" "vp"
+				"Vacuum Permeability"
+				"8.8541878188e-12 [F/m]"))))
+
 (use-package magit
 	:ensure t
 	:defer t
@@ -16,13 +25,6 @@
 								 (interactive)
 								 (magit)
 								 (delete-other-windows))))
-
-(use-package dired-sidebar
-	:ensure t
-	:defer t
-	:config
-	(setq dired-sidebar-display-alist '((side . right) (slot . -1))
-				dired-sidebar-width 45))
 
 (use-package tempel
 	:ensure t
@@ -33,6 +35,8 @@
 (use-package vterm
   :commands
   (vterm)
+	:config
+	(setq vterm-environment '("VTERM="))
   :bind
   ("C-x j v" . 'vterm)
 	("C-x j M-v" . (lambda ()
@@ -100,17 +104,16 @@
   :defer nil
   :ensure t
   :init
-  (setq doom-modeline-icon nil)
-  (unless (string= (getenv "XDG_CURRENT_DESKTOP") "sway") ;; unless we are in sway, load a bunch of modeline stuff
-		(setq doom-modeline-time t
-					doom-modeline-time-analogue-clock t
-					doom-modeline-time-clock-size 11
-					display-time-format "%H:%M %a %b %d"
-					display-time-default-load-average nil
-					doom-modeline-battery t)
-		(display-battery-mode)
-		(display-time))
-  :config
-  (doom-modeline-mode))
+  (setq doom-modeline-icon nil
+				doom-modeline-time t
+				doom-modeline-time-analogue-clock t
+				doom-modeline-time-clock-size 11
+				display-time-format "%H:%M %a %b %d"
+				display-time-default-load-average nil
+				doom-modeline-battery t)
+	(display-battery-mode)
+	(display-time)
+:config
+(doom-modeline-mode))
 
 (add-to-list 'emacs-init-times `("third-party" . ,(float-time (time-subtract (current-time) time/third-party))))

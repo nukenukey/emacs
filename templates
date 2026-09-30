@@ -5,74 +5,50 @@ fundamental-mode
 			 :doc "insert today's date")
 (todayy (format-time-string "%A %B %d"))
 (iso (format-time-string "%FT%T%z")
-			:ann "the date in iso 8601 format")
-
-;; org-mode
-;; (\\equ "\\begin{equation}\n" r n "\\end{equation}")
-;; (\\arr "\\begin{array}{lcr}\n" r n "\\end{array}")
-;; (\\arrl "\\begin{array}{l}\n" r n "\\end{array}")
-;; (\\arrr "\\begin{array}{r}\n" r n "\\end{array}")
-;; (\\box "\\boxed{\n" r n "}")
-;; (\\ce "\\ce{" r "}")
-;; (\\dce "$\\ce{" r "}$")
-;; (img "[[" p "][" p "]]")
-;; (\\def "\\begin{equation}\\boxed{\n\\textbf{Definition}\\text{: " r "}" n "}\\end{equation}")
-;; (\\fbox "$\\fbox{\\textbf{Definition}" r "}$")
-;; (\\tc "\\textcolor{" (p "color: ") "}{\\text{" r "}}")
-;; (\\dtc "$\\textcolor{" (p "color: ") "}{" r "}$")
-;; (\\note "\\textcolor{red}{note}: " r)
-;; (\\dnote "$\\textcolor{red}{note}$: " r)
-;; (\\begin "\\begin{" (p "" whatisit) "}\n" r "\n\\end{" (s whatisit) "}")
-;; (\\thm "$\\textcolor{red}{Theorem:}\\text{" p "}$\n\\begin{array}{l}\n" r "\n\\end{array}")
-;; (\\exp "\\textcolor{blue}{\\text{" r "}}")
-;; (\\pad "\\phantom{()()()}")
-;; (\\pic "\\textcolor{red}{\\text{pic needed}}")
-;; (\\dpic "$\\textcolor{red}{\\text{pic needed}}$")
-;; (\( "\\left(" r "\\right")
-;; (| "\\left|" r "\\right|")
-;; (\\sum "\\displaystyle\\sum_{" p "}^" r)
-;; (\\lim "\\lim\\limits_{" p "}" r)
-;; (\[ "\\left[" r "\\right")
-;; (sp "\\text{ }")
-;; (\\x "\\xcancel{" r "}")
-;; (\\lhop "\\overset{\\textcolor{red}{\\text{H}}}=")
+		 :ann "the date in iso 8601 format")
 
 tex-mode
-(mathpkg "\\usepackage{amsmath}
+(mathpkg
+ "\\usepackage{amsmath}
 \\usepackage{amssymb}
 \\usepackage{cancel}
 \\usepackage{graphicx}
 \\usepackage{wrapfig}
 \\usepackage{bigints}
 ")
-(sideimg "\\begin{minipage}{0.65\\textwidth}"
-n r p n
-"\\end{minipage}
+(sideimg
+ "\\begin{minipage}{0.65\\textwidth}"
+ n r p n
+ "\\end{minipage}
 \\hfill
 \\begin{minipage}{0.3\\textwidth}
 \\begin{tabular}{p{\\textwidth}}\\\\
 \\includegraphics[width=\\textwidth]{" q "}
 \\end{tabular}
 \\end{minipage}")
-(twopart "\\begin{minipage}{" (p "" firstwidth)"\\textwidth}"
-n r n
-"\\end{minipage}
+(twopart
+ "\\begin{minipage}{" (p "" firstwidth)"\\textwidth}"
+ n r n
+ "\\end{minipage}
 \\hfill
 \\begin{minipage}{" (s firstwidth)"\\textwidth}
 \\begin{tabular}{|p{\\textwidth}}
 
 \\end{tabular}
 \\end{minipage}\\\\")
-(boiler "\\documentclass[12pt]{article}
+(boiler
+"%% created first on " (format-time-string "%FT%T%z") "
+%% id: " (string-trim (shell-command-to-string (concat "uuidgen -s -n @url -N " (f-base (f-this-file))))) "
+\\documentclass[12pt]{article}
 \\usepackage[a4paper, margin=0.5in]{geometry}
 \\usepackage{amsmath}
 \\usepackage{cancel}
-\\title{" p "}
+\\title{" (tex/get-nice-title) "}
 \\author{Michael Burdick\\\\\\textit{Harper College}}
 \\begin{document}
 \\maketitle"n
-r n
-"\\end{document}")
+ r n
+ "\\end{document}")
 (\\sub "\\subsection*{" r "}")
 (\\equ "\\begin{equation}\n" r n "\\end{equation}")
 (\\arr "\\begin{array}{lcr}\n" r n "\\end{array}")

@@ -2,6 +2,8 @@
 
 (setq-local time/third-party (current-time))
 
+(setq nil-if-daemon (not (daemonp)))
+
 (dolist (package
 				 '(rust-mode fish-mode typescript-mode tldr fireplace counsel ivy-rich)) ;; these dont need any more configuration than :ensure t
   (eval `(use-package ,package
@@ -9,17 +11,17 @@
 					 :ensure t)))
 
 (use-package constants
-	:defer nil
+	:defer nil-if-daemon
 	:ensure t
 	:config
 	(setq constants-user-defined
 			'(("vacuump" "vp"
-				"Vacuum Permeability"
+				"Vacuum permittivity"
 				"8.8541878188e-12 [F/m]"))))
 
 (use-package magit
 	:ensure t
-	:defer t
+	:defer nil-if-daemon
 	:bind
 	("C-x M-g" . (lambda ()
 								 (interactive)
@@ -44,7 +46,7 @@
 									 (split-window-right)
 									 (other-window 1)
 									 (vterm)))
-  :defer t
+  :defer nil-if-daemon
   :ensure nil ;; I have this as a system package
   :config
   (setq vterm-shell "/usr/bin/zsh")
@@ -63,7 +65,7 @@
     (unbind-key key vterm-mode-map)))
 
 (use-package swiper
-  :defer t
+  :defer nil-if-daemon
   :ensure t
   :bind
   ("C-s" . 'swiper)
@@ -110,9 +112,14 @@
 				doom-modeline-time-clock-size 11
 				display-time-format "%H:%M %a %b %d"
 				display-time-default-load-average nil
+				;; mode-line-percent-position '(1 "")
+				;; mode-line-position ""
+				mode-line-position-column-format nil
+				doom-modeline-percent-position nil
 				doom-modeline-battery t)
 	(display-battery-mode)
 	(display-time)
+	(size-indication-mode)
 :config
 (doom-modeline-mode))
 

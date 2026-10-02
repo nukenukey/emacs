@@ -79,7 +79,7 @@
 																		 (other-window 1)
 																		 (forward-char 4)
 																		 (find-file pdf)
-																		 (shrink-window-horizontally 24)
+																		 (shrink-window-horizontally 22)
 																		 (sleep-for 0.05) ;; doc-view-fit-height-to-window needs the pdf to be fully loaded
 																		 (doc-view-fit-page-to-window)
 																		 (other-window 1))
@@ -214,7 +214,8 @@
   :defer nil
   :init
   (column-number-mode)
-  (setq display-line-numbers-width-start t)
+  (setq display-line-numbers-width-start t
+				display-line-numbers-grow-only t)
   (global-display-line-numbers-mode t)
   (dolist (mode '(term-mode-hook ;; not in some modes please
 									shell-mode-hook

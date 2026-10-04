@@ -320,7 +320,7 @@
 													"^~/\\.emacs\\.d/games/tetris-scores$"
 													"^.*#$"
 													)
-				recentf-max-saved-items 128
+				recentf-max-saved-items nil
 				recentf-auto-cleanup 'mode)
   (add-to-list 'auto-save-hook #'recentf-save-list)
   :config

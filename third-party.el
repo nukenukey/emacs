@@ -15,9 +15,9 @@
 	:ensure t
 	:config
 	(setq constants-user-defined
-			'(("vacuump" "vp"
-				"Vacuum permittivity"
-				"8.8541878188e-12 [F/m]"))))
+				'(("vacuump" "vp"
+					 "Vacuum permittivity"
+					 "8.8541878188e-12 [F/m]"))))
 
 (use-package magit
 	:ensure t
@@ -115,12 +115,13 @@
 				;; mode-line-percent-position '(1 "")
 				;; mode-line-position ""
 				mode-line-position-column-format nil
+				doom-modeline-position-line-format nil
 				doom-modeline-percent-position nil
 				doom-modeline-battery t)
 	(display-battery-mode)
 	(display-time)
 	(size-indication-mode)
-:config
-(doom-modeline-mode))
+	:config
+	(doom-modeline-mode))
 
 (add-to-list 'emacs-init-times `("third-party" . ,(float-time (time-subtract (current-time) time/third-party))))

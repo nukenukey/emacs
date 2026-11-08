@@ -80,7 +80,7 @@ tex-mode
 (\\lhop "\\overset{\\textcolor{red}{\\text{H}}}=")
 
 c-mode
-(gtk "/* -*- compile-command: \"gcc $(pkg-config --cflags gtk4) -o front_end front_end.c $(pkg-config --libs gtk4)\"; -*- */
+(gtk "/* -*- compile-command: \"gcc $(pkg-config --cflags gtk4) -o " (f-base (f-this-file)) " " (f-filename (f-this-file)) " $(pkg-config --libs gtk4)\"; -*- */
 #include <gtk/gtk.h>
 ")
 

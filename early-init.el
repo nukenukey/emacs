@@ -3,8 +3,8 @@
 (setq-local time/early-init (current-time))
 
 ;; just go fucking crazy
-(setq gc-cons-threshold (* 512 1024 1024) ;; you can go up to 512mb before garbage collecting, most-positive-fixnum didn't seem to improve the init time
-      gc-cons-percentage 0.8) ;; you can go up to 80 percent of the heap before garbage collection
+(setq gc-cons-threshold (* 512 1024 1024) ;; you can go up to 512mib before garbage collecting, most-positive-fixnum didn't seem to improve the init time
+			gc-cons-percentage 0.8) ;; you can go up to 80 percent of the heap before garbage collection
 
 ;; do some optimize :>
 (setq native-comp-async-jobs-number 0) ;; use half of the cpu cores for native compilation - this value is supposed to be 0, not a mistake
@@ -18,7 +18,7 @@
 (blink-cursor-mode 0)
 
 (setq use-short-answers t ;; just y and n pls
-      confirm-kill-emacs 'yes-or-no-p
+			confirm-kill-emacs 'yes-or-no-p
 			inhibit-default-init t ;; default init stuff
 			inhibit-startup-screen t
 			ring-bell-function 'ignore)
@@ -29,7 +29,7 @@
 
 ;; alright now relax a little
 (add-hook 'after-init-hook (lambda ()
-                             (setq gc-cons-threshold (* 80 100 100)
-                                   gc-cons-percentage 0.1))) ;; when emacs is settled down, make the thresholds more reasonable
+														 (setq gc-cons-threshold (* 80 100 100)
+																	 gc-cons-percentage 0.1))) ;; when emacs is settled down, make the thresholds more reasonable
 
 (setq emacs-init-times `(("early-init" . ,(float-time (time-subtract (current-time) time/early-init)))))

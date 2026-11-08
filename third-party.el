@@ -37,76 +37,74 @@
 (use-package vterm
   :commands
   (vterm)
-	:config
-	(setq vterm-environment '("VTERM="))
-  :bind
-  ("C-x j v" . 'vterm)
+	:bind
+	("C-x j v" . 'vterm)
 	("C-x j M-v" . (lambda ()
 									 (interactive)
 									 (split-window-right)
 									 (other-window 1)
 									 (vterm)))
-  :defer nil-if-daemon
-  :ensure nil ;; I have this as a system package
-  :config
-  (setq vterm-shell "/usr/bin/zsh")
-  (dolist (key '("M-:"
-                 "M-!"
-                 "M-&"
-                 "M-<"
-                 "M->"
+	:defer nil-if-daemon
+	:ensure nil ;; I have this as a system package
+	:config
+	(setq vterm-shell "/usr/bin/zsh")
+	(dolist (key '("M-:"
+								 "M-!"
+								 "M-&"
+								 "M-<"
+								 "M->"
 								 "M-L"
 								 "M-J"
 								 "M-K"
 								 "M-H"
 								 "M-W"
 								 "C-SPC"
-                 "M-w"))
-    (unbind-key key vterm-mode-map)))
+								 "M-w"))
+		(unbind-key key vterm-mode-map)))
 
 (use-package swiper
-  :defer nil-if-daemon
-  :ensure t
-  :bind
-  ("C-s" . 'swiper)
-  ("C-S-s" . 'swiper-thing-at-point))
+	:defer nil-if-daemon
+	:ensure t
+	:bind
+	("C-s" . 'swiper)
+	("C-S-s" . 'swiper-thing-at-point))
 
 (use-package ivy
-  :defer nil ;; I will want ivy always
-  :ensure t
-  :bind
-  ("C-x b" . 'counsel-ibuffer)
-  :init
-  (setq ivy-initial-inputs-alist nil) ;; no leading ^ pls
-  :config
-  (ivy-mode)
-  (ivy-rich-mode)
-  (counsel-mode))
+	:defer nil ;; I will want ivy always
+	:ensure t
+	:bind
+	("C-x b" . 'counsel-ibuffer)
+	:init
+	(setq ivy-initial-inputs-alist nil) ;; no leading ^ pls
+	:config
+	(ivy-mode)
+	(ivy-rich-mode)
+	(counsel-mode))
 
 (use-package multiple-cursors
-  :defer nil ;; I want this always available
-  :ensure t
-  :bind
-  ("C-x m C-p" . 'mc/mark-previous-lines)
-  ("C-x m p" . 'mc/mark-previous-like-this)
-  ("C-x m C-n" . 'mc/mark-next-lines)
-  ("C-x m n" . 'mc/mark-next-like-this)
-  ("C-x m !" . 'mc/mark-all-like-this)
-  ("C-x m r" . 'mc/mark-all-in-region)
-  ("C-x m a" . 'mc/edit-beginnings-of-lines)
-  ("C-x m e" . 'mc/edit-ends-of-lines)
-  :init
-  (add-hook 'multiple-cursors-mode-hook (lambda ()
+	:defer nil ;; I want this always available
+	:ensure t
+	:bind
+	("C-x m C-p" . 'mc/mark-previous-lines)
+	("C-x m p" . 'mc/mark-previous-like-this)
+	("C-x m C-n" . 'mc/mark-next-lines)
+	("C-x m n" . 'mc/mark-next-like-this)
+	("C-x m !" . 'mc/mark-all-like-this)
+	("C-x m r" . 'mc/mark-all-in-region)
+	("C-x m a" . 'mc/edit-beginnings-of-lines)
+	("C-x m e" . 'mc/edit-ends-of-lines)
+	:init
+	(add-hook 'multiple-cursors-mode-hook (lambda ()
 																					(if multiple-cursors-mode
 																							(setq cursor-type t)
 																						(setq cursor-type 'bar))))
-  (unbind-key "C-x m" global-map))
+	(unbind-key "C-x m" global-map))
 
 (use-package doom-modeline
-  :defer nil
-  :ensure t
-  :init
-  (setq doom-modeline-icon nil
+	:defer nil
+	:ensure t
+	:init
+	(setq doom-modeline-icon nil
 				doom-modeline-time t
 				doom-modeline-time-analogue-clock t
 				doom-modeline-time-clock-size 11

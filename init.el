@@ -11,18 +11,23 @@
 
 (use-package use-package
 	:defer nil
-  :init
-  (setq use-package-check-before-init t
+	:init
+	(setq use-package-check-before-init t
 				use-package-always-defer nil))
 
 (use-package package
-  :defer nil-if-daemon
-  :config
-  (setq package-archives '(("melpa" . "https://melpa.org/packages/")
+	:defer nil-if-daemon
+	:config
+	(setq package-archives '(("melpa" . "https://melpa.org/packages/")
 													 ("org" . "https://orgmode.org/elpa/")
 													 ("nongnu" . "https://elpa.nongnu.org/nongnu/")
 													 ("gnu" . "https://elpa.gnu.org/packages/"))
 				package-archive-priorities '(("gnu" . 4) ("nongnu" . 3) ("org" . 2) ("melpa" . 1))))
+
+(use-package calc
+	:defer nil-if-daemon
+	:init
+	(setq calc-display-trail nil))
 
 (use-package info
 	:defer nil-if-daemon
@@ -41,25 +46,13 @@
 	(setq auto-mode-alist (assoc-delete-all "\\.m\\'" auto-mode-alist))
 	(add-to-list 'auto-mode-alist '("\\.m\\'" . octave-mode)))
 
-(defcustom tex/figure-drawing-program ""
-	"This is the program which will be called to draw stuff for latex")
-
-(defun tex/draw-and-insert-figure (png)
-	(interactive "FPng to edit:")
-	(f-touch png)
-	(shell-command (concat tex/figure-drawing-program " " png))
-	(insert (concat "\\includegraphics{ " png " }\n")))
-
 (defun tex/get-nice-title ()
-	(string-trim (mapconcat (lambda (word)
-														(if (member word '("and" "or" "at" "a" "an" "of"))
-																(concat word " ")
-															(capitalize (concat word " "))))
-													(string-split (car (cdr (string-split (f-base (f-this-file)) "_"))) "-"))))
-
-;; (defun tex/new-tex-file (f)
-;; 	(interactive "F")
-;; 	(find-file (concat (format-time-string "%F"))))
+	(string-trim (string-replace "&Dash;" "-"
+															 (mapconcat (lambda (word)
+																						(if (member word '("between" "and" "or" "at" "a" "an" "of" "on" "to"))
+																								(concat word " ")
+																							(capitalize (concat word " "))))
+																					(string-split (string-replace "--" "&Dash;" (car (cdr (string-split (f-base (f-this-file)) "_")))) "-")))))
 
 (use-package tex-mode
 	:defer nil-if-daemon
@@ -72,7 +65,7 @@
 																										(substring (f-filename (f-this-file)) 0 (- (car (cdr (match-data))) 1)))))
 																				 ".pdf")))
 															 (if (file-exists-p pdf)
-																 	 (progn
+																	 (progn
 																		 (delete-other-windows)
 																		 (split-window-right)
 																		 ;; (enlarge-window 50)
@@ -87,16 +80,16 @@
 							("C-c TAB" . 'tex/draw-and-insert-figure)))
 
 (use-package tetris
-  :defer nil-if-daemon
-  :config
-  (bind-key "w" 'tetris-rotate-prev tetris-mode-map)
-  (bind-key "a" 'tetris-move-left tetris-mode-map)
-  (bind-key "s" 'tetris-move-down tetris-mode-map)
-  (bind-key "d" 'tetris-move-right tetris-mode-map)
-  (bind-key "m" 'tetris-move-bottom tetris-mode-map))
+	:defer nil-if-daemon
+	:config
+	(bind-key "w" 'tetris-rotate-prev tetris-mode-map)
+	(bind-key "a" 'tetris-move-left tetris-mode-map)
+	(bind-key "s" 'tetris-move-down tetris-mode-map)
+	(bind-key "d" 'tetris-move-right tetris-mode-map)
+	(bind-key "m" 'tetris-move-bottom tetris-mode-map))
 
 (use-package dired
-  :defer nil-if-daemon
+	:defer nil-if-daemon
 	:bind
 	("C-x M-d" . (lambda (direc)
 								 (interactive "D")
@@ -104,48 +97,49 @@
 									 (progn (split-window-horizontally)
 													(other-window 1)
 													(dired direc)))))
-  :config
-  (setq dired-listing-switches "-Alhp"
+	:config
+	(setq dired-listing-switches "-lhptA"
 				dired-kill-when-opening-new-dired-buffer t)
-  (unbind-key "v" dired-mode-map)
-  (unbind-key "e" dired-mode-map)
-  (bind-key "b" 'dired-view-file dired-mode-map)
-  (bind-key "v" 'vterm dired-mode-map)
-  (bind-key "e" 'eshell dired-mode-map)
-  (bind-key "-" 'dired-up-directory dired-mode-map)
+	(unbind-key "v" dired-mode-map)
+	(unbind-key "e" dired-mode-map)
+	(bind-key "b" 'dired-view-file dired-mode-map)
+	(bind-key "v" 'vterm dired-mode-map)
+	(bind-key "e" 'eshell dired-mode-map)
+	(bind-key "-" 'dired-up-directory dired-mode-map)
 	(bind-key "C-j" 'dired-find-file))
 
 (use-package project
-  :defer nil-if-daemon
-  :init
-  (keymap-set project-prefix-map "v" #'(lambda ()
+	:defer nil-if-daemon
+	:init
+	(keymap-set project-prefix-map "v" #'(lambda ()
 																				 (interactive)
 																				 (cd (project-root (project-current t)))
 																				 (vterm)))
-  (keymap-set project-prefix-map "M-v" #'(lambda ()
+	(keymap-set project-prefix-map "M-v" #'(lambda ()
 																					 (interactive)
 																					 (cd (project-root (project-current t)))
 																					 (split-window-right)
 																					 (other-window 1)
 																					 (vterm)))
-  :config
-  (add-to-list 'project-switch-commands '(project-dired "Dired" "D")))
+	:config
+	(add-to-list 'project-switch-commands '(project-dired "Dired" "D")))
 
 (use-package org
-  :defer nil-if-daemon
-  :bind
-  ("C-x j t" . (lambda ()
-								 (interactive)
-								 (org-todo-list)
-								 (delete-other-windows)))
-  ("C-x j a" . (lambda ()
+	:defer nil-if-daemon
+	:bind
+	;; ("C-x j t" . (lambda ()
+	;; 							 (interactive)
+	;; 							 (org-todo-list)
+	;; 							 (delete-other-windows)))
+	("C-x j a" . (lambda ()
 								 (interactive)
 								 (org-agenda-list)
 								 (delete-other-windows)))
-  :config
-  (setq org-agenda-files '("~/org/agenda")
-        diary-file "~/.emacs.d/diary.gpg"
-        org-html-validation-link nil
+	:config
+	(setq org-directory "~/org"
+				org-agenda-files '("~/org/agenda")
+				diary-file "~/.emacs.d/diary.gpg"
+				org-html-validation-link nil
 				org-agenda-start-with-log-mode t
 				org-log-into-drawer t
 				org-hide-leading-stars t
@@ -155,7 +149,10 @@
 				org-lowest-priority 5
 				org-ellipsis "🡇"
 				org-archive-location "archive/%s_archive::datetree/"
-				org-html-head (concat "<link rel=\"stylesheet\" type=\"text/css\" href=\"" (expand-file-name "~/org/org-style.css") "\">")
+				org-html-head (let ((stylefile "~/org/org-style.css"))
+												(if (file-exists-p stylefile)
+														(concat "<link rel=\"stylesheet\" type=\"text/css\" href=\"" stylefile "\">")
+													nil))
 				org-export-with-section-numbers nil
 				org-export-with-toc t
 				org-export-dispatch-use-expert-ui t
@@ -167,41 +164,41 @@
 				org-agenda-sticky t))
 
 (use-package tramp
-  :defer nil-if-daemon
-  :init
-  (setq tramp-use-scp-direct-remote-copying t) ;; for speed
+	:defer nil-if-daemon
+	:init
+	(setq tramp-use-scp-direct-remote-copying t) ;; for speed
 
-  ;; do not auto-save if using sudo
-  ;; (connection-local-set-profile-variables
-  ;;  'my-auto-save-profile
-  ;;  '((buffer-auto-save-file-name . nil)))
-  ;; (connection-local-set-profiles
-  ;;  '(:application tramp :protocol "sudo")
-  ;;  'my-auto-save-profile)
-  (setq backup-enable-predicate
+	;; do not auto-save if using sudo
+	;; (connection-local-set-profile-variables
+	;;	'my-auto-save-profile
+	;;	'((buffer-auto-save-file-name . nil)))
+	;; (connection-local-set-profiles
+	;;	'(:application tramp :protocol "sudo")
+	;;	'my-auto-save-profile)
+	(setq backup-enable-predicate
 				(lambda (name)
-          (and (normal-backup-enable-predicate name)
-               (not
+					(and (normal-backup-enable-predicate name)
+							 (not
 								(let ((method (file-remote-p name 'method)))
-                  (when (stringp method)
+									(when (stringp method)
 										(member method '("su" "sudo" "doas"))))))))
-  :bind
-  ("C-x C-r" . 'tramp-revert-buffer-with-sudo)
+	:bind
+	("C-x C-r" . 'tramp-revert-buffer-with-sudo)
 	("C-x M-r" . 'tramp-cleanup-some-buffers)
-  ("C-x C-M-r" . 'tramp-cleanup-all-buffers))
+	("C-x C-M-r" . 'tramp-cleanup-all-buffers))
 
 (use-package vc
-  :defer nil-if-daemon
-  :init
-  (setq vc-handled-backends '(Git)))
+	:defer nil-if-daemon
+	:init
+	(setq vc-handled-backends '(Git)))
 
 (use-package windmove
-  :defer nil
-  :bind
-  ("M-H" . 'windmove-left)
-  ("M-J" . 'windmove-down)
-  ("M-K" . 'windmove-up)
-  ("M-L" . 'windmove-right))
+	:defer nil
+	:bind
+	("M-H" . 'windmove-left)
+	("M-J" . 'windmove-down)
+	("M-K" . 'windmove-up)
+	("M-L" . 'windmove-right))
 
 (use-package eshell
 	:defer nil-if-daemon
@@ -211,78 +208,78 @@
 	(setq eshell-banner-message ""))
 
 (use-package display-line-numbers
-  :defer nil
-  :init
-  (column-number-mode)
-  (setq display-line-numbers-width-start t
+	:defer nil
+	:init
+	(column-number-mode)
+	(setq display-line-numbers-width-start t
 				display-line-numbers-grow-only t)
-  (global-display-line-numbers-mode t)
-  (dolist (mode '(term-mode-hook ;; not in some modes please
+	(global-display-line-numbers-mode t)
+	(dolist (mode '(term-mode-hook ;; not in some modes please
 									shell-mode-hook
-                  vterm-mode-hook
+									vterm-mode-hook
 									eshell-mode-hook
-                  tldr-mode-hook
+									tldr-mode-hook
 									;; org-mode-hook
 									doc-view-mode-hook
-	  							fireplace-mode-hook))
-    (add-hook mode (lambda ()
-                     (display-line-numbers-mode 0)))))
+									fireplace-mode-hook))
+		(add-hook mode (lambda ()
+										 (display-line-numbers-mode 0)))))
 
 (use-package hl-line
-  :defer nil
-  :init
-  (global-hl-line-mode)
-  (keymap-global-set "M-p" #'(lambda ()
-                               (interactive)
-                               (hl-line-mode 'toggle)))
-  (dolist (mode '(vterm-mode-hook
-                  dashboard-mode-hook))
-    (add-hook mode (lambda ()
-                     (hl-line-mode 'toggle)))))
+	:defer nil
+	:init
+	(global-hl-line-mode)
+	(keymap-global-set "M-p" #'(lambda ()
+															 (interactive)
+															 (hl-line-mode 'toggle)))
+	(dolist (mode '(vterm-mode-hook
+									dashboard-mode-hook))
+		(add-hook mode (lambda ()
+										 (hl-line-mode 'toggle)))))
 
 (use-package tab-bar
-  :commands
-  (tab-bar-new-tab)
-  :defer nil-if-daemon
-  :config
-  ;; (setq tab-bar-format nil)
-  (keymap-set tab-prefix-map "l" #'(lambda ()
-                                     (interactive)
-                                     (message (format "num of tabs: %s" (length (tab-bar-tabs))))))
-  (keymap-set tab-prefix-map "0" #'(lambda ()
+	:commands
+	(tab-bar-new-tab)
+	:defer nil-if-daemon
+	:config
+	;; (setq tab-bar-format nil)
+	(keymap-set tab-prefix-map "l" #'(lambda ()
+																		 (interactive)
+																		 (message (format "num of tabs: %s" (length (tab-bar-tabs))))))
+	(keymap-set tab-prefix-map "0" #'(lambda ()
 																		 (interactive)
 																		 (tab-close)
 																		 (when (= (length (tab-bar-tabs)) 1)
 																			 (tab-bar-mode 0))))
-  (keymap-set tab-prefix-map "1" #'(lambda ()
+	(keymap-set tab-prefix-map "1" #'(lambda ()
 																		 (interactive)
 																		 (tab-close-other)
 																		 (tab-bar-mode 0)))
-  (keymap-global-set "C-S-t" 'tab-bar-undo-close-tab))
+	(keymap-global-set "C-S-t" 'tab-bar-undo-close-tab))
 
 (use-package compile
-  :defer nil-if-daemon
-  :bind
-  ("C-x j u" . 'compile)
+	:defer nil-if-daemon
+	:bind
+	("C-x j u" . 'compile)
 	("C-x j U" . (lambda ()
 								 (interactive)
 								 (compile compile-command)
 								 (other-window 1)
 								 (delete-window)))
-  :init
-  (add-hook 'c++-mode-hook (lambda ()
+	:init
+	(add-hook 'c++-mode-hook (lambda ()
 														 (setq-local compile-command (concat
 																													"g++ -fdiagnostics-all-candidates -fsanitize=address -Wall -Wextra -Werror -Wpedantic -g "
 																													(f-filename (f-this-file))
 																													" -o "
 																													(f-base (f-filename (f-this-file)))))))
-  (add-hook 'java-mode-hook (lambda ()
+	(add-hook 'java-mode-hook (lambda ()
 															(setq-local compile-command (concat "javac " (f-filename (f-this-file))))))
-  (add-hook 'rust-mode-hook (lambda ()
+	(add-hook 'rust-mode-hook (lambda ()
 															(setq-local compile-command (concat "rustc " (f-filename (f-this-file))))))
-  (add-hook 'c-mode-hook (lambda ()
+	(add-hook 'c-mode-hook (lambda ()
 													 (setq-local compile-command (concat
-																												"gcc -fsanitize=address -Wall -Wextra -Werror -Wpedantic -g "
+																												"gcc -fsanitize=address -fsanitize=leak -Wall -Wextra -Werror -Wpedantic -g "
 																												(f-filename (f-this-file))
 																												" -o "
 																												(f-base (f-filename (f-this-file)))))))
@@ -292,17 +289,17 @@
 																														(s-replace-regexp "'" "\\\\'" (f-filename (f-this-file))))))))
 
 (use-package epa
-  :defer t
-  :config
-  (setq epa-keys-select-method 'minibuffer))
+	:defer t
+	:config
+	(setq epa-keys-select-method 'minibuffer))
 
 (use-package recentf
-  :defer nil ;; I will always want this available
-  :bind
-  ("C-x j r" . 'counsel-recentf)
-  ("C-x j C-R" . 'recentf-save-list)
-  ("C-x j R" . 'recentf-cleanup)
-  ("C-x j M-r" . (lambda (file)
+	:defer nil ;; I will always want this available
+	:bind
+	("C-x j r" . 'counsel-recentf)
+	("C-x j C-R" . 'recentf-save-list)
+	("C-x j R" . 'recentf-cleanup)
+	("C-x j M-r" . (lambda (file)
 									 (interactive
 										(list
 										 (progn (unless recentf-mode (recentf-mode 1))
@@ -313,18 +310,18 @@
 											 (split-window-horizontally)
 											 (other-window 1)
 											 (funcall recentf-menu-action file)))))
-  :init
-  (setq recentf-exclude '(
+	:init
+	(setq recentf-exclude '(
 													"^~/org/agenda/.*$"
 													"^.*~$"
 													"^~/\\.emacs\\.d/games/tetris-scores$"
 													"^.*#$"
 													)
-				recentf-max-saved-items nil
+				recentf-max-saved-items 512
 				recentf-auto-cleanup 'mode)
-  (add-to-list 'auto-save-hook #'recentf-save-list)
-  :config
-  (recentf-mode))
+	(add-to-list 'auto-save-hook #'recentf-save-list)
+	:config
+	(recentf-mode))
 
 (use-package eshell
 	:defer nil-if-daemon
@@ -344,50 +341,48 @@
 		:group 'eshell-prompt))
 
 (use-package emacs
-  :defer nil
-  :bind
-  ("C-S-w" . 'clipboard-kill-region)
-  ("M-W" . 'clipboard-kill-ring-save)
+	:defer nil
+	:bind
+	("C-S-w" . 'clipboard-kill-region)
+	("M-W" . 'clipboard-kill-ring-save)
 
-  ("C-=" . 'text-scale-increase)
-  ("C--" . 'text-scale-decrease)
-  ("C-x f" . 'query-replace)
-  ("C-x h" . 'previous-buffer)
-  ("C-x l" . 'next-buffer)
+	("C-=" . 'text-scale-increase)
+	("C--" . 'text-scale-decrease)
+	("C-x f" . 'query-replace)
+	("C-x h" . 'previous-buffer)
+	("C-x l" . 'next-buffer)
 
-  ("C-x C-l l" . 'count-lines-page)
-  ("C-x C-l p" . 'check-parens)
+	("C-x C-l l" . 'count-lines-page)
+	("C-x C-l p" . 'check-parens)
 
-  ("C-k" . 'kill-whole-line)
-  ("M-k" . 'kill-line)
-  ("C-x C-a" . 'mark-whole-buffer)
-  ("M-D" . 'backward-kill-sexp)
+	("C-k" . 'kill-whole-line)
+	("M-k" . 'kill-line)
+	("C-x C-a" . 'mark-whole-buffer)
+	("M-D" . 'backward-kill-sexp)
 
-  ("s-x" . 'counsel-linux-app)
+	("s-x" . 'counsel-linux-app)
 
-  ("M-/" . 'hippie-expand)
-  ("C-x C-b" . 'electric-buffer-list)
-  ("C-x b" . 'counsel-switch-buffer)
+	("M-/" . 'hippie-expand)
+	("C-x C-b" . 'electric-buffer-list)
+	("C-x b" . 'counsel-switch-buffer)
 
-  ("C-x M-f" . 'find-file-other-window)
+	("C-x M-f" . 'find-file-other-window)
 
-  ("C-x j d s" . desktop-save)
-  ("C-x j d r" . desktop-read)
-  ("C-x j d c" . desktop-clear)
+	("C-x j d s" . desktop-save)
+	("C-x j d r" . desktop-read)
+	("C-x j d c" . desktop-clear)
 
-  ("C-x j l" . 'lsp)
-  ("C-x j M-l" . 'lsp-workspace-shutdown)
-  ("C-x j f" . 'flyspell-buffer)
-  ("C-x j C-f" . 'flyspell-mode)
+	("C-x j l" . 'lsp)
+	("C-x j M-l" . 'lsp-workspace-shutdown)
+	("C-x j f" . 'flyspell-buffer)
+	("C-x j C-f" . 'flyspell-mode)
 	("M-i" . 'overwrite-mode)
 
-  ;; ("C-x j m" . 'make-directory)
+	:config
+	(keymap-set help-map "g" 'shortdoc-display-group)
+	(unbind-key "C-x C-l")
 
-  :config
-  (keymap-set help-map "g" 'shortdoc-display-group)
-  (unbind-key "C-x C-l")
-
-  ;; just a wall of setq and setq-default
+	;; just a wall of setq and setq-default
 	(setq treesit-language-source-alist
 				'((typescript . ("https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src"))
 					(tsx . ("https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src"))
@@ -402,7 +397,15 @@
 					(kotlin . ("https://github.com/tree-sitter/kotlin-tree-sitter"))
 					))
 	
-  (setq initial-scratch-message nil
+	(setq scratch-message-choices
+				'(
+					;; "(•̀ᴗ•́)و ̑̑ Nox venit!"
+					"(•̀ᴗ•́)و ̑̑ Estu hela! Nokto venanti!"
+					"(•̀ᴗ•́)و ̑̑ Neniam mortigas vi mem!"
+					"(•̀ᴗ•́)و ̑̑ Ne Paniku!"
+					"(•̀ᴗ•́)و ̑̑ Vesperto-viro estos fiera"
+					)
+				initial-scratch-message (concat ";; " (nth (random (length scratch-message-choices)) scratch-message-choices) "\n\n")
 				scroll-conservatively 100
 				split-width-threshold 1
 				shell-command-prompt-show-cwd t
@@ -419,15 +422,15 @@
 																																						try-complete-lisp-symbol
 																																						try-expand-list try-expand-line))
 
-  (setq-default tab-stop-list '(2)
+	(setq-default tab-stop-list '(2)
 								indent-tab-modes nil
 								tab-always-indent nil
 								indent-tabs-mode t
 								tab-width 2
 								cursor-type 'bar)
-  (defvaralias 'c-basic-offset 'tab-width)
+	(defvaralias 'c-basic-offset 'tab-width)
 
-  (dolist (file (mapcar (lambda (f) ;; load user files
+	(dolist (file (mapcar (lambda (f) ;; load user files
 													(concat user-emacs-directory f))
 												'("third-party.el" "local.el" "conv.el")))
 		(when (file-exists-p file)
@@ -443,6 +446,14 @@
 																		 (interactive)
 																		 (save-some-buffers)
 																		 (delete-frame))))
+
+	(defun tester-tester (&rest r)
+		(interactive)
+		(let ((fb (face-background 'default)))
+			(set-face-background 'default "sea green")
+			(sleep-for 2)
+			(set-face-background 'default fb)))
+	(advice-add 'async-shell-command :after-while 'tester-tester)
 
 	(keymap-global-set "M-<up>" #'(lambda ()
 																	(interactive)

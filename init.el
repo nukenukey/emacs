@@ -24,6 +24,11 @@
 													 ("gnu" . "https://elpa.gnu.org/packages/"))
 				package-archive-priorities '(("gnu" . 4) ("nongnu" . 3) ("org" . 2) ("melpa" . 1))))
 
+(use-package saveplace
+	:defer nil
+	:init
+	(save-place-mode t))
+
 (use-package calc
 	:defer nil-if-daemon
 	:init
@@ -447,13 +452,15 @@
 																		 (save-some-buffers)
 																		 (delete-frame))))
 
-	(defun tester-tester (&rest r)
-		(interactive)
-		(let ((fb (face-background 'default)))
-			(set-face-background 'default "sea green")
-			(sleep-for 2)
-			(set-face-background 'default fb)))
-	(advice-add 'async-shell-command :after-while 'tester-tester)
+	;; (defun async-command-change-color ()
+	;; 	(make-face 'async-command-finish)
+	;; 	(set-face-attribute 'async-command-finish nil :foreground "black":background "sea green")
+	;; 	(let ((buffer (current-buffer)))
+	;; 		(switch-to-buffer-other-window (get-buffer shell-command-buffer-name-async))
+	;; 		(buffer-face-mode t)
+	;; 		(buffer-face-set 'async-command-finish)
+	;; 		(switch-to-buffer-other-window buffer)))
+	;; (advice-add 'async-shell-command :after-while 'async-command-change-color) ;; ;<
 
 	(keymap-global-set "M-<up>" #'(lambda ()
 																	(interactive)

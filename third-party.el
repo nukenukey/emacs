@@ -105,19 +105,20 @@
 	:ensure t
 	:init
 	(setq doom-modeline-icon nil
-				doom-modeline-time t
-				doom-modeline-time-analogue-clock t
-				doom-modeline-time-clock-size 11
-				display-time-format "%H:%M %a %b %d"
+				;; doom-modeline-time t
+				;; doom-modeline-time-analogue-clock t
+				;; doom-modeline-time-clock-size 11
+				;; display-time-format "%H:%M %a %b %d"
 				display-time-default-load-average nil
 				;; mode-line-percent-position '(1 "")
 				;; mode-line-position ""
 				mode-line-position-column-format nil
 				doom-modeline-position-line-format nil
 				doom-modeline-percent-position nil
-				doom-modeline-battery t)
-	(display-battery-mode)
-	(display-time)
+				;; doom-modeline-battery t
+				)
+	;; (display-battery-mode)
+	;; (display-time)
 	(size-indication-mode)
 	:config
 	(doom-modeline-mode))

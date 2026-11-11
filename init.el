@@ -54,9 +54,11 @@
 (defun tex/get-nice-title ()
 	(string-trim (string-replace "&Dash;" "-"
 															 (mapconcat (lambda (word)
-																						(if (member word '("between" "and" "or" "at" "a" "an" "of" "on" "to"))
+																						(if (member word '("between" "and" "or" "at" "a" "an" "of" "on" "to" "in"))
 																								(concat word " ")
-																							(capitalize (concat word " "))))
+																							(if (member word '("ac" "dc"))
+																									(concat (upcase word) " ")
+																								(capitalize (concat word " ")))))
 																					(string-split (string-replace "--" "&Dash;" (car (cdr (string-split (f-base (f-this-file)) "_")))) "-")))))
 
 (use-package tex-mode
@@ -382,8 +384,12 @@
 	("C-x j f" . 'flyspell-buffer)
 	("C-x j C-f" . 'flyspell-mode)
 	("M-i" . 'overwrite-mode)
+	("C-," . 'duplicate-line)
 
 	:config
+	(advice-add 'duplicate-line :after #'(lambda ()
+																				 (interactive)
+																				 (next-line)))
 	(keymap-set help-map "g" 'shortdoc-display-group)
 	(unbind-key "C-x C-l")
 
@@ -416,6 +422,7 @@
 				shell-command-prompt-show-cwd t
 				next-screen-context-lines 3
 				;; indent-line-function 'insert-tab
+				truncate-lines t
 				read-file-name-completion-ignore-case t
 				image-scaling-factor 1.0
 				hippie-expand-try-functions-list '(try-complete-file-name-partially try-complete-file-name
@@ -444,7 +451,6 @@
 	(add-hook 'text-mode-hook 'flyspell-mode)
 	(electric-pair-mode)
 	(electric-indent-mode)
-	(column-number-mode -1)
 
 	(when (daemonp)
 		(keymap-global-set "C-x C-c" #'(lambda ()
@@ -505,9 +511,6 @@
 	(keymap-global-set "C-x M-C" #'(lambda ()
 																	 (interactive)
 																	 (save-some-buffers)
-																	 (restart-emacs)))
-	;; (keymap-global-set "C-x C-z" #'(lambda ()
-	;; (interactive)))
-	)
+																	 (restart-emacs))))
 
 (add-to-list 'emacs-init-times `("init" . ,(float-time (time-subtract (current-time) time/init))))

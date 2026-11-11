@@ -24,8 +24,8 @@
 			ring-bell-function 'ignore)
 
 (add-to-list 'default-frame-alist '(height . 25))
-(add-to-list 'default-frame-alist '(width . 75))
-(add-to-list 'default-frame-alist '(undecorated . t))
+(add-to-list 'default-frame-alist	'(width . 75))
+(add-to-list 'default-frame-alist	'(undecorated . t))
 
 ;; alright now relax a little
 (add-hook 'after-init-hook (lambda ()

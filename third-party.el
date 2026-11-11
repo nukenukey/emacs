@@ -4,8 +4,10 @@
 
 (setq nil-if-daemon (not (daemonp)))
 
-(dolist (package
-				 '(rust-mode fish-mode typescript-mode tldr fireplace counsel ivy-rich)) ;; these dont need any more configuration than :ensure t
+(setq little-config-packages
+			'(rainbow-mode dockerfile-mode rust-mode fish-mode typescript-mode tldr fireplace counsel ivy-rich))
+
+(dolist (package little-config-packages) ;; these dont need any more configuration than :ensure t
   (eval `(use-package ,package
 					 :defer nil
 					 :ensure t)))

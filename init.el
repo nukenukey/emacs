@@ -173,16 +173,8 @@
 (use-package tramp
 	:defer nil-if-daemon
 	:init
-	(setq tramp-use-scp-direct-remote-copying t) ;; for speed
-
-	;; do not auto-save if using sudo
-	;; (connection-local-set-profile-variables
-	;;	'my-auto-save-profile
-	;;	'((buffer-auto-save-file-name . nil)))
-	;; (connection-local-set-profiles
-	;;	'(:application tramp :protocol "sudo")
-	;;	'my-auto-save-profile)
-	(setq backup-enable-predicate
+	(setq tramp-use-scp-direct-remote-copying t ;; for speed
+				backup-enable-predicate
 				(lambda (name)
 					(and (normal-backup-enable-predicate name)
 							 (not
@@ -276,7 +268,7 @@
 	:init
 	(add-hook 'c++-mode-hook (lambda ()
 														 (setq-local compile-command (concat
-																													"g++ -fdiagnostics-all-candidates -fsanitize=address -Wall -Wextra -Werror -Wpedantic -g "
+																													"g++ -fdiagnostics-all-candidates -fsanitize=address -Wall -Wextra -Werror -Wpedantic -ggdb "
 																													(f-filename (f-this-file))
 																													" -o "
 																													(f-base (f-filename (f-this-file)))))))
@@ -286,7 +278,7 @@
 															(setq-local compile-command (concat "rustc " (f-filename (f-this-file))))))
 	(add-hook 'c-mode-hook (lambda ()
 													 (setq-local compile-command (concat
-																												"gcc -fsanitize=address -fsanitize=leak -Wall -Wextra -Werror -Wpedantic -g "
+																												"gcc -fsanitize=address -fsanitize=leak -Wall -Wextra -Werror -Wpedantic -ggdb "
 																												(f-filename (f-this-file))
 																												" -o "
 																												(f-base (f-filename (f-this-file)))))))
